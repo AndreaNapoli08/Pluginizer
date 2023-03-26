@@ -6,13 +6,11 @@ import {
   CalendarMonthRegular,
 } from "@fluentui/react-icons";
 
-
 const CalendarMonth = bundleIcon(CalendarMonthFilled, CalendarMonthRegular);
 
 export interface IWordSelectionState extends React.ComponentState {
   selectedText: string;
   dis: boolean;
-  buttonColor: string;
 }
 
 export class WordSelection extends React.Component<{}, IWordSelectionState> {
@@ -22,8 +20,19 @@ export class WordSelection extends React.Component<{}, IWordSelectionState> {
     this.state = {
       selectedText: '',
       dis:true,
-      buttonColor: 'transparent'
+      isHovered: false, 
+      buttonColor: "transparent"
     };
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+  }
+
+  handleMouseEnter() {
+    this.setState({ isHovered: true, buttonColor:"lightgrey" });
+  }
+
+  handleMouseLeave() {
+    this.setState({ isHovered: false, buttonColor:"transparent" });
   }
 
   componentDidMount() {
@@ -51,7 +60,7 @@ export class WordSelection extends React.Component<{}, IWordSelectionState> {
                 selectedText: newSelectedText,
                 dis:false
               });
-            }
+            } 
           });
         });
       return context.sync();
@@ -68,14 +77,8 @@ export class WordSelection extends React.Component<{}, IWordSelectionState> {
       }
       if (selection.font.bold) {
         selection.font.bold = false;
-        this.setState({
-          buttonColor: "transparent"
-        });
       } else {
         selection.font.bold = true;
-        this.setState({
-          buttonColor: "red"
-        });
       }
       await context.sync();
     });
@@ -86,60 +89,18 @@ export class WordSelection extends React.Component<{}, IWordSelectionState> {
       <div>
         <p>Selected text: {this.state.selectedText}</p>
         <Button 
-          id="ciao"
-          icon={<CalendarMonthRegular />} 
           style={{ 
             backgroundColor: this.state.buttonColor, 
             border: "1px solid",
-            
+            width: "10px"
           }} 
-          disabled={this.state.dis} onClick={ this.boldText }>Grassetto
-        </Button>
+          disabled={this.state.dis} 
+          onClick={ this.boldText }
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}>
+            <b>G</b>
+          </Button>
       </div>
     );
   }
 }
-
-
-/*
-
-PER METTERE L'EFFETTO HOVER SUL BOTTONE
-class MyButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      buttonColor: 'red',
-      isHovered: false
-    };
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
-  }
-
-  handleMouseEnter() {
-    this.setState({ isHovered: true });
-  }
-
-  handleMouseLeave() {
-    this.setState({ isHovered: false });
-  }
-
-  render() {
-    const { isHovered } = this.state;
-    const backgroundColor = isHovered ? 'gray' : this.state.buttonColor;
-    
-    return (
-      <Button
-        icon={<CalendarMonthRegular />}
-        style={{ backgroundColor, border:"1px solid" }}
-        disabled={this.state.dis}
-        onClick={this.boldText}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      >
-        Grassettoo
-      </Button>
-    );
-  }
-}
-
-*/
