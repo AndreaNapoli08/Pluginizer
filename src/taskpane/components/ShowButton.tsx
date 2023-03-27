@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Button } from '@fluentui/react-components';
+import { DefaultButton } from '@fluentui/react/lib/Button';
 import {
   bundleIcon,
   CalendarMonthFilled,
@@ -83,23 +84,63 @@ export class WordSelection extends React.Component<{}, IWordSelectionState> {
       await context.sync();
     });
   } 
+
+  public italicText = async () => {
+    await Word.run(async (context) => {
+      const selection = context.document.getSelection();
+      selection.load("text, font");
+      await context.sync();
+      if (selection.isNullObject) {
+        return;
+      }
+      if (selection.font.italic) {
+        selection.font.italic = false;
+      } else {
+        selection.font.italic = true;
+      }
+      await context.sync();
+    });
+  } 
+
+  public underlineText = async () => {
+    await Word.run(async (context) => {
+      const selection = context.document.getSelection();
+      selection.load("text, font");
+      await context.sync();
+      if (selection.font.underline === "None") {
+        selection.font.underline = "Single";
+      } else {
+        selection.font.underline = "None";
+      }
+      await context.sync();
+    });
+  } 
   
   public render() {
     return (
       <div>
         <p>Selected text: {this.state.selectedText}</p>
-        <Button 
-          style={{ 
-            backgroundColor: this.state.buttonColor, 
-            border: "1px solid",
-            width: "10px"
-          }} 
+        <DefaultButton 
           disabled={this.state.dis} 
-          onClick={ this.boldText }
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}>
+          style = {{
+            marginRight: "10px",
+          }}
+          onClick={ this.boldText }>
             <b>G</b>
-          </Button>
+        </DefaultButton>
+        <DefaultButton 
+          disabled={this.state.dis} 
+          style = {{
+            marginRight: "10px",
+          }}
+          onClick={ this.italicText }>
+            <i>I</i>
+        </DefaultButton>
+        <DefaultButton 
+          disabled={this.state.dis} 
+          onClick={ this.underlineText }>
+            <u>SS</u>
+        </DefaultButton>
       </div>
     );
   }
