@@ -107,15 +107,12 @@ export class TipografiaButton extends React.Component<{}, IWordSelectionState> {
       const selection = context.document.getSelection();
       selection.load("text, font");
       await context.sync();
-      console.log(selection.font.underline)
       if (selection.font.underline === "Mixed" || selection.font.underline === "None") {
         selection.font.underline = "Single";
         await context.sync();
-        console.log(selection.font.underline)
       } else {  
         selection.font.underline = "None";
         await context.sync();
-        console.log(selection.font.underline)
       }
     });
   } 
@@ -123,6 +120,7 @@ export class TipografiaButton extends React.Component<{}, IWordSelectionState> {
   public render() {
     return (
       <div>
+        <b>Tipography:</b>
         <p>Selected text: {this.state.selectedText}</p>
         <DefaultButton 
           disabled={this.state.dis} 

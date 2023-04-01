@@ -26,10 +26,15 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/style": "^0.8.0",
+    "@emotion/styled": "^11.10.6",
     "@fluentui/font-icons-mdl2": "^8.5.13",
     "@fluentui/react": "^8.52.3",
     "@fluentui/react-button": "^9.3.5",
     "@fluentui/react-components": "^9.18.3",
+    "@mui/icons-material": "^5.11.11",
+    "@mui/material": "^5.11.15",
     "core-js": "^3.9.1",
     "es6-promise": "^4.2.8",
     "react": "^17.0.2",
