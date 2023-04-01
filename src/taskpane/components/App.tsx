@@ -3,7 +3,7 @@ import { DefaultButton } from "@fluentui/react";
 import Header from "./Header";
 import HeroList, { HeroListItem } from "./HeroList";
 import {ButtonPrimaryExample} from './Button';
-import {WordSelection} from './ShowButton'
+import {TipografiaButton} from './TipografiaButton'
 /* global Word, require */
 
 export interface AppProps {
@@ -64,7 +64,7 @@ export default class App extends React.Component<AppProps, AppState> {
       <Header logo="assets/logo-filled.png" title={this.props.title} message="Welcome" />
       <HeroList message="Discover what this add-in can do for you today!" items={this.state.listItems} >
         <ButtonPrimaryExample />
-        <WordSelection />
+        <TipografiaButton />
       </HeroList>
       </div>
     );

@@ -14,7 +14,7 @@ export interface IWordSelectionState extends React.ComponentState {
   dis: boolean;
 }
 
-export class WordSelection extends React.Component<{}, IWordSelectionState> {
+export class TipografiaButton extends React.Component<{}, IWordSelectionState> {
 
   public constructor(props: {}) {
     super(props);
@@ -39,7 +39,6 @@ export class WordSelection extends React.Component<{}, IWordSelectionState> {
   componentDidMount() {
     
     Word.run(async (context) => {
-      await this.setDefaultFont();
       // Ottenere il testo selezionato dal documento
       const selection = context.document.getSelection();
       selection.load("text");
@@ -103,17 +102,6 @@ export class WordSelection extends React.Component<{}, IWordSelectionState> {
     });
   } 
 
-  public async setDefaultFont() {
-    await Word.run(async (context) => {
-      const body = context.document.body;
-      body.load("font");
-      await context.sync();
-      body.font.underline = "None";
-      await context.sync();
-      console.log("font default: ", body.font.underline)
-    });
-  }
-
   public underlineText = async () => {
     await Word.run(async (context) => {
       const selection = context.document.getSelection();
@@ -155,7 +143,7 @@ export class WordSelection extends React.Component<{}, IWordSelectionState> {
         <DefaultButton 
           disabled={this.state.dis} 
           onClick={ this.underlineText }>
-            <u>SS</u>
+            <u>S</u>
         </DefaultButton>
       </div>
     );
