@@ -5,6 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {TipografiaButton} from './TipografiaButton'
+import {Blocks} from './Blocks';
 
 export const Menu = () => {
   return (
@@ -16,7 +17,7 @@ export const Menu = () => {
           id="panel1a-header"
           style={{backgroundColor:"transparent"}}
         >
-          <Typography><b>Documents</b></Typography>
+          <Typography variant="h6"><b>Documents</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -30,7 +31,7 @@ export const Menu = () => {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography><b>Structures</b></Typography>
+          <Typography variant="h6"><b>Structures</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -44,12 +45,11 @@ export const Menu = () => {
           aria-controls="panel3a-content"
           id="panel3a-header"
         >
-          <Typography><b>Blocks</b></Typography>
+          <Typography variant="h6"><b>Blocks</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            <Blocks />
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -59,7 +59,7 @@ export const Menu = () => {
           aria-controls="panel4a-content"
           id="panel4a-header"
         >
-          <Typography><b>Inlines</b></Typography>
+          <Typography variant="h6"><b>Inlines</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
           <TipografiaButton />
@@ -71,7 +71,7 @@ export const Menu = () => {
           aria-controls="panel5a-content"
           id="panel5a-header"
         >
-          <Typography><b>Globals Sustainability Goals</b></Typography>
+          <Typography variant="h6"><b>Globals Sustainability Goals</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -86,7 +86,7 @@ export const Menu = () => {
           aria-controls="panel6a-content"
           id="panel6a-header"
         >
-          <Typography><b>Metadata</b></Typography>
+          <Typography variant="h6"><b>Metadata</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
