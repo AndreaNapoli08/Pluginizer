@@ -1,14 +1,15 @@
 import * as React from 'react';
+import Grid from '@mui/material/Grid';
+import GridOnIcon from '@mui/icons-material/GridOn';
+import ImageIcon from '@mui/icons-material/Image';
 import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
-import Grid from '@mui/material/Grid';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';    
 import FormatIndentDecreaseIcon from '@mui/icons-material/FormatIndentDecrease';
 import FormatIndentIncreaseIcon from '@mui/icons-material/FormatIndentIncrease';
-import GridOnIcon from '@mui/icons-material/GridOn';
-import ImageIcon from '@mui/icons-material/Image';
+
 export const Blocks = () => {
     return (
         <div>

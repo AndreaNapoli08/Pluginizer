@@ -119,30 +119,31 @@ export class TipografiaButton extends React.Component<{}, IWordSelectionState> {
   
   public render() {
     return (
-      <div>
-        <b>Tipography:</b>
+      <div style={{marginTop: '20px'}}>
         <p>Selected text: {this.state.selectedText}</p>
-        <DefaultButton 
-          disabled={this.state.dis} 
-          style = {{
-            marginRight: "10px",
-          }}
-          onClick={ this.boldText }>
-            <b>G</b>
-        </DefaultButton>
-        <DefaultButton 
-          disabled={this.state.dis} 
-          style = {{
-            marginRight: "10px",
-          }}
-          onClick={ this.italicText }>
-            <i>I</i>
-        </DefaultButton>
-        <DefaultButton 
-          disabled={this.state.dis} 
-          onClick={ this.underlineText }>
-            <u>S</u>
-        </DefaultButton>
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+          <DefaultButton 
+            disabled={this.state.dis} 
+            style = {{
+              marginRight: "10px",
+            }}
+            onClick={ this.boldText }>
+              <b>G</b>
+          </DefaultButton>
+          <DefaultButton 
+            disabled={this.state.dis} 
+            style = {{
+              marginRight: "10px",
+            }}
+            onClick={ this.italicText }>
+              <i>I</i>
+          </DefaultButton>
+          <DefaultButton 
+            disabled={this.state.dis} 
+            onClick={ this.underlineText }>
+              <u>S</u>
+          </DefaultButton>
+        </div>
       </div>
     );
   }
