@@ -1,19 +1,9 @@
 import * as React from 'react';
-import { Button } from '@fluentui/react-components';
 import { DefaultButton } from '@fluentui/react/lib/Button';
-import {
-  bundleIcon,
-  CalendarMonthFilled,
-  CalendarMonthRegular,
-} from "@fluentui/react-icons";
-
-const CalendarMonth = bundleIcon(CalendarMonthFilled, CalendarMonthRegular);
-
 export interface IWordSelectionState extends React.ComponentState {
   selectedText: string;
   dis: boolean;
 }
-
 export class TipografiaButton extends React.Component<{}, IWordSelectionState> {
 
   public constructor(props: {}) {
