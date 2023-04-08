@@ -10,11 +10,25 @@ export const BulletList = () => {
       const selection = context.document.getSelection();
       selection.paragraphs.load();
       await context.sync();
-  
-      selection.paragraphs.items.forEach(async (paragraph) => {
-          await paragraph.startNewList();
-      });
       
+      if(selection.paragraphs.items[0].isListItem){
+        for (let i = 0; i < selection.paragraphs.items.length; i++) {
+          selection.paragraphs.items[i].delete();
+        }
+        for (let i = 0; i < selection.paragraphs.items.length; i++) {
+          selection.insertText(selection.paragraphs.items[i].text + "\n" , "Before")
+        }
+      }else{
+        const list = selection.paragraphs.items[0].startNewList();
+        list.setLevelBullet(0, Word.ListBullet.solid);
+        list.load();
+        await context.sync();
+        for (let i = 1; i < selection.paragraphs.items.length; i++) {
+          list.insertParagraph(selection.paragraphs.items[i].text, "End");
+          list.setLevelBullet(0, Word.ListBullet.solid);
+          selection.paragraphs.items[i].delete();
+        }
+      }
       await context.sync();
     });
 };
