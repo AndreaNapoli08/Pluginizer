@@ -11,7 +11,14 @@ import {Inlines} from './Inlines';
 export const Menu = () => {
   const [expanded, setExpanded] = useState([]);
   const [color, setColor] = useState('transparent');
+  const [expandedText, setExpandedText] = useState("");
 
+  const handleExpandedTextChange = (text) => {
+    setExpandedText(text);
+  }
+
+  console.log("Siamo nel menu, testo selezionato: ", expandedText);
+  
   const handleChange = (panel) => (isExpanded) => {
     setExpanded(prevExpanded => {
       if (isExpanded) {
@@ -104,7 +111,7 @@ export const Menu = () => {
           <Typography variant="h6"><b>Inlines</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Inlines />
+          <Inlines onExpandedTextChangeMenu={handleExpandedTextChange}/>
         </AccordionDetails>
       </Accordion>
       <Accordion 
