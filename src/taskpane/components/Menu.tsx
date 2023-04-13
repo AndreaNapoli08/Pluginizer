@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {Blocks} from './Blocks';
 import {Inlines} from './Inlines';
+import {GSG} from './GSG';
 
 export const Menu = () => {
   const [expanded, setExpanded] = useState([]);
@@ -128,8 +129,7 @@ export const Menu = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            <GSG />
           </Typography>
         </AccordionDetails>
       </Accordion>

@@ -64,8 +64,8 @@ export const FirstStyles = () => {
         </div>
         <div style={{marginBottom:"15px"}}>
             <IconButton color="inherit" style={{borderRadius: '10px'}} onClick={FootnoteStyle}>
-            <span style={{fontSize: "18px"}}>Footnote</span>
-            <NoteAltIcon style={{marginLeft: "10px"}} />
+                <span style={{fontSize: "18px"}}>Footnote</span>
+                <NoteAltIcon style={{marginLeft: "10px"}} />
             </IconButton>
         </div>
     </div>
