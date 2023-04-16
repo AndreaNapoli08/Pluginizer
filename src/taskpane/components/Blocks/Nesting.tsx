@@ -22,9 +22,6 @@ export const Nesting = () => {
         leftMargin += 30;
         rightMargin -= 30;
       }
-      
-      console.log("leftMargin: ", leftMargin)
-      console.log("rightMargin: ", rightMargin)
     });
   }
 
@@ -41,8 +38,6 @@ export const Nesting = () => {
         rightMargin += 30;
         leftMargin -= 30;
       }
-      console.log("leftMargin: ", leftMargin)
-      console.log("rightMargin: ", rightMargin)
     });
   }
 
@@ -62,7 +57,6 @@ export const Nesting = () => {
         paragraph.lineSpacing = interlinea;
       });
 
-      console.log(interlinea)
       await context.sync();
     });
   }
