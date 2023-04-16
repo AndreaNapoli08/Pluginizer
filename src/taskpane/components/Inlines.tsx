@@ -8,7 +8,7 @@ import {Informative} from './Inlines/Informative'
 import { ExpandWords } from './Inlines/ExpandWords';
 import { AllInstances } from './Inlines/AllInstances';
 
-export const Inlines = ({ onExpandedTextChangeMenu }) => {
+export const Inlines = () => {
   const [expandedText, setExpandedText] = useState("");
   const [buttonStyle, setButtonStyle] = useState("");
   const [firstOccurence, setFirstOccurence] = useState("");
@@ -66,8 +66,6 @@ export const Inlines = ({ onExpandedTextChangeMenu }) => {
       );
     };
   }, []);
-
-  onExpandedTextChangeMenu(expandedText);
 
   return (
     <div>

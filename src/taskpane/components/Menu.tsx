@@ -11,22 +11,14 @@ import {GSG} from './GSG';
 
 export const Menu = () => {
   const [expanded, setExpanded] = useState([]);
-  const [color, setColor] = useState('transparent');
-  const [expandedText, setExpandedText] = useState("");
 
-  const handleExpandedTextChange = (text) => {
-    setExpandedText(text);
-  }
-
-  console.log("Siamo nel menu, testo selezionato: ", expandedText);
   
   const handleChange = (panel) => (isExpanded) => {
     setExpanded(prevExpanded => {
       if (isExpanded) {
-        setColor('blue');
         return [...prevExpanded, panel];
       } else {
-        setColor('transparent');
+        console.log("Merda")
         return prevExpanded.filter(p => p !== panel);
       }
     });
@@ -35,7 +27,11 @@ export const Menu = () => {
   // Derive an array of active panels based on the current state of `expanded`
   const activePanels = useMemo(() => {
     return expanded.reduce((result, panel) => {
-      result[panel] = true;
+      if(result[panel]){
+        result[panel] = false;
+      }else{
+        result[panel] = true;
+      }
       return result;
     }, {});
   }, [expanded]);
@@ -53,7 +49,7 @@ export const Menu = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
-          style={{backgroundColor: color}}
+          style={{backgroundColor: activePanels["panel1a"] ? "lightblue" : "transparent"}}
         >
           <Typography variant="h6"><b>Documents</b></Typography>
         </AccordionSummary>
@@ -71,7 +67,7 @@ export const Menu = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
           id="panel2a-header"
-          style={{backgroundColor: activePanels["panel2a"] ? "blue" : "transparent"}}
+          style={{backgroundColor: activePanels["panel2a"] ? "lightblue" : "transparent"}}
         >
           <Typography variant="h6"><b>Structures</b></Typography>
         </AccordionSummary>
@@ -89,7 +85,7 @@ export const Menu = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3a-content"
           id="panel3a-header"
-          style={{backgroundColor: activePanels["panel3a"] ? "blue" : "transparent"}}
+          style={{backgroundColor: activePanels["panel3a"] ? "lightblue" : "transparent"}}
         >
           <Typography variant="h6"><b>Blocks</b></Typography>
         </AccordionSummary>
@@ -107,12 +103,12 @@ export const Menu = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel4a-content"
           id="panel4a-header"
-          style={{backgroundColor: activePanels["panel4a"] ? "blue" : "transparent"}}
+          style={{backgroundColor: activePanels["panel4a"] ? "lightblue" : "transparent"}}
         >
           <Typography variant="h6"><b>Inlines</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Inlines onExpandedTextChangeMenu={handleExpandedTextChange}/>
+          <Inlines />
         </AccordionDetails>
       </Accordion>
       <Accordion 
@@ -123,7 +119,7 @@ export const Menu = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel5a-content"
           id="panel5a-header"
-          style={{backgroundColor: activePanels["panel5a"] ? "blue" : "transparent"}}
+          style={{backgroundColor: activePanels["panel5a"] ? "lightblue" : "transparent"}}
         >
           <Typography variant="h6"><b>Globals Sustainability Goals</b></Typography>
         </AccordionSummary>
@@ -141,7 +137,7 @@ export const Menu = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel6a-content"
           id="panel6a-header"
-          style={{backgroundColor: activePanels["panel6a"] ? "blue" : "transparent"}}
+          style={{backgroundColor: activePanels["panel6a"] ? "lightblue" : "transparent"}}
         >
           <Typography variant="h6"><b>Metadataaa</b></Typography>
         </AccordionSummary>
