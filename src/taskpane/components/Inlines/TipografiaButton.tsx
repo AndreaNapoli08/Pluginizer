@@ -2,43 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 
-export const TipografiaButton = ({expandedText}) => {
-  const [selectedText, setSelectedText] = useState(""); 
-  const [dis, setDis] = useState(true);
-
-  useEffect(() => {
-    const handleSelectionChange = async () => {
-      try {
-        await Word.run(async (context) => {
-          const newSelection = context.document.getSelection();
-          newSelection.load("text");
-          await context.sync();
-          const newSelectedText = newSelection.text;
-          if(newSelectedText.length === 0){
-            setSelectedText("Nessun testo selezionato")
-            setDis(true)
-          }else{
-            setSelectedText(newSelectedText)
-            setDis(false)
-          } 
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    Office.context.document.addHandlerAsync(
-      Office.EventType.DocumentSelectionChanged,
-      handleSelectionChange
-    );
-
-    return () => {
-      Office.context.document.removeHandlerAsync(
-        Office.EventType.DocumentSelectionChanged,
-        { handler: handleSelectionChange }
-      );
-    };
-  }, []);
+export const TipografiaButton = ({setDis, onFirstOccurence, onButtonStyle, expandedText}) => {
 
   const isLetterOrNumber = (char) => {
     return /^[a-zA-Z0-9]+$/.test(char);
@@ -46,7 +10,6 @@ export const TipografiaButton = ({expandedText}) => {
 
   const toggleFontStyle = async (style) => {
     await Word.run(async (context) => {
-      const textNode = document.body.firstChild;
       const selection = context.document.getSelection();
       selection.load("text, font");
       await context.sync();
@@ -58,11 +21,10 @@ export const TipografiaButton = ({expandedText}) => {
         let selectionText = selection.text;
         const startIndex = expandedText.indexOf(selectionText);
         const endIndex = startIndex + selectionText.length - 1;
-        
+      
         if(startIndex >= 0){
           const charBefore = expandedText[startIndex - 1]; 
           const charAfter = expandedText[endIndex + 1];
-          
           //controllo se dopo la parte selezionata ci sono lettere
           if(expandedText[endIndex] == " "){
           }else{
@@ -71,7 +33,7 @@ export const TipografiaButton = ({expandedText}) => {
               while (currentIndex < expandedText.length) {
                 const currentChar = expandedText[currentIndex];
                 if (isLetterOrNumber(currentChar)) {
-                  // carattere da eliminare
+                  // currentChar.font.bold=true; non funziona
                   currentIndex++;
                 } else {
                   break;
@@ -79,7 +41,6 @@ export const TipografiaButton = ({expandedText}) => {
               }
             }
           }
-
           //controllo se prima della parte selezionata ci sono lettere
           if(expandedText[startIndex] == " " || startIndex == 0){
           }else{
@@ -88,10 +49,7 @@ export const TipografiaButton = ({expandedText}) => {
               while (currentIndex >= 0) {
                 const currentChar = expandedText[currentIndex];
                 if (isLetterOrNumber(currentChar)) {
-                  const range = document.createRange();
-                  range.setStart(textNode, currentIndex)
-                  range.setEnd(textNode, startIndex);
-                  //selection.expandTo(range);
+                  // currentChar.font.bold=true; non funziona
                   currentIndex--;
                 } else {
                   break;
@@ -105,17 +63,27 @@ export const TipografiaButton = ({expandedText}) => {
 
       switch (style) {
         case 'bold':
+          onFirstOccurence(selection.font.bold);
           selection.font.bold = !selection.font.bold;
+          onButtonStyle("bold");
+          onButtonStyle(""); // lo setto a "" così quando ci sarà una nuova selezione non rimane salvato bold nella variabile
           break;
         case 'italic':
+          onFirstOccurence(selection.font.italic);
           selection.font.italic = !selection.font.italic;
+          onButtonStyle("italic");
+          onButtonStyle("");
           break;
         case 'underline':
           if (selection.font.underline === "Mixed" || selection.font.underline === "None") {
+            onFirstOccurence("None");
             selection.font.underline = "Single";
           } else {  
+            onFirstOccurence("Single");
             selection.font.underline = "None";
           }
+          onButtonStyle("underline");
+          onButtonStyle("");
           break;
         default:
           break;
@@ -129,7 +97,7 @@ export const TipografiaButton = ({expandedText}) => {
     <div style={{marginTop: '20px'}}>
       <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
         <IconButton 
-          disabled={dis}
+          disabled={setDis}
           color="inherit" 
           style = {{
             marginRight: "10px",
@@ -142,7 +110,7 @@ export const TipografiaButton = ({expandedText}) => {
             <b>G</b>
         </IconButton>
         <IconButton 
-          disabled={dis} 
+          disabled={setDis} 
           color="inherit" 
           style = {{
             marginRight: "10px",
@@ -155,7 +123,7 @@ export const TipografiaButton = ({expandedText}) => {
             <i>I</i>
         </IconButton>
         <IconButton 
-          disabled={dis} 
+          disabled={setDis} 
           color="inherit" 
           style = {{
             marginRight: "10px",

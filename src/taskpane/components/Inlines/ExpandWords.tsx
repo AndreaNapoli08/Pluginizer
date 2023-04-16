@@ -3,10 +3,8 @@ import { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-export const ExpandWords = ({ onExpandedTextChange }) => {
+export const ExpandWords = ({ bodyText, selectedText, onExpandedTextChange }) => {
     const [expandWords, setExpandWords] = useState(true);
-    const [selectedText, setSelectedText] = useState("Nessun testo selezionato")
-    const [bodyText, setBodyText] = useState('')
 
     const handleChangeCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
         setExpandWords(event.target.checked);
@@ -67,37 +65,6 @@ export const ExpandWords = ({ onExpandedTextChange }) => {
     }
 
     onExpandedTextChange(expandedText);
-    useEffect(() => {
-        Word.run(async (context) => {
-            // Ottenere il testo selezionato dal documento
-            const selection = context.document.getSelection();
-            selection.load("text");
-            const body = context.document.body;
-            body.load("text");
-            await context.sync();
-
-            Office.context.document.addHandlerAsync(
-              Office.EventType.DocumentSelectionChanged,
-              () => {
-                Word.run(async (context) => {
-                  const newSelection = context.document.getSelection();
-                  newSelection.load("text");
-                  const newBody = context.document.body;
-                  newBody.load("text");
-                  await context.sync();
-                  const newSelectedText = newSelection.text;
-                  const newBodyText = newBody.text;
-                  setBodyText(newBodyText); 
-                  if(newSelectedText.length === 0){
-                    setSelectedText("Nessun testo selezionato")
-                  }else{
-                    setSelectedText(newSelectedText)
-                  } 
-                });
-              });
-            return context.sync();
-        });
-    });
 
     return (
         <div>
