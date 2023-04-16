@@ -27,11 +27,7 @@ export const Menu = () => {
   // Derive an array of active panels based on the current state of `expanded`
   const activePanels = useMemo(() => {
     return expanded.reduce((result, panel) => {
-      if(result[panel]){
-        result[panel] = false;
-      }else{
-        result[panel] = true;
-      }
+      result[panel] = !result[panel];
       return result;
     }, {});
   }, [expanded]);
@@ -139,7 +135,7 @@ export const Menu = () => {
           id="panel6a-header"
           style={{backgroundColor: activePanels["panel6a"] ? "lightblue" : "transparent"}}
         >
-          <Typography variant="h6"><b>Metadataaa</b></Typography>
+          <Typography variant="h6"><b>Metadata</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
