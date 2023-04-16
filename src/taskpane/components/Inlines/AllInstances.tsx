@@ -3,15 +3,13 @@ import { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-export const AllInstances  = ({selectedText, buttonStyle, firstOccurence}) => {
+export const AllInstances  = ({selectedText, fontStyle, buttonStyle, firstOccurence, first}) => {
     const [allInstances, setAllInstances] = useState(false);
-
-    const fontStyle = buttonStyle;
 
     const handleChangeCheckboxIstances = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAllInstances(event.target.checked);
     };
-    
+
     if (allInstances) {
       const applyFormatting = async (context) => {
         const range = context.document.body.getRange();
@@ -22,7 +20,8 @@ export const AllInstances  = ({selectedText, buttonStyle, firstOccurence}) => {
         const occurrences = searchResults.items;
     
         occurrences.forEach((occurrence) => {
-          switch (fontStyle) {
+          // formattazione testo
+          switch (buttonStyle) {
             case "bold":
               occurrence.font.bold = !firstOccurence;
               break;
@@ -31,6 +30,21 @@ export const AllInstances  = ({selectedText, buttonStyle, firstOccurence}) => {
               break;
             case "underline":
               occurrence.font.underline = firstOccurence === "Single" ? "None" : "Single";
+              break;
+            default:
+              break;
+          }
+
+          // stili di testo predenfiniti
+          switch (fontStyle) {
+            case "Hyperlink":
+              occurrence.styleBuiltIn = first == "Hyperlink" ? "Normal" : "Hyperlink";
+              break;
+            case "Heading6":
+              occurrence.styleBuiltIn = first == "Heading6" ? "Normal" : "Heading6";
+              break;
+            case "IntenseEmphasis":
+              occurrence.styleBuiltIn = first == "IntenseEmphasis" ? "Normal" : "IntenseEmphasis";
               break;
             default:
               break;

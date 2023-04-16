@@ -15,6 +15,8 @@ export const Inlines = () => {
   const [selectedText, setSelectedText] = useState(""); 
   const [dis, setDis] = useState(true);
   const [bodyText, setBodyText] = useState('')
+  const [fontStyle, setFontStyle] = useState("")
+  const [first, setFirst] = useState("none");
 
   // Funzione di callback per aggiornare il valore di expandedText
   const handleExpandedTextChange = (text) => {
@@ -27,6 +29,14 @@ export const Inlines = () => {
 
   const handleFirstOccurence = (text) => {
     setFirstOccurence(text);
+  }
+
+  const handleFontStyle = (text) => {
+    setFontStyle(text);
+  }
+
+  const handleFirst = (text) => {
+    setFirst(text);
   }
 
   useEffect(() => {
@@ -69,7 +79,7 @@ export const Inlines = () => {
 
   return (
     <div>
-      <FirstStyles />
+      <FirstStyles onFontStyle={handleFontStyle} onFirst={handleFirst}/>
 
       <hr />
       <ImportantEntities />
@@ -84,7 +94,7 @@ export const Inlines = () => {
 
       <ExpandWords bodyText={bodyText} selectedText={selectedText} onExpandedTextChange={handleExpandedTextChange} />
       
-      <AllInstances selectedText={selectedText} buttonStyle={buttonStyle} firstOccurence={firstOccurence}/>
+      <AllInstances selectedText={selectedText} fontStyle={fontStyle} buttonStyle={buttonStyle} firstOccurence={firstOccurence} first={first}/>
       
     </div>
   )
