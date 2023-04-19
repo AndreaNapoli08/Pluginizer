@@ -18,7 +18,6 @@ export const Menu = () => {
       if (isExpanded) {
         return [...prevExpanded, panel];
       } else {
-        console.log("Merda")
         return prevExpanded.filter(p => p !== panel);
       }
     });

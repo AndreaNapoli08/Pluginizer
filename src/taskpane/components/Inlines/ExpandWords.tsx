@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-export const ExpandWords = ({ bodyText, selectedText, onExpandedTextChange }) => {
+export const ExpandWords = ({expandWord, bodyText, selectedText, onExpandedTextChange }) => {
     const [expandWords, setExpandWords] = useState(true);
 
     const handleChangeCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setExpandWords(event.target.checked);
+      setExpandWords(event.target.checked);
     };
 
     const isLetterOrNumber = (char) => {
@@ -38,16 +38,13 @@ export const ExpandWords = ({ bodyText, selectedText, onExpandedTextChange }) =>
                   break;
                 }
               }
-              //console.log("La parola completa è: ", expandedText)
             }
           }
 
           //controllo se prima della parte selezionata ci sono lettere
           if(bodyText[startIndex] == " " || startIndex == 0){
-            //console.log("la parola è completa all'inizio")
           }else{
             if(isLetterOrNumber(charBefore)){
-              //console.log("la parola non è completa, prima ci sono lettere");
               let currentIndex = startIndex - 1;
               while (currentIndex >= 0) {
                 const currentChar = bodyText[currentIndex];
@@ -58,14 +55,14 @@ export const ExpandWords = ({ bodyText, selectedText, onExpandedTextChange }) =>
                   break;
                 }
               }
-              //console.log("La parola completa è: ", expandedText)
             }   
           }
         }
     }
 
     onExpandedTextChange(expandedText);
-
+    expandWord(expandWords);
+    
     return (
         <div>
             <p>Testo: {selectedText}</p><br />

@@ -17,12 +17,17 @@ export const Inlines = () => {
   const [bodyText, setBodyText] = useState('')
   const [fontStyle, setFontStyle] = useState("")
   const [first, setFirst] = useState("none");
+  const [expandWord, setExpandWord] = useState(true);
 
   // Funzione di callback per aggiornare il valore di expandedText
   const handleExpandedTextChange = (text) => {
     setExpandedText(text);
   }
 
+  const handleExpandWord = (text) => {
+    setExpandWord(text);
+  }
+  
   const handleButtonStyle = (text) => {
     setButtonStyle(text);
   }
@@ -79,7 +84,7 @@ export const Inlines = () => {
 
   return (
     <div>
-      <FirstStyles onFontStyle={handleFontStyle} onFirst={handleFirst}/>
+      <FirstStyles onFontStyle={handleFontStyle} onFirst={handleFirst} expandedText={expandedText}/>
 
       <hr />
       <ImportantEntities />
@@ -92,9 +97,9 @@ export const Inlines = () => {
       </div>
       <TipografiaButton setDis={dis} onFirstOccurence={handleFirstOccurence} onButtonStyle={handleButtonStyle} expandedText={expandedText}/>
 
-      <ExpandWords bodyText={bodyText} selectedText={selectedText} onExpandedTextChange={handleExpandedTextChange} />
+      <ExpandWords bodyText={bodyText} selectedText={selectedText} onExpandedTextChange={handleExpandedTextChange} expandWord={handleExpandWord}/>
       
-      <AllInstances selectedText={selectedText} fontStyle={fontStyle} buttonStyle={buttonStyle} firstOccurence={firstOccurence} first={first}/>
+      <AllInstances fontStyle={fontStyle} buttonStyle={buttonStyle} firstOccurence={firstOccurence} first={first} expandedText={expandedText}/>
       
     </div>
   )
