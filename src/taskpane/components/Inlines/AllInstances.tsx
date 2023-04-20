@@ -32,8 +32,14 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
           let spaceCount = text.split(" ").length;
          
           //selezione in avanti fino ad uno di quei caratteri
-          let rngNextSent = selection.getNextTextRangeOrNullObject([" ", "." , "," , ";", "!", "?", ":"], false);
-          selection = selection.expandToOrNullObject(rngNextSent.getRange("Start"));
+          const nextCharRanges = selection.getTextRanges([" ", ".", ",", ";", "!", "?", ":"], true);
+          nextCharRanges.load("items");
+          await context.sync();
+          if (nextCharRanges.items.length > 0) {
+            for(let i = 0; i < spaceCount; i++){
+              selection = selection.expandTo(nextCharRanges.items[i]);
+            }
+          }
           await context.sync();
           
           // selezione all'indietro   
@@ -53,7 +59,8 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
           } 
           selection.load();
           await context.sync();
-      }
+        }
+
         const searchResults = range.search(selection.text, { matchCase: false, matchWholeWord: false });
         searchResults.load("items");
         await context.sync();

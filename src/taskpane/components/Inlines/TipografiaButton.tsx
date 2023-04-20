@@ -16,35 +16,44 @@ export const TipografiaButton = ({setDis, onFirstOccurence, onButtonStyle, expan
     await Word.run(async (context) => {
       let selection = context.document.getSelection();
       
-      selection.load("text, font");
+      selection.load("text, font, paragraphs");
       await context.sync();
       if (selection.isNullObject) {
         return;
       }
-
-      // https://stackoverflow.com/questions/58357313/getting-a-ranges-surrounding-text-in-office-js
-      // https://stackoverflow.com/questions/51159644/word-js-apis-extending-a-range
-
+      
+      let paragraphCount = selection.paragraphs.items.length; // conta il numero di paragrafi all'interno della selezione
+    
       // Expand to end of sentence
       if(expandedText != selection.text){
         const startIndex = expandedText.indexOf(selection.text);
         const charBefore = expandedText[startIndex - 1];
         let text = selection.text;
-        let spaceCount = text.split(" ").length;
-       
+        let spaceCount = text.split(" ").length; // conta il numero di parole nella selezione
+  
         //selezione in avanti fino ad uno di quei caratteri
-        let rngNextSent = selection.getNextTextRangeOrNullObject([" ", "." , "," , ";", "!", "?", ":"], false);
-        selection = selection.expandToOrNullObject(rngNextSent.getRange("Start"));
+        const nextCharRanges = selection.getTextRanges([" ", ".", ",", ";", "!", "?", ":", "\n", "\r"], true);
+        nextCharRanges.load("items");
+        await context.sync();
+        
+        if (nextCharRanges.items.length > 0) {
+          if(paragraphCount>1){ // se più paragraphi sono compresi, andare a capo lo prende come una parola e quindi spaceCount va incrementato con il numero di paragrafi -1
+            spaceCount = spaceCount + paragraphCount - 1;
+          }
+          for(let i = 0; i < spaceCount; i++){
+            selection = selection.expandTo(nextCharRanges.items[i]);
+          }
+        }
+
         await context.sync();
         // selezione all'indietro
-        
         if(isLetterOrNumber(charBefore)){
           let paragraph = selection.paragraphs.getFirst();
           paragraph.load("text");
           await context.sync();
 
           let rangeToSelect = paragraph.getRange("Start").expandTo(selection);
-          let textBeforeSelection = rangeToSelect.getTextRanges([" ", ".", ",", ";"], false);
+          let textBeforeSelection = rangeToSelect.getTextRanges([" ", ".", ",", ";"]);
           textBeforeSelection.load("items");
           await context.sync();
           let lastItem = textBeforeSelection.items[textBeforeSelection.items.length - spaceCount];
@@ -52,7 +61,7 @@ export const TipografiaButton = ({setDis, onFirstOccurence, onButtonStyle, expan
           selection = selection.expandToOrNullObject(rangeToExpand);
           await context.sync();
         }
-        
+
         selection.select();
         selection.load("text, font");
         await context.sync();
