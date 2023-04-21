@@ -46,6 +46,7 @@ export const TipografiaButton = ({setDis, onFirstOccurence, onButtonStyle, expan
         }
 
         await context.sync();
+        
         // selezione all'indietro
         if(isLetterOrNumber(charBefore)){
           let paragraph = selection.paragraphs.getFirst();

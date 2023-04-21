@@ -16,19 +16,33 @@ export const FirstStyles = ({onFontStyle, onFirst, expandedText}) => {
 
     const updateStyle = async (style) => {
         await Word.run(async (context) => {
+            
             let selection = context.document.getSelection();
-            selection.load();
+            selection.load("paragraphs, text");
             await context.sync();
+           
+            let paragraphCount = selection.paragraphs.items.length; 
 
             if(expandedText != selection.text){
                 const startIndex = expandedText.indexOf(selection.text);
                 const charBefore = expandedText[startIndex - 1];
                 let text = selection.text;
                 let spaceCount = text.split(" ").length;
-               
+                console.log(spaceCount)
                 //selezione in avanti fino ad uno di quei caratteri
-                let rngNextSent = selection.getNextTextRangeOrNullObject([".", " ", ",","!"]);
-                selection = selection.expandToOrNullObject(rngNextSent.getRange("Start"));
+                const nextCharRanges = selection.getTextRanges([" ", ".", ",", ";", "!", "?", ":", "\n", "\r"], true);
+                nextCharRanges.load("items");
+                await context.sync();
+                
+                if (nextCharRanges.items.length > 0) {
+                    if(paragraphCount>1){ // se più paragraphi sono compresi, andare a capo lo prende come una parola e quindi spaceCount va incrementato con il numero di paragrafi -1
+                        spaceCount = spaceCount + paragraphCount - 1;
+                    }
+                    for(let i = 0; i < spaceCount; i++){
+                        selection = selection.expandTo(nextCharRanges.items[i]);
+                    }
+                }
+
                 await context.sync();
                 
                 // selezione all'indietro   
