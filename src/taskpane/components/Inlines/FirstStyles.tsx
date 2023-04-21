@@ -12,15 +12,15 @@ export const FirstStyles = ({onFontStyle, onFirst, expandedText}) => {
         }else{
           return /^[a-zA-Z0-9]+$/.test(char);
         }
-    }
+    }   
+    
 
     const updateStyle = async (style) => {
         await Word.run(async (context) => {
             
             let selection = context.document.getSelection();
-            selection.load("paragraphs, text");
+            selection.load("paragraphs, text, styleBuiltIn");
             await context.sync();
-           
             let paragraphCount = selection.paragraphs.items.length; 
 
             if(expandedText != selection.text){
@@ -28,7 +28,6 @@ export const FirstStyles = ({onFontStyle, onFirst, expandedText}) => {
                 const charBefore = expandedText[startIndex - 1];
                 let text = selection.text;
                 let spaceCount = text.split(" ").length;
-                console.log(spaceCount)
                 //selezione in avanti fino ad uno di quei caratteri
                 const nextCharRanges = selection.getTextRanges([" ", ".", ",", ";", "!", "?", ":", "\n", "\r"], true);
                 nextCharRanges.load("items");
@@ -62,12 +61,13 @@ export const FirstStyles = ({onFontStyle, onFirst, expandedText}) => {
                 }
                 
                 selection.select();
-                selection.load();
+                selection.load("styleBuiltIn");
                 await context.sync();
             }
 
-            onFirst(selection.styleBuiltIn);
-            if (selection.styleBuiltIn === style) {
+            onFirst(selection.styleBuiltIn); // da cambiare per tutte le occorrenze
+            
+            if (selection.styleBuiltIn === style || selection.styleBuiltIn == "Other") {
                 selection.styleBuiltIn = "Normal";
             } else {
                 selection.styleBuiltIn = style;

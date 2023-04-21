@@ -9,7 +9,7 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
     const handleChangeCheckboxIstances = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAllInstances(event.target.checked);
     };
-    
+
     const isLetterOrNumber = (char) => {
       if (typeof char === "undefined") {
         return false;
@@ -108,7 +108,7 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
         console.error(error);
       });
     }    
-
+    
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: '10px' }}>
