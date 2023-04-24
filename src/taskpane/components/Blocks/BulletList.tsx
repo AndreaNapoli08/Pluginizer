@@ -5,36 +5,34 @@ import IconButton from '@mui/material/IconButton';
 import { listItemSecondaryActionClasses } from '@mui/material';
 
 export const BulletList = () => {
+  let textListMap = new Map();
 
   const handleList = async (bulletType) => {
     await Word.run(async (context) => {
       const selection = context.document.getSelection();
       const originalText = [];
+      const lists = context.document.body.lists;
       selection.load("text, paragraphs");
       await context.sync();
 
       if (selection.paragraphs.items[0].isListItem) {
-        if (Office.context.platform === Office.PlatformType.OfficeOnline) {
-          const newParagraph = selection.insertParagraph("", "After");  // senza la creazione del paragrafo
-          newParagraph.delete();                                        // mi cancella tutto il testo selezionato
-          for (let i = 0; i < selection.paragraphs.items.length; i++) {
-            originalText[i] = selection.paragraphs.items[i].text;
-            selection.paragraphs.items[i].delete();
+        //if (Office.context.platform === Office.PlatformType.OfficeOnline) {
+          for(let i=0; i<selection.paragraphs.items.length; i++){
+            selection.paragraphs.items[i].detachFromList();
+            selection.paragraphs.items[i].leftIndent -=36;  // su word desktop una volta tolto dalla lista non si allinea
+                                                            // perfettamente a sinistra
           }
-          for (let i = 0; i < originalText.length; i++) {
-            selection.insertText(originalText[i] + "\n", "Before");
-          }
-        } else {
+        /*} else {
           const originalText = selection.paragraphs.items.map(item => item.text + '\n').join('');
           selection.paragraphs.items.forEach(item => item.delete());
           selection.insertText(originalText, "Before");
-        }
+        }*/
       } else {
         const selectedParagraph = selection.paragraphs.getFirstOrNullObject();
         const previousParagraph = selectedParagraph.getPreviousOrNullObject();
         previousParagraph.load("isListItem")
         await context.sync();
-        
+
         if (previousParagraph.isNullObject || !previousParagraph.isListItem) {
         // vuol dire che la riga selezionata è la prima del documento quindi per forza bisogna creare una lista
         // oppure che nel paragrafo precedente non è già presente una lista
@@ -57,6 +55,7 @@ export const BulletList = () => {
             default:
               break;
           }
+          textListMap.set(selection.paragraphs.items[0].text, bulletType);
           list.load();
           await context.sync();
           for (let i = 1; i < selection.paragraphs.items.length; i++) {
@@ -77,6 +76,7 @@ export const BulletList = () => {
               default:
                 break;
             }
+            textListMap.set(selection.paragraphs.items[i].text, bulletType);
             selection.paragraphs.items[i].delete();
           }
         }else{
@@ -87,6 +87,7 @@ export const BulletList = () => {
           await context.sync();
           for (let i = 0; i < selection.paragraphs.items.length; i++) {
             selection.paragraphs.items[i].attachToList(previousParagraph.list.id, 0)
+            textListMap.set(selection.paragraphs.items[i].text, bulletType);
           }
         }
       await context.sync();

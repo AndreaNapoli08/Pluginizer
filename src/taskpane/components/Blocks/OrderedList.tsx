@@ -13,14 +13,8 @@ export const OrderedList = () => {
 
       if (selection.paragraphs.items[0].isListItem) {
         if (Office.context.platform === Office.PlatformType.OfficeOnline) {
-          const newParagraph = selection.insertParagraph("", "After");  // senza la creazione del paragrafo
-          newParagraph.delete();                                        // mi cancella tutto il testo selezionato
-          for (let i = 0; i < selection.paragraphs.items.length; i++) {
-            originalText[i] = selection.paragraphs.items[i].text;
-            selection.paragraphs.items[i].delete();
-          }
-          for (let i = 0; i < originalText.length; i++) {
-            selection.insertText(originalText[i] + "\n", "Before");
+          for(let i=0; i<selection.paragraphs.items.length; i++){
+            selection.paragraphs.items[i].detachFromList();
           }
         } else {
           const originalText = selection.paragraphs.items.map(item => item.text + '\n').join('');
