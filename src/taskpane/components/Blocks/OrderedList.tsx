@@ -7,41 +7,38 @@ export const OrderedList = () => {
   const formatList = async (numberingType) => {
     await Word.run(async (context) => {
       const selection = context.document.getSelection();
-      selection.paragraphs.load();
+      const originalText = [];
+      selection.load("text, paragraphs");
       await context.sync();
-      
-      if(selection.paragraphs.items[0].isListItem){
-        for (let i = 0; i < selection.paragraphs.items.length; i++) {
-          selection.paragraphs.items[i].delete();
+
+      if (selection.paragraphs.items[0].isListItem) {
+        if (Office.context.platform === Office.PlatformType.OfficeOnline) {
+          const newParagraph = selection.insertParagraph("", "After");  // senza la creazione del paragrafo
+          newParagraph.delete();                                        // mi cancella tutto il testo selezionato
+          for (let i = 0; i < selection.paragraphs.items.length; i++) {
+            originalText[i] = selection.paragraphs.items[i].text;
+            selection.paragraphs.items[i].delete();
+          }
+          for (let i = 0; i < originalText.length; i++) {
+            selection.insertText(originalText[i] + "\n", "Before");
+          }
+        } else {
+          const originalText = selection.paragraphs.items.map(item => item.text + '\n').join('');
+          selection.paragraphs.items.forEach(item => item.delete());
+          selection.insertText(originalText, "Before");
         }
-        for (let i = 0; i < selection.paragraphs.items.length; i++) {
-          selection.insertText(selection.paragraphs.items[i].text + "\n" , "Before")
-        }
-      }else{
-        const list = selection.paragraphs.items[0].startNewList();
-        switch(numberingType){
-          case "numbers":
-            list.setLevelNumbering(0, Word.ListNumbering.arabic);
-            break;
-          case "lettersUpper":
-            list.setLevelNumbering(0, Word.ListNumbering.upperLetter);
-            break;
-          case "lettersLower":
-            list.setLevelNumbering(0, Word.ListNumbering.lowerLetter);
-            break;
-          case "lettersRomanUpper":
-            list.setLevelNumbering(0, Word.ListNumbering.upperRoman);
-            break;
-          case "lettersRomanLower":
-            list.setLevelNumbering(0, Word.ListNumbering.lowerRoman);
-            break;
-          default:
-            break;
-        }
-        list.load();
+      } else {
+        const selectedParagraph = selection.paragraphs.getFirstOrNullObject();
+        const previousParagraph = selectedParagraph.getPreviousOrNullObject();
+        previousParagraph.load("isListItem")
         await context.sync();
-        for (let i = 1; i < selection.paragraphs.items.length; i++) {
-          list.insertParagraph(selection.paragraphs.items[i].text, "End");
+        
+        if (previousParagraph.isNullObject || !previousParagraph.isListItem) {
+        // vuol dire che la riga selezionata è la prima del documento quindi per forza bisogna creare una lista
+        // oppure che nel paragrafo precedente non è già presente una lista
+          console.log("nuova lista")
+          const list = selection.paragraphs.items[0].startNewList();
+          await context.sync();
           switch(numberingType){
             case "numbers":
               list.setLevelNumbering(0, Word.ListNumbering.arabic);
@@ -61,10 +58,43 @@ export const OrderedList = () => {
             default:
               break;
           }
-          selection.paragraphs.items[i].delete();
+          list.load();
+          await context.sync();
+          for (let i = 1; i < selection.paragraphs.items.length; i++) {
+            list.insertParagraph(selection.paragraphs.items[i].text, "End");
+            switch(numberingType){
+              case "numbers":
+                list.setLevelNumbering(0, Word.ListNumbering.arabic);
+                break;
+              case "lettersUpper":
+                list.setLevelNumbering(0, Word.ListNumbering.upperLetter);
+                break;
+              case "lettersLower":
+                list.setLevelNumbering(0, Word.ListNumbering.lowerLetter);
+                break;
+              case "lettersRomanUpper":
+                list.setLevelNumbering(0, Word.ListNumbering.upperRoman);
+                break;
+              case "lettersRomanLower":
+                list.setLevelNumbering(0, Word.ListNumbering.lowerRoman);
+                break;
+              default:
+                break;
+            }
+            selection.paragraphs.items[i].delete();
+          }
+        }else{
+          console.log("continua la lista")
+          previousParagraph.load("list")
+          await context.sync();
+          previousParagraph.list.load("id")
+          await context.sync();
+          for (let i = 0; i < selection.paragraphs.items.length; i++) {
+            selection.paragraphs.items[i].attachToList(previousParagraph.list.id, 0)
+          }
         }
-      }
       await context.sync();
+      }
     });
   }
 

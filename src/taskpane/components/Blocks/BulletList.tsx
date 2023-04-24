@@ -2,44 +2,45 @@ import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';    
 import IconButton from '@mui/material/IconButton';
+import { listItemSecondaryActionClasses } from '@mui/material';
 
 export const BulletList = () => {
 
   const handleList = async (bulletType) => {
     await Word.run(async (context) => {
       const selection = context.document.getSelection();
-      selection.paragraphs.load();
+      const originalText = [];
+      selection.load("text, paragraphs");
       await context.sync();
-      
+
       if (selection.paragraphs.items[0].isListItem) {
-        for (let i = 0; i < selection.paragraphs.items.length; i++) {
-          selection.paragraphs.items[i].delete();
-        }
-        for (let i = 0; i < selection.paragraphs.items.length; i++) {
-          selection.insertText(selection.paragraphs.items[i].text + "\n", "Before");
+        if (Office.context.platform === Office.PlatformType.OfficeOnline) {
+          const newParagraph = selection.insertParagraph("", "After");  // senza la creazione del paragrafo
+          newParagraph.delete();                                        // mi cancella tutto il testo selezionato
+          for (let i = 0; i < selection.paragraphs.items.length; i++) {
+            originalText[i] = selection.paragraphs.items[i].text;
+            selection.paragraphs.items[i].delete();
+          }
+          for (let i = 0; i < originalText.length; i++) {
+            selection.insertText(originalText[i] + "\n", "Before");
+          }
+        } else {
+          const originalText = selection.paragraphs.items.map(item => item.text + '\n').join('');
+          selection.paragraphs.items.forEach(item => item.delete());
+          selection.insertText(originalText, "Before");
         }
       } else {
-        const list = selection.paragraphs.items[0].startNewList();
-        switch (bulletType) {
-          case 'solid':
-            list.setLevelBullet(0, Word.ListBullet.solid);
-            break;
-          case 'diamonds':
-            list.setLevelBullet(0, Word.ListBullet.diamonds);
-            break;
-          case 'square':
-            list.setLevelBullet(0, Word.ListBullet.square);
-            break;
-          case 'checkmark':
-            list.setLevelBullet(0, Word.ListBullet.checkmark);
-            break;
-          default:
-            break;
-        }
-        list.load();
+        const selectedParagraph = selection.paragraphs.getFirstOrNullObject();
+        const previousParagraph = selectedParagraph.getPreviousOrNullObject();
+        previousParagraph.load("isListItem")
         await context.sync();
-        for (let i = 1; i < selection.paragraphs.items.length; i++) {
-          list.insertParagraph(selection.paragraphs.items[i].text, "End");
+        
+        if (previousParagraph.isNullObject || !previousParagraph.isListItem) {
+        // vuol dire che la riga selezionata è la prima del documento quindi per forza bisogna creare una lista
+        // oppure che nel paragrafo precedente non è già presente una lista
+          console.log("nuova lista")
+          const list = selection.paragraphs.items[0].startNewList();
+          await context.sync();
           switch (bulletType) {
             case 'solid':
               list.setLevelBullet(0, Word.ListBullet.solid);
@@ -56,10 +57,40 @@ export const BulletList = () => {
             default:
               break;
           }
-          selection.paragraphs.items[i].delete();
+          list.load();
+          await context.sync();
+          for (let i = 1; i < selection.paragraphs.items.length; i++) {
+            list.insertParagraph(selection.paragraphs.items[i].text, "End");
+            switch (bulletType) {
+              case 'solid':
+                list.setLevelBullet(0, Word.ListBullet.solid);
+                break;
+              case 'diamonds':
+                list.setLevelBullet(0, Word.ListBullet.diamonds);
+                break;
+              case 'square':
+                list.setLevelBullet(0, Word.ListBullet.square);
+                break;
+              case 'checkmark':
+                list.setLevelBullet(0, Word.ListBullet.checkmark);
+                break;
+              default:
+                break;
+            }
+            selection.paragraphs.items[i].delete();
+          }
+        }else{
+          console.log("continua la lista")
+          previousParagraph.load("list")
+          await context.sync();
+          previousParagraph.list.load("id")
+          await context.sync();
+          for (let i = 0; i < selection.paragraphs.items.length; i++) {
+            selection.paragraphs.items[i].attachToList(previousParagraph.list.id, 0)
+          }
         }
-      }
       await context.sync();
+      }
     });
   };
 
