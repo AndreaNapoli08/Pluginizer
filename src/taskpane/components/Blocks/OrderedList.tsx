@@ -7,19 +7,13 @@ export const OrderedList = () => {
   const formatList = async (numberingType) => {
     await Word.run(async (context) => {
       const selection = context.document.getSelection();
-      const originalText = [];
       selection.load("text, paragraphs");
       await context.sync();
 
       if (selection.paragraphs.items[0].isListItem) {
-        if (Office.context.platform === Office.PlatformType.OfficeOnline) {
-          for(let i=0; i<selection.paragraphs.items.length; i++){
-            selection.paragraphs.items[i].detachFromList();
-          }
-        } else {
-          const originalText = selection.paragraphs.items.map(item => item.text + '\n').join('');
-          selection.paragraphs.items.forEach(item => item.delete());
-          selection.insertText(originalText, "Before");
+        for(let i=0; i<selection.paragraphs.items.length; i++){
+          selection.paragraphs.items[i].detachFromList();
+          selection.paragraphs.items[i].leftIndent -=36;  // su word desktop una volta tolto dalla lista non si allinea perfettamente a sinistra
         }
       } else {
         const selectedParagraph = selection.paragraphs.getFirstOrNullObject();
@@ -30,7 +24,6 @@ export const OrderedList = () => {
         if (previousParagraph.isNullObject || !previousParagraph.isListItem) {
         // vuol dire che la riga selezionata è la prima del documento quindi per forza bisogna creare una lista
         // oppure che nel paragrafo precedente non è già presente una lista
-          console.log("nuova lista")
           const list = selection.paragraphs.items[0].startNewList();
           await context.sync();
           switch(numberingType){
@@ -78,7 +71,6 @@ export const OrderedList = () => {
             selection.paragraphs.items[i].delete();
           }
         }else{
-          console.log("continua la lista")
           previousParagraph.load("list")
           await context.sync();
           previousParagraph.list.load("id")

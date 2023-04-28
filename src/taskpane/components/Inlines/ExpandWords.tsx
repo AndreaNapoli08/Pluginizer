@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-export const ExpandWords = ({expandWord, bodyText, selectedText, onExpandedTextChange }) => {
+export const ExpandWords = ({bodyText, selectedText, onExpandedTextChange }) => {
     const [expandWords, setExpandWords] = useState(true);
 
     const handleChangeCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +61,6 @@ export const ExpandWords = ({expandWord, bodyText, selectedText, onExpandedTextC
     }
 
     onExpandedTextChange(expandedText);
-    expandWord(expandWords);
     
     return (
         <div>

@@ -23,7 +23,13 @@ export const TipografiaButton = ({setDis, onFirstOccurence, onButtonStyle, expan
       }
       
       let paragraphCount = selection.paragraphs.items.length; // conta il numero di paragrafi all'interno della selezione
-    
+      let emptyParagraph = 0;
+
+      for(let i = 0; i < selection.paragraphs.items.length; i++) { // se nella selezione includo anche i paragrafi, non funziona perfettamente
+        if(selection.paragraphs.items[i].text == ""){
+          emptyParagraph ++;
+        }
+      }
       // Expand to end of sentence
       if(expandedText != selection.text){
         const startIndex = expandedText.indexOf(selection.text);
@@ -37,8 +43,8 @@ export const TipografiaButton = ({setDis, onFirstOccurence, onButtonStyle, expan
         await context.sync();
         
         if (nextCharRanges.items.length > 0) {
-          if(paragraphCount>1){ // se più paragraphi sono compresi, andare a capo lo prende come una parola e quindi spaceCount va incrementato con il numero di paragrafi -1
-            spaceCount = spaceCount + paragraphCount - 1;
+          if(paragraphCount>1){ // se più paragraphi sono compresi, andare a capo lo prende come una parola e quindi spaceCount va incrementato con il numero di paragrafi -1. Se i paragrafi sono vuoti non vanno considerati
+            spaceCount = spaceCount + paragraphCount - 1 - emptyParagraph;
           }
           for(let i = 0; i < spaceCount; i++){
             selection = selection.expandTo(nextCharRanges.items[i]);

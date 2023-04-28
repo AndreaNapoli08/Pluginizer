@@ -10,23 +10,15 @@ export const BulletList = () => {
   const handleList = async (bulletType) => {
     await Word.run(async (context) => {
       const selection = context.document.getSelection();
-      const originalText = [];
       const lists = context.document.body.lists;
       selection.load("text, paragraphs");
       await context.sync();
 
       if (selection.paragraphs.items[0].isListItem) {
-        //if (Office.context.platform === Office.PlatformType.OfficeOnline) {
-          for(let i=0; i<selection.paragraphs.items.length; i++){
-            selection.paragraphs.items[i].detachFromList();
-            selection.paragraphs.items[i].leftIndent -=36;  // su word desktop una volta tolto dalla lista non si allinea
-                                                            // perfettamente a sinistra
-          }
-        /*} else {
-          const originalText = selection.paragraphs.items.map(item => item.text + '\n').join('');
-          selection.paragraphs.items.forEach(item => item.delete());
-          selection.insertText(originalText, "Before");
-        }*/
+        for(let i=0; i<selection.paragraphs.items.length; i++){
+          selection.paragraphs.items[i].detachFromList();
+          selection.paragraphs.items[i].leftIndent -=36;  // su word desktop una volta tolto dalla lista non si allinea perfettamente a sinistra
+        }
       } else {
         const selectedParagraph = selection.paragraphs.getFirstOrNullObject();
         const previousParagraph = selectedParagraph.getPreviousOrNullObject();
