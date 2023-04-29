@@ -144,11 +144,11 @@ export const ImportantEntities = ({expandedText, onFirstStyleEntities, onEntitie
                         selection.font.underline = fontInfo.underline;*/
                     }else{
                         selection.font.italic = true;
-                        selection.font.bold = false;
+                        selection.font.bold = true;
                         selection.font.underline = "None";
                         selection.font.color = "red";
                         selection.font.name = "Abadi";
-                        selection.font.size = 15;
+                        selection.font.size = 16;
                     }
                     break;
                 case "Organization" :
@@ -160,7 +160,7 @@ export const ImportantEntities = ({expandedText, onFirstStyleEntities, onEntitie
                         selection.font.underline = "None"
                         selection.font.color = "green";
                         selection.font.name = "Times New Roman"
-                        selection.font.size = 13;
+                        selection.font.size = 16;
                     }
                     break
                 case "Person":
@@ -168,11 +168,11 @@ export const ImportantEntities = ({expandedText, onFirstStyleEntities, onEntitie
                         selection.styleBuiltIn = "Normal";
                     }else{
                         selection.font.italic = false;
-                        selection.font.bold = false;
+                        selection.font.bold = true;
                         selection.font.underline = "DashLine";
                         selection.font.color = "blue";
                         selection.font.name = "Arial";
-                        selection.font.size = 12;
+                        selection.font.size = 16;
                     }
                     break;
                 case "Location":
@@ -184,7 +184,7 @@ export const ImportantEntities = ({expandedText, onFirstStyleEntities, onEntitie
                         selection.font.underline = "None";
                         selection.font.color = "orange";
                         selection.font.name = "Calibri"
-                        selection.font.size = 13;
+                        selection.font.size = 16;
                     }
                     break;
                 case "Time":
@@ -195,8 +195,8 @@ export const ImportantEntities = ({expandedText, onFirstStyleEntities, onEntitie
                         selection.font.bold = true;
                         selection.font.underline = "None";
                         selection.font.color = "purple";
-                        selection.font.name = "Book Antiqua";
-                        selection.font.size = 14;
+                        selection.font.name = "Century Gothic";
+                        selection.font.size = 16;
                     }
                     break;
                 default:

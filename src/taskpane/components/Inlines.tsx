@@ -19,7 +19,8 @@ export const Inlines = () => {
   const [first, setFirst] = useState("none");
   const [styleEntities, setFirstStyleEntities] = useState("none");
   const [entitiesStyle, setEntitiesStyle] = useState("");
-  // Funzione di callback per aggiornare il valore di expandedText
+  const [styleOtherEntities, setStyleOtherEntities] = useState("");
+  const [styleInformative, setStyleInformative] = useState("")
   const handleExpandedTextChange = (text) => {
     setExpandedText(text);
   }
@@ -46,6 +47,14 @@ export const Inlines = () => {
 
   const handleEntitiesStyle = (text) => {
     setEntitiesStyle(text);
+  }
+
+  const handleOtherEntitiesStyle = (text) => {
+    setStyleOtherEntities(text);
+  }
+
+  const handleInformativeEntities = (text) => {
+    setStyleInformative(text);
   }
 
   useEffect(() => {
@@ -92,18 +101,18 @@ export const Inlines = () => {
 
       <hr />
       <ImportantEntities onEntitiesStyle={handleEntitiesStyle} onFirstStyleEntities={handleFirstStyleEntities} expandedText={expandedText}/>
-      <OtherEntities />
-      <Informative />
+      <OtherEntities expandedText={expandedText} onOtherEntitiesStyle={handleOtherEntitiesStyle}/>
+      <Informative onInformativeStyle={setStyleInformative} expandedText={expandedText}/>
 
       <hr />
       <div style={{display: 'flex', justifyContent: 'center', marginBottom: '5px', fontSize: '20px'}}>
-        Tipography    
+        Tipography      
       </div>
       <TipografiaButton setDis={dis} onFirstOccurence={handleFirstOccurence} onButtonStyle={handleButtonStyle} expandedText={expandedText}/>
 
       <ExpandWords bodyText={bodyText} selectedText={selectedText} onExpandedTextChange={handleExpandedTextChange}/>
       
-      <AllInstances fontStyle={fontStyle} buttonStyle={buttonStyle} firstOccurence={firstOccurence} first={first} expandedText={expandedText} firststyleEntities={styleEntities} entitiesStyle={entitiesStyle}/>
+      <AllInstances fontStyle={fontStyle} buttonStyle={buttonStyle} firstOccurence={firstOccurence} first={first} expandedText={expandedText} firststyleEntities={styleEntities} entitiesStyle={entitiesStyle} styleOtherEntities={styleOtherEntities} styleInformative={styleInformative}/>
       
     </div>
   )

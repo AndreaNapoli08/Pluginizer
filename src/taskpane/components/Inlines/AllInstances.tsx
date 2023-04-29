@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, expandedText, firststyleEntities, entitiesStyle}) => {
+export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, expandedText, firststyleEntities, entitiesStyle, styleOtherEntities, styleInformative}) => {
     const [allInstances, setAllInstances] = useState(false);
 
     const handleChangeCheckboxIstances = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -166,6 +166,134 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
             default:
               break;
           }
+
+          // stili altre entità
+          occurrence.font.name = styleOtherEntities;
+
+          // stili informative entities
+          console.log("merda  ", styleInformative)
+          switch(styleInformative) {
+            case "docTitle":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "red";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "DashLineLong"
+                }
+                break;
+            case "docNumber":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "green";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "DotDashLine"
+                }
+                break;
+            case "docProponent":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "blue";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "Double"
+                }
+                break;
+            case "docDate":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "purple";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "Thick"
+                }
+                break;
+            case "session":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "yellow";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "TwoDotDashLine"
+                }
+                break;
+            case "shortTitle":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "orange";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "Wave"
+                }
+                break;
+            case "docAuthority":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "brown";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "Word"
+                }
+                break;
+            case "docPurpose":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "pink";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "TwoDotDashLineHeavy"
+                }
+                break;
+            case "docCommittee":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "lightblue";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "DottedHeavy"
+                }
+                break;
+            case "docIntroducer":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "cyan";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "WaveDouble"
+                }
+                break;
+            case "docStage":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "#c2bd34";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "DashLineLongHeavy"
+                }
+                break;
+            case "docStatus":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "#b0f5c5";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "WaveHeavy"
+                }
+                break;
+            case "docJurisdiction":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "#26ad89";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "Dotted"
+                }
+                break;
+            case "docketNumber":
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "#d6fa89";
+                    occurrence.font.bold = true;
+                }else{
+                    occurrence.font.underline = "Hidden"
+                }
+                break;
+            default:
+                if (Office.context.platform === Office.PlatformType.OfficeOnline){
+                    occurrence.font.color = "black";
+                    occurrence.font.bold = false;
+                }else{
+                    occurrence.font.underline = "None"
+                }
+                break;
+        }
         });
     
         await context.sync();
