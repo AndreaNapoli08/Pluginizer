@@ -25,7 +25,7 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
         selection.load();
         await context.sync();
 
-        if(expandedText != selection.text){  // da problemi all'ultima parola della riga
+        if(expandedText != selection.text && selection.text != ""){  // da problemi all'ultima parola della riga
           const startIndex = expandedText.indexOf(selection.text);
           const charBefore = expandedText[startIndex - 1];
           let text = selection.text;
@@ -66,7 +66,7 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
         await context.sync();
     
         const occurrences = searchResults.items;
-    
+
         occurrences.forEach((occurrence) => {
           // formattazione testo
           switch (buttonStyle) {
@@ -108,11 +108,11 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
                 occurrence.styleBuiltIn = "Normal";
               }else{
                 occurrence.font.italic = true;
-                occurrence.font.bold = false;
+                occurrence.font.bold = true;
                 occurrence.font.underline = "None";
                 occurrence.font.color = "red";
                 occurrence.font.name = "Abadi";
-                occurrence.font.size = 15;
+                occurrence.font.size = 16;
               }
               break;
             case "Organization":
@@ -124,7 +124,7 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
                 occurrence.font.underline = "None"
                 occurrence.font.color = "green";
                 occurrence.font.name = "Times New Roman"
-                occurrence.font.size = 13;
+                occurrence.font.size = 16;
               }
               break;
             case "Person":
@@ -132,12 +132,12 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
                 occurrence.styleBuiltIn = "Normal";
               }else{
                 occurrence.font.italic = false;
-                occurrence.font.bold = false;
+                occurrence.font.bold = true;
                 occurrence.font.underline = "DashLine";
                 occurrence.font.color = "blue";
                 occurrence.font.name = "Arial";
-                occurrence.font.size = 12;
-              }
+                occurrence.font.size = 16;
+      }
               break;
             case "Location":
               if(firststyleEntities == "#FFA500"){
@@ -147,8 +147,8 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
                 occurrence.font.bold = true;
                 occurrence.font.underline = "None";
                 occurrence.font.color = "orange";
-                occurrence.font.name = "Calibri"
-                occurrence.font.size = 13;
+                occurrence.font.name = "Courier New"
+                occurrence.font.size = 16;
               }
               break;
             case "Time":
@@ -159,19 +159,21 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
                 occurrence.font.bold = true;
                 occurrence.font.underline = "None";
                 occurrence.font.color = "purple";
-                occurrence.font.name = "Book Antiqua";
-                occurrence.font.size = 14;
+                occurrence.font.name = "Century Gothic";
+                occurrence.font.size = 16;
               }
               break;
             default:
               break;
           }
-
+          
           // stili altre entità
-          occurrence.font.name = styleOtherEntities;
+          if(styleOtherEntities != "" && styleOtherEntities != "Calibri"){
+            occurrence.font.name = styleOtherEntities;
+          }
 
+          
           // stili informative entities
-          console.log("merda  ", styleInformative)
           switch(styleInformative) {
             case "docTitle":
                 if (Office.context.platform === Office.PlatformType.OfficeOnline){
@@ -286,14 +288,8 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
                 }
                 break;
             default:
-                if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                    occurrence.font.color = "black";
-                    occurrence.font.bold = false;
-                }else{
-                    occurrence.font.underline = "None"
-                }
                 break;
-        }
+          } 
         });
     
         await context.sync();

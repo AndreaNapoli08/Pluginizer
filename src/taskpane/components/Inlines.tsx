@@ -102,7 +102,7 @@ export const Inlines = () => {
       <hr />
       <ImportantEntities onEntitiesStyle={handleEntitiesStyle} onFirstStyleEntities={handleFirstStyleEntities} expandedText={expandedText}/>
       <OtherEntities expandedText={expandedText} onOtherEntitiesStyle={handleOtherEntitiesStyle}/>
-      <Informative onInformativeStyle={setStyleInformative} expandedText={expandedText}/>
+      <Informative onInformativeStyle={handleInformativeEntities} expandedText={expandedText}/>
 
       <hr />
       <div style={{display: 'flex', justifyContent: 'center', marginBottom: '5px', fontSize: '20px'}}>

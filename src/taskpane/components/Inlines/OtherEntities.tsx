@@ -30,7 +30,7 @@ export const OtherEntities = ({expandedText, onOtherEntitiesStyle}) => {
                 emptyParagraph ++;
                 }
             }
-            if(expandedText != selection.text){
+            if(expandedText != selection.text  && selection.text != ""){
                 const startIndex = expandedText.indexOf(selection.text);
                 const charBefore = expandedText[startIndex - 1];
                 
@@ -127,7 +127,7 @@ export const OtherEntities = ({expandedText, onOtherEntitiesStyle}) => {
                             value={concept}
                             label="concept"
                             onChange={handleChangeConcept}
-                        >
+                        >   
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>

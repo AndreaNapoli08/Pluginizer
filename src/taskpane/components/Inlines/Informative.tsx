@@ -31,7 +31,7 @@ export const Informative = ({expandedText, onInformativeStyle}) => {
                 emptyParagraph ++;
                 }
             }
-            if(expandedText != selection.text){
+            if(expandedText != selection.text && selection.text != ""){  // ho aggiunto la seconda condizine in quanto se non avevo del testo selezionato, appena premevo i bottini di stili mi evidenzia l'ultima parola
                 const startIndex = expandedText.indexOf(selection.text);
                 const charBefore = expandedText[startIndex - 1];
                 

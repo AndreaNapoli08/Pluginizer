@@ -30,7 +30,7 @@ export const FirstStyles = ({onFontStyle, onFirst, expandedText}) => {
                 }
             }
             
-            if(expandedText != selection.text){
+            if(expandedText != selection.text && selection.text != ""){
                 const startIndex = expandedText.indexOf(selection.text);
                 const charBefore = expandedText[startIndex - 1];
                 let text = selection.text;

@@ -82,7 +82,7 @@ export const ImportantEntities = ({expandedText, onFirstStyleEntities, onEntitie
                 emptyParagraph ++;
                 }
             }
-            if(expandedText != selection.text){
+            if(expandedText != selection.text && selection.text != ""){
                 const startIndex = expandedText.indexOf(selection.text);
                 const charBefore = expandedText[startIndex - 1];
                 
@@ -183,7 +183,7 @@ export const ImportantEntities = ({expandedText, onFirstStyleEntities, onEntitie
                         selection.font.bold = true;
                         selection.font.underline = "None";
                         selection.font.color = "orange";
-                        selection.font.name = "Calibri"
+                        selection.font.name = "Courier New"
                         selection.font.size = 16;
                     }
                     break;
