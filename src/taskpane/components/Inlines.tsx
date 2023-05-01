@@ -8,7 +8,7 @@ import {Informative} from './Inlines/Informative'
 import { ExpandWords } from './Inlines/ExpandWords';
 import { AllInstances } from './Inlines/AllInstances';
 
-export const Inlines = () => {
+export const Inlines = ({onHandleExpandedText}) => {
   const [expandedText, setExpandedText] = useState("");
   const [buttonStyle, setButtonStyle] = useState("");
   const [firstOccurence, setFirstOccurence] = useState("");
@@ -94,6 +94,8 @@ export const Inlines = () => {
       );
     };
   }, []);
+
+  onHandleExpandedText(expandedText)
 
   return (
     <div>

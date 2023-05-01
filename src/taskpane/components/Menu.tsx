@@ -11,7 +11,7 @@ import {GSG} from './GSG';
 
 export const Menu = () => {
   const [expanded, setExpanded] = useState([]);
-
+  const [expandedText, setExpandedText] = useState("");
   
   const handleChange = (panel) => (isExpanded) => {
     setExpanded(prevExpanded => {
@@ -33,6 +33,10 @@ export const Menu = () => {
 
   // Force the component to re-render every time `activePanels` changes
   useEffect(() => {}, [activePanels]);
+
+  const handleExpandedText = (text) => {
+    setExpandedText(text);
+  }
 
   return (
     <div>
@@ -103,7 +107,7 @@ export const Menu = () => {
           <Typography variant="h6"><b>Inlines</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Inlines />
+          <Inlines onHandleExpandedText={handleExpandedText} />
         </AccordionDetails>
       </Accordion>
       <Accordion 
@@ -120,7 +124,7 @@ export const Menu = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            <GSG />
+            <GSG expandedText={expandedText}/>
           </Typography>
         </AccordionDetails>
       </Accordion>
