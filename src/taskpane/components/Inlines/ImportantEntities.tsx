@@ -127,6 +127,8 @@ export const ImportantEntities = ({expandedText, onFirstStyleEntities, onEntitie
 
             onFirstStyleEntities(selection.font.color); 
 
+            selection.font.highlightColor = null;
+            
             switch(entities) {
                 case "Date" :
                     if(selection.font.color == "#FF0000"){

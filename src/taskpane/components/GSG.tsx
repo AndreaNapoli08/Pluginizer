@@ -65,7 +65,7 @@ export const GSG = ({expandedText}) => {
                 selection.font.load("color, highlightColor")
                 await context.sync();
             }
-
+            selection.styleBuiltIn = "Normal";
             switch(styleGSG){
                 case 1:
                     if(selection.font.highlightColor == "#FF0000"){

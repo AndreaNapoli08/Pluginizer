@@ -72,7 +72,8 @@ export const OtherEntities = ({expandedText, onOtherEntitiesStyle}) => {
                 selection.font.load("name")
                 await context.sync();
             }
-
+            selection.font.highlightColor = null;
+            selection.font.color = "black";
             switch(event.target.value) {
                 case "object":
                         selection.font.name = "Consolas";

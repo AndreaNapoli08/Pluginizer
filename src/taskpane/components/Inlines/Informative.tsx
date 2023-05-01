@@ -73,7 +73,8 @@ export const Informative = ({expandedText, onInformativeStyle}) => {
                 selection.font.load("color")
                 await context.sync();
             }
-
+            
+            selection.font.highlightColor = null;
             switch(event.target.value) {
                 case "docTitle":
                     if (Office.context.platform === Office.PlatformType.OfficeOnline){
