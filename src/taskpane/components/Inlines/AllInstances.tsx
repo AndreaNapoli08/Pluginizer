@@ -324,184 +324,356 @@ export const AllInstances  = ({firstGSG, styleGSG, fontStyle, buttonStyle, first
           }
 
           // stili GSG
-          /*if(isNaN(styleGSG)){
-            occurrence.font.highlightColor = null;
-            occurrence.font.color = "black"
-          }*/
+          if (Office.context.platform === Office.PlatformType.OfficeOnline){
+            switch(styleGSG){
+                case 1:
+                    if(firstGSG == "#FF0000"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "red"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                case 2:
+                    if(firstGSG == "#E5BE01"){
+                        occurrence.font.highlightColor = null;
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#E5BE01"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 3:
+                    if(firstGSG == "#40E049"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black";
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#40E049";
+                        occurrence.font.color = "white";
+                    }
+                    break;
+                case 4:
+                    if(firstGSG == "#E61919"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black";
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#E61919";
+                        occurrence.font.color = "white";
+                    }
+                    break;
+                case 5:
+                    if(firstGSG == "#FE4C10"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#FE4C10"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                case 6:
+                    if(firstGSG == "#00FFFF"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#00FFFF"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 7:
+                    if(firstGSG == "#FFFF00"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#FFFF00"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 8:
+                    if(firstGSG == "#800000"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black";
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#800000";
+                        occurrence.font.color = "white";
+                    }
+                    break;
+                case 9:
+                    if(firstGSG == "#FF8000"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#FF8000"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 10:
+                    if(firstGSG == "#FF5AAC"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#FF5AAC"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 11:
+                    if(firstGSG == "#FFAE19"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#FFAE19"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 12:
+                    if(firstGSG == "#D5BCA2"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#D5BCA2"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 13:
+                    if(firstGSG == "#008800"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "008800"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                case 14:
+                    if(firstGSG == "#0ABAB5"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#0ABAB5"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                case 15:
+                    if(firstGSG == "#50C878"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#50C878"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                case 16:
+                    if(firstGSG == "#2271B3"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#2271B3"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                case 17:
+                    if(firstGSG == "#003399"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#003399"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }else{
+            switch(styleGSG){
+                case 1:
+                    if(firstGSG == "#FF0000"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "red"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                case 2:
+                    if(firstGSG == "#FFFF00"){
+                        occurrence.font.highlightColor = null;
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#E5BE01"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 3:
+                    if(firstGSG == "#00FF00"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black";
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#40E049";
+                        occurrence.font.color = "white";
+                    }
+                    break;
+                case 4:
+                    if(firstGSG == "#FF0000"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black";
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#E61919";
+                        occurrence.font.color = "white";
+                    }
+                    break;
+                case 5:                    
+                    if(firstGSG == "#FF0000"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#FE4C10"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                case 6:                 
+                    if(firstGSG == "#00FFFF"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#00FFFF"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 7:              
+                if(firstGSG == "#FFFF00"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#FFFF00"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 8:                  
+                    if(firstGSG == "#800000"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black";
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#800000";
+                        occurrence.font.color = "white";
+                    }
+                    break;
+                case 9:                   
+                    if(firstGSG == "#FFFF00"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#FF8000"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 10:
+                    if(firstGSG == "#FF00FF"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#FF5AAC"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 11:
+                    if(firstGSG == "#FFFF00"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#FFAE19"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 12:
+                    if(firstGSG == "#FFFF00"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#D5BCA2"
+                        occurrence.font.color = "black"
+                    }
+                    break;
+                case 13:
+                    if(firstGSG == "#008000"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#008800"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                case 14:
+                    if(firstGSG == "#00FFFF"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#0ABAB5"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                case 15:
+                    if(firstGSG == "#00FF00"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#50C878"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                case 16:
+                    if(firstGSG == "#00FFFF"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#2271B3"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                case 17:
+                    if(firstGSG == "#000080"){
+                        occurrence.font.highlightColor = null;
+                        occurrence.font.color = "black"
+                    }else{
+                        occurrence.styleBuiltIn = "Normal";
+                        occurrence.font.highlightColor = "#003399"
+                        occurrence.font.color = "white"
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
 
-          switch(styleGSG){
-            case 1:
-              if(firstGSG == "#FF0000"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "red"
-                  occurrence.font.color = "white"
-              }
-              break;
-            case 2:
-              if(firstGSG == "#E5BE01"){
-                  occurrence.font.highlightColor = null;
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#E5BE01"
-                  occurrence.font.color = "black"
-              }
-              break;
-            case 3:
-              if(firstGSG == "#40E049"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black";
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#40E049";
-                  occurrence.font.color = "white";
-              }
-              break;
-            case 4:
-              if(firstGSG == "#E61919"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black";
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#E61919";
-                  occurrence.font.color = "white";
-              }
-              break;
-            case 5:
-              if(firstGSG == "#FE4C10"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#FE4C10"
-                  occurrence.font.color = "white"
-              }
-              break;
-            case 6:
-              if(firstGSG == "#00FFFF"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#00FFFF"
-                  occurrence.font.color = "black"
-              }
-              break;
-            case 7:
-              if(firstGSG == "#FFFF00"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#FFFF00"
-                  occurrence.font.color = "black"
-              }
-              break;
-            case 8:
-              if(firstGSG == "#800000"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black";
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#800000";
-                  occurrence.font.color = "white";
-              }
-              break;
-            case 9:
-              if(firstGSG == "#FF8000"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#FF8000"
-                  occurrence.font.color = "black"
-              }
-              break;
-            case 10:
-              if(firstGSG == "#FF5AAC"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#FF5AAC"
-                  occurrence.font.color = "black"
-              }
-              break;
-            case 11:
-              if(firstGSG == "#FFAE19"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#FFAE19"
-                  occurrence.font.color = "black"
-              }
-              break;
-            case 12:
-              if(firstGSG == "#D5BCA2"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#D5BCA2"
-                  occurrence.font.color = "black"
-              }
-              break;
-            case 13:
-              if(firstGSG == "#008800"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "008800"
-                  occurrence.font.color = "white"
-              }
-              break;
-            case 14:
-              if(firstGSG == "#0ABAB5"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#0ABAB5"
-                  occurrence.font.color = "white"
-              }
-              break;
-            case 15:
-              if(firstGSG == "#50C878"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#50C878"
-                  occurrence.font.color = "white"
-              }
-              break;
-            case 16:
-              if(firstGSG == "#2271B3"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#2271B3"
-                  occurrence.font.color = "white"
-              }
-              break;
-            case 17:
-              if(firstGSG == "#003399"){
-                  occurrence.font.highlightColor = null;
-                  occurrence.font.color = "black"
-              }else{
-                  occurrence.styleBuiltIn = "Normal";
-                  occurrence.font.highlightColor = "#003399"
-                  occurrence.font.color = "white"
-              }
-              break;
-            default:
-              break;
-          }
         });
     
         await context.sync();
