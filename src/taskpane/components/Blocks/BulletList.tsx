@@ -104,17 +104,17 @@ export const BulletList = () => {
           </Grid>
           <Grid item xs={3}>
             <IconButton color="inherit" title="Diamond List" onClick={() => handleList('diamonds')} style={{position: 'relative', bottom: '3px'}}>
-              <img width={30} src="assets/bulletlist2.png" />
+              <img width={30} src="../../../assets/bulletlist2.png" />
             </IconButton>
           </Grid>
           <Grid item xs={3}>
             <IconButton color="inherit" title="Square List" onClick={() => handleList('square')} style={{position: 'relative', bottom: '4px'}}>
-              <img width={30} src="assets/squared.png" />
+              <img width={30} src="../../../assets/squared.png" />
             </IconButton>
           </Grid>
           <Grid item xs={3}>
             <IconButton color="inherit" title="Check List" onClick={() => handleList('checkmark')} style={{position: 'relative', bottom: '2px'}}>
-              <img width={30} src="assets/checkmark.png" />
+              <img width={30} src="../../../assets/checkmark.png" />
             </IconButton>
           </Grid>
         </Grid>

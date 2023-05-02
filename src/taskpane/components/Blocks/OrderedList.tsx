@@ -98,27 +98,27 @@ export const OrderedList = () => {
       >
         <Grid item xs={2.4}>
           <IconButton color="inherit" title="List Numbers" onClick={() => formatList('numbers')}>
-            <img width={30} src="assets/listsNumbers.png" />
+            <img width={30} src="../../../assets/listsNumbers.png" />
           </IconButton>
         </Grid>
         <Grid item xs={2.4}>
           <IconButton color="inherit" title="List Letters" onClick={() => formatList('lettersUpper')}>
-            <img width={30} src="assets/listsLetters.png" />
+            <img width={30} src="../../../assets/listsLetters.png" />
           </IconButton>
         </Grid>
         <Grid item xs={2.4}>
           <IconButton color="inherit" title="List Letters Lower" onClick={() => formatList('lettersLower')}>
-            <img width={30} src="assets/listsLettersLower.png" />
+            <img width={30} src="../../../assets/listsLettersLower.png" />
           </IconButton>
         </Grid>
         <Grid item xs={2.4}>
           <IconButton color="inherit" title="List Letters Roman" onClick={() => formatList('lettersRomanUpper')}>
-            <img width={30} src="assets/listsLettersRomans.png" />
+            <img width={30} src="../../../assets/listsLettersRomans.png" />
           </IconButton>
         </Grid>
         <Grid item xs={2.4}>
           <IconButton color="inherit" title="List Letters Roman Lower" onClick={() => formatList('lettersRomanLower')}>
-            <img width={30} src="assets/listsLettersRomansLower.png" />
+            <img width={30} src="../../../assets/listsLettersRomansLower.png" />
           </IconButton>
         </Grid>
       </Grid>
