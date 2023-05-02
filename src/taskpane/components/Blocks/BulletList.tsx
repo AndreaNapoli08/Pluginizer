@@ -28,7 +28,6 @@ export const BulletList = () => {
         if (previousParagraph.isNullObject || !previousParagraph.isListItem) {
         // vuol dire che la riga selezionata è la prima del documento quindi per forza bisogna creare una lista
         // oppure che nel paragrafo precedente non è già presente una lista
-          console.log("nuova lista")
           const list = selection.paragraphs.items[0].startNewList();
           await context.sync();
           switch (bulletType) {
@@ -72,7 +71,6 @@ export const BulletList = () => {
             selection.paragraphs.items[i].delete();
           }
         }else{
-          console.log("continua la lista")
           previousParagraph.load("list")
           await context.sync();
           previousParagraph.list.load("id")
