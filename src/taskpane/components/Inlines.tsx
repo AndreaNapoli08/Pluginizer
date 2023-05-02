@@ -8,7 +8,7 @@ import {Informative} from './Inlines/Informative'
 import { ExpandWords } from './Inlines/ExpandWords';
 import { AllInstances } from './Inlines/AllInstances';
 
-export const Inlines = ({onHandleExpandedText}) => {
+export const Inlines = ({onHandleExpandedText, firstGSG, styleGSG}) => {
   const [expandedText, setExpandedText] = useState("");
   const [buttonStyle, setButtonStyle] = useState("");
   const [firstOccurence, setFirstOccurence] = useState("");
@@ -114,7 +114,7 @@ export const Inlines = ({onHandleExpandedText}) => {
 
       <ExpandWords bodyText={bodyText} selectedText={selectedText} onExpandedTextChange={handleExpandedTextChange}/>
       
-      <AllInstances fontStyle={fontStyle} buttonStyle={buttonStyle} firstOccurence={firstOccurence} first={first} expandedText={expandedText} firststyleEntities={styleEntities} entitiesStyle={entitiesStyle} styleOtherEntities={styleOtherEntities} styleInformative={styleInformative}/>
+      <AllInstances firstGSG={firstGSG} styleGSG={styleGSG} fontStyle={fontStyle} buttonStyle={buttonStyle} firstOccurence={firstOccurence} first={first} expandedText={expandedText} firststyleEntities={styleEntities} entitiesStyle={entitiesStyle} styleOtherEntities={styleOtherEntities} styleInformative={styleInformative}/>
       
     </div>
   )

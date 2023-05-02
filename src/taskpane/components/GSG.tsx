@@ -1,7 +1,7 @@
 import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
 
-export const GSG = ({expandedText}) => {
+export const GSG = ({expandedText, onFirstStyleGSG, onUpdateStyleGSG}) => {
 
     const isLetterOrNumber = (char) => {
         if (typeof char === "undefined") {
@@ -65,13 +65,15 @@ export const GSG = ({expandedText}) => {
                 selection.font.load("color, highlightColor")
                 await context.sync();
             }
-            selection.styleBuiltIn = "Normal";
+            
+            onFirstStyleGSG(selection.font.highlightColor);
             switch(styleGSG){
                 case 1:
                     if(selection.font.highlightColor == "#FF0000"){
                         selection.font.highlightColor = null;
                         selection.font.color = "black"
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "red"
                         selection.font.color = "white"
                     }
@@ -80,6 +82,7 @@ export const GSG = ({expandedText}) => {
                     if(selection.font.highlightColor == "#E5BE01"){
                         selection.font.highlightColor = null;
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#E5BE01"
                         selection.font.color = "black"
                     }
@@ -89,6 +92,7 @@ export const GSG = ({expandedText}) => {
                         selection.font.highlightColor = null;
                         selection.font.color = "black";
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#40E049";
                         selection.font.color = "white";
                     }
@@ -98,6 +102,7 @@ export const GSG = ({expandedText}) => {
                         selection.font.highlightColor = null;
                         selection.font.color = "black";
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#E61919";
                         selection.font.color = "white";
                     }
@@ -107,6 +112,7 @@ export const GSG = ({expandedText}) => {
                         selection.font.highlightColor = null;
                         selection.font.color = "black"
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#FE4C10"
                         selection.font.color = "white"
                     }
@@ -116,6 +122,7 @@ export const GSG = ({expandedText}) => {
                         selection.font.highlightColor = null;
                         selection.font.color = "black"
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#00FFFF"
                         selection.font.color = "black"
                     }
@@ -125,6 +132,7 @@ export const GSG = ({expandedText}) => {
                         selection.font.highlightColor = null;
                         selection.font.color = "black"
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#FFFF00"
                         selection.font.color = "black"
                     }
@@ -134,6 +142,7 @@ export const GSG = ({expandedText}) => {
                         selection.font.highlightColor = null;
                         selection.font.color = "black";
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#800000";
                         selection.font.color = "white";
                     }
@@ -143,6 +152,7 @@ export const GSG = ({expandedText}) => {
                         selection.font.highlightColor = null;
                         selection.font.color = "black"
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#FF8000"
                         selection.font.color = "black"
                     }
@@ -152,6 +162,7 @@ export const GSG = ({expandedText}) => {
                         selection.font.highlightColor = null;
                         selection.font.color = "black"
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#FF5AAC"
                         selection.font.color = "black"
                     }
@@ -161,24 +172,27 @@ export const GSG = ({expandedText}) => {
                         selection.font.highlightColor = null;
                         selection.font.color = "black"
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#FFAE19"
                         selection.font.color = "black"
                     }
                     break;
                 case 12:
-                        if(selection.font.highlightColor == "#D5BCA2"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.font.highlightColor = "#D5BCA2"
-                            selection.font.color = "black"
-                        }
-                        break;
+                    if(selection.font.highlightColor == "#D5BCA2"){
+                        selection.font.highlightColor = null;
+                        selection.font.color = "black"
+                    }else{
+                        selection.styleBuiltIn = "Normal";
+                        selection.font.highlightColor = "#D5BCA2"
+                        selection.font.color = "black"
+                    }
+                    break;
                 case 13:
                     if(selection.font.highlightColor == "#008800"){
                         selection.font.highlightColor = null;
                         selection.font.color = "black"
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "008800"
                         selection.font.color = "white"
                     }
@@ -188,24 +202,27 @@ export const GSG = ({expandedText}) => {
                         selection.font.highlightColor = null;
                         selection.font.color = "black"
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#0ABAB5"
                         selection.font.color = "white"
                     }
                     break;
                 case 15:
-                        if(selection.font.highlightColor == "#50C878"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.font.highlightColor = "#50C878"
-                            selection.font.color = "white"
-                        }
-                        break;
+                    if(selection.font.highlightColor == "#50C878"){
+                        selection.font.highlightColor = null;
+                        selection.font.color = "black"
+                    }else{
+                        selection.styleBuiltIn = "Normal";
+                        selection.font.highlightColor = "#50C878"
+                        selection.font.color = "white"
+                    }
+                    break;
                 case 16:
                     if(selection.font.highlightColor == "#2271B3"){
                         selection.font.highlightColor = null;
                         selection.font.color = "black"
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#2271B3"
                         selection.font.color = "white"
                     }
@@ -215,6 +232,7 @@ export const GSG = ({expandedText}) => {
                         selection.font.highlightColor = null;
                         selection.font.color = "black"
                     }else{
+                        selection.styleBuiltIn = "Normal";
                         selection.font.highlightColor = "#003399"
                         selection.font.color = "white"
                     }
@@ -222,6 +240,8 @@ export const GSG = ({expandedText}) => {
                 default:
                     break;
             }
+            onUpdateStyleGSG(styleGSG)
+            onUpdateStyleGSG("")
         });
     }
 

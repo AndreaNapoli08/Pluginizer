@@ -12,7 +12,9 @@ import {GSG} from './GSG';
 export const Menu = () => {
   const [expanded, setExpanded] = useState([]);
   const [expandedText, setExpandedText] = useState("");
-  
+  const [firstGSG, setFirstGSG] = useState("");
+  const [styleGSG, setStyleGSG] = useState("");
+
   const handleChange = (panel) => (isExpanded) => {
     setExpanded(prevExpanded => {
       if (isExpanded) {
@@ -38,6 +40,13 @@ export const Menu = () => {
     setExpandedText(text);
   }
 
+  const handleFirstGSG = (text) => {
+    setFirstGSG(text);
+  }
+
+  const handleStyleGSG = (text) => {
+    setStyleGSG(text);
+  }
   return (
     <div>
      <Accordion 
@@ -107,7 +116,7 @@ export const Menu = () => {
           <Typography variant="h6"><b>Inlines</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Inlines onHandleExpandedText={handleExpandedText} />
+          <Inlines onHandleExpandedText={handleExpandedText} firstGSG={firstGSG} styleGSG={styleGSG}/>
         </AccordionDetails>
       </Accordion>
       <Accordion 
@@ -124,7 +133,7 @@ export const Menu = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            <GSG expandedText={expandedText}/>
+            <GSG onFirstStyleGSG={handleFirstGSG} onUpdateStyleGSG={handleStyleGSG} expandedText={expandedText}/>
           </Typography>
         </AccordionDetails>
       </Accordion>

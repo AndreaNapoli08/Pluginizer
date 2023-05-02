@@ -64,8 +64,6 @@ export const ExpandWords = ({bodyText, selectedText, onExpandedTextChange }) => 
     
     return (
         <div>
-            <p>Testo: {selectedText}</p><br />
-            <p>Testo nel documento: {bodyText}</p>
             <FormControlLabel 
                 control={<Checkbox checked={expandWords} onChange={handleChangeCheckbox}/>} 
                 label="Expand to whole words" 

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, expandedText, firststyleEntities, entitiesStyle, styleOtherEntities, styleInformative}) => {
+export const AllInstances  = ({firstGSG, styleGSG, fontStyle, buttonStyle, firstOccurence, first, expandedText, firststyleEntities, entitiesStyle, styleOtherEntities, styleInformative}) => {
     const [allInstances, setAllInstances] = useState(false);
 
     const handleChangeCheckboxIstances = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,15 +93,19 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
           // stili di testo predenfiniti
           switch (fontStyle) {
             case "IntenseReference":
+              occurrence.font.highlightColor = null;
               occurrence.styleBuiltIn = first == "IntenseReference" ? "Normal" : "IntenseReference";
               break;
             case "Heading6":
+              occurrence.font.highlightColor = null;
               occurrence.styleBuiltIn = first == "Heading6" ? "Normal" : "Heading6";
               break;
             case "IntenseEmphasis":
+              occurrence.font.highlightColor = null;
               occurrence.styleBuiltIn = first == "IntenseEmphasis" ? "Normal" : "IntenseEmphasis";
               break;
             case "Normal":
+              occurrence.font.highlightColor = null;
               occurrence.styleBuiltIn = "Normal"
               break;
             default:
@@ -120,6 +124,7 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
                 occurrence.font.color = "red";
                 occurrence.font.name = "Abadi";
                 occurrence.font.size = 16;
+                occurrence.font.highlightColor = null;
               }
               break;
             case "Organization":
@@ -132,6 +137,7 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
                 occurrence.font.color = "green";
                 occurrence.font.name = "Times New Roman"
                 occurrence.font.size = 16;
+                occurrence.font.highlightColor = null;
               }
               break;
             case "Person":
@@ -144,6 +150,7 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
                 occurrence.font.color = "blue";
                 occurrence.font.name = "Arial";
                 occurrence.font.size = 16;
+                occurrence.font.highlightColor = null;
               }
               break;
             case "Location":
@@ -156,6 +163,7 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
                 occurrence.font.color = "orange";
                 occurrence.font.name = "Courier New"
                 occurrence.font.size = 16;
+                occurrence.font.highlightColor = null;
               }
               break;
             case "Time":
@@ -168,12 +176,12 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
                 occurrence.font.color = "purple";
                 occurrence.font.name = "Century Gothic";
                 occurrence.font.size = 16;
+                occurrence.font.highlightColor = null;
               }
               break;
             default:
               break;
           }
-
 
           // stili altre entità
           if(previuousEntities != "" && (styleOtherEntities == "" || styleOtherEntities == "Calibri")){
@@ -183,19 +191,20 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
 
           if(styleOtherEntities != "" && styleOtherEntities != "Calibri"){
             setPreviuousEntities(styleOtherEntities);
+            occurrence.font.highlightColor = null;
+            occurrence.font.color = "black";
             occurrence.font.name = styleOtherEntities;
           }
         
           // stili informative entities
           if(previuousInformative != "" && styleInformative == ""){
-            console.log("ciaoooooo")
             occurrence.styleBuiltIn = "Normal";
             setPreviuousInformative("");
           }
           
           if(styleInformative != ""){
             setPreviuousInformative(styleInformative);
-          
+            occurrence.font.highlightColor = null;
             switch(styleInformative) {
               case "docTitle":
                   if (Office.context.platform === Office.PlatformType.OfficeOnline){
@@ -312,6 +321,186 @@ export const AllInstances  = ({fontStyle, buttonStyle, firstOccurence, first, ex
               default:
                   break;
             } 
+          }
+
+          // stili GSG
+          /*if(isNaN(styleGSG)){
+            occurrence.font.highlightColor = null;
+            occurrence.font.color = "black"
+          }*/
+
+          switch(styleGSG){
+            case 1:
+              if(firstGSG == "#FF0000"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "red"
+                  occurrence.font.color = "white"
+              }
+              break;
+            case 2:
+              if(firstGSG == "#E5BE01"){
+                  occurrence.font.highlightColor = null;
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#E5BE01"
+                  occurrence.font.color = "black"
+              }
+              break;
+            case 3:
+              if(firstGSG == "#40E049"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black";
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#40E049";
+                  occurrence.font.color = "white";
+              }
+              break;
+            case 4:
+              if(firstGSG == "#E61919"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black";
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#E61919";
+                  occurrence.font.color = "white";
+              }
+              break;
+            case 5:
+              if(firstGSG == "#FE4C10"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#FE4C10"
+                  occurrence.font.color = "white"
+              }
+              break;
+            case 6:
+              if(firstGSG == "#00FFFF"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#00FFFF"
+                  occurrence.font.color = "black"
+              }
+              break;
+            case 7:
+              if(firstGSG == "#FFFF00"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#FFFF00"
+                  occurrence.font.color = "black"
+              }
+              break;
+            case 8:
+              if(firstGSG == "#800000"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black";
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#800000";
+                  occurrence.font.color = "white";
+              }
+              break;
+            case 9:
+              if(firstGSG == "#FF8000"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#FF8000"
+                  occurrence.font.color = "black"
+              }
+              break;
+            case 10:
+              if(firstGSG == "#FF5AAC"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#FF5AAC"
+                  occurrence.font.color = "black"
+              }
+              break;
+            case 11:
+              if(firstGSG == "#FFAE19"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#FFAE19"
+                  occurrence.font.color = "black"
+              }
+              break;
+            case 12:
+              if(firstGSG == "#D5BCA2"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#D5BCA2"
+                  occurrence.font.color = "black"
+              }
+              break;
+            case 13:
+              if(firstGSG == "#008800"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "008800"
+                  occurrence.font.color = "white"
+              }
+              break;
+            case 14:
+              if(firstGSG == "#0ABAB5"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#0ABAB5"
+                  occurrence.font.color = "white"
+              }
+              break;
+            case 15:
+              if(firstGSG == "#50C878"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#50C878"
+                  occurrence.font.color = "white"
+              }
+              break;
+            case 16:
+              if(firstGSG == "#2271B3"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#2271B3"
+                  occurrence.font.color = "white"
+              }
+              break;
+            case 17:
+              if(firstGSG == "#003399"){
+                  occurrence.font.highlightColor = null;
+                  occurrence.font.color = "black"
+              }else{
+                  occurrence.styleBuiltIn = "Normal";
+                  occurrence.font.highlightColor = "#003399"
+                  occurrence.font.color = "white"
+              }
+              break;
+            default:
+              break;
           }
         });
     
