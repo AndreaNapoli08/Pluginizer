@@ -31,6 +31,8 @@ export const Informative = ({expandedText, onInformativeStyle}) => {
                 emptyParagraph ++;
                 }
             }
+
+            // stessa funzione di espansione
             if(expandedText != selection.text && selection.text != ""){  // ho aggiunto la seconda condizine in quanto se non avevo del testo selezionato, appena premevo i bottini di stili mi evidenzia l'ultima parola
                 const startIndex = expandedText.indexOf(selection.text);
                 const charBefore = expandedText[startIndex - 1];
@@ -70,7 +72,6 @@ export const Informative = ({expandedText, onInformativeStyle}) => {
                 }
                 selection.select();
                 selection.load("styleBuiltIn");
-                selection.font.load("color")
                 await context.sync();
             }
             
@@ -121,7 +122,7 @@ export const Informative = ({expandedText, onInformativeStyle}) => {
                     selection.styleBuiltIn = "Normal"
                     break;
             }
-
+            // passiamo al componente padre l'Informative che l'utente ha scelto
             onInformativeStyle(event.target.value)
         });
     }

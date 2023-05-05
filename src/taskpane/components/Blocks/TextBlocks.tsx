@@ -7,6 +7,8 @@ import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 import IconButton from '@mui/material/IconButton';
 
 export const TextBlocks = () => {
+
+  //funzione per l'allineamento del testo
     const AlignText = async (mode) => {
         await Word.run(async (context) => {
           const selection = context.document.getSelection();

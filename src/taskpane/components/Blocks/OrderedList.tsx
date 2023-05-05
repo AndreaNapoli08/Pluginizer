@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 
 export const OrderedList = () => {
 
+  // hanno lo stesso funzionamento delle Bullet Lists
   const formatList = async (numberingType) => {
     await Word.run(async (context) => {
       const selection = context.document.getSelection();

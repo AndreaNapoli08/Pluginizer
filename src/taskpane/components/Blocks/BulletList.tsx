@@ -2,18 +2,18 @@ import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';    
 import IconButton from '@mui/material/IconButton';
-import { listItemSecondaryActionClasses } from '@mui/material';
 
 export const BulletList = () => {
-  let textListMap = new Map();
+  let textListMap = new Map(); // Mappa che associa il testo del paragrafo al tipo di bullet scelto
 
+  // Funzione che gestisce la creazione delle liste
   const handleList = async (bulletType) => {
     await Word.run(async (context) => {
       const selection = context.document.getSelection();
-      const lists = context.document.body.lists;
       selection.load("text, paragraphs");
       await context.sync();
 
+      // Se il paragrafo selezionato è già una lista, lo rimuove dalla lista
       if (selection.paragraphs.items[0].isListItem) {
         for(let i=0; i<selection.paragraphs.items.length; i++){
           selection.paragraphs.items[i].detachFromList();
@@ -25,9 +25,8 @@ export const BulletList = () => {
         previousParagraph.load("isListItem")
         await context.sync();
 
+        // Se la riga selezionata è la prima del documento o se nel paragrafo precedente non è già presente una lista, crea una nuova lista
         if (previousParagraph.isNullObject || !previousParagraph.isListItem) {
-        // vuol dire che la riga selezionata è la prima del documento quindi per forza bisogna creare una lista
-        // oppure che nel paragrafo precedente non è già presente una lista
           const list = selection.paragraphs.items[0].startNewList();
           await context.sync();
           switch (bulletType) {
@@ -46,9 +45,11 @@ export const BulletList = () => {
             default:
               break;
           }
+          // Aggiunge il testo del paragrafo e il tipo di bullet utilizzato alla mappa textListMap
           textListMap.set(selection.paragraphs.items[0].text, bulletType);
           list.load();
           await context.sync();
+          // Aggiunge gli eventuali paragrafi successivi alla lista
           for (let i = 1; i < selection.paragraphs.items.length; i++) {
             list.insertParagraph(selection.paragraphs.items[i].text, "End");
             switch (bulletType) {
@@ -71,6 +72,7 @@ export const BulletList = () => {
             selection.paragraphs.items[i].delete();
           }
         }else{
+          // se la non è la prima riga del documento e precedentemente c'è una lista, allora attacca questi nuovi paragrafi alla lista esistente
           previousParagraph.load("list")
           await context.sync();
           previousParagraph.list.load("id")

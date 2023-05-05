@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 
 export const TipografiaButton = ({setDis, onFirstOccurence, onButtonStyle, expandedText}) => {
@@ -30,7 +29,8 @@ export const TipografiaButton = ({setDis, onFirstOccurence, onButtonStyle, expan
           emptyParagraph ++;
         }
       }
-      // Expand to end of sentence
+
+      // stessa funzione per espandere la selezione
       if(expandedText != selection.text){
         const startIndex = expandedText.indexOf(selection.text);
         const charBefore = expandedText[startIndex - 1];
@@ -76,10 +76,10 @@ export const TipografiaButton = ({setDis, onFirstOccurence, onButtonStyle, expan
 
       switch (style) {
         case 'bold':
-          onFirstOccurence(selection.font.bold);
+          onFirstOccurence(selection.font.bold); // passiamo al componente padre la tipografia del testo selezionato prima dell'aggiornamento
           selection.font.bold = !selection.font.bold;
           onButtonStyle("bold");
-          onButtonStyle(""); // lo setto a "" così quando ci sarà una nuova selezione non rimane salvato bold nella variabile
+          onButtonStyle(""); // lo setto a "" così quando ci sarà una nuova selezione non rimane salvato l'ultima tipografia nella variabile
           break;
         case 'italic':
           onFirstOccurence(selection.font.italic);

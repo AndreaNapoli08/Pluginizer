@@ -6,6 +6,7 @@ import FormatIndentIncreaseIcon from '@mui/icons-material/FormatIndentIncrease';
 import IconButton from '@mui/material/IconButton';
 
 export const Nesting = () => {
+  // inizializzazione delle variabili per la gestione dei margini
   let leftMargin = 0;
   let rightMargin = 0;
   let interlinea = 5;
@@ -15,7 +16,8 @@ export const Nesting = () => {
       selection.paragraphs.load("style, leftIndent");
       await context.sync();
       
-      if(leftMargin < 0){
+      if(leftMargin < 0){ 
+        // vuol dire che il paragrafo selezionato si può spostare verso sinistra
         selection.paragraphs.items.forEach((paragraph) => {
           paragraph.leftIndent -= 30;
         });
@@ -32,6 +34,7 @@ export const Nesting = () => {
       await context.sync();
       
       if(rightMargin <= 400){
+        // abbiamo visto che 400 indica la fine del margine destro, quindi se siamo sotto questa soglia possiamo spostarlo verdo destra
         selection.paragraphs.items.forEach((paragraph) => {
           paragraph.leftIndent += 30;
       });
@@ -47,6 +50,7 @@ export const Nesting = () => {
       selection.paragraphs.load();
       await context.sync();
 
+      // abbiamo impostato un interlinea massimo di 30 e ogni volta che si preme si aumenta di 5
       if(interlinea <= 30){
         interlinea += 5;
       }else{

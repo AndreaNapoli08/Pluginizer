@@ -14,8 +14,8 @@ export const FirstStyles = ({onFontStyle, onFirst, expandedText}) => {
           return /^[a-zA-Z0-9]+$/.test(char);
         }
     }   
-    
 
+    // funzione che aggiorna lo stile del testo
     const updateStyle = async (style) => {
         await Word.run(async (context) => {
             let selection = context.document.getSelection();
@@ -24,12 +24,13 @@ export const FirstStyles = ({onFontStyle, onFirst, expandedText}) => {
             let paragraphCount = selection.paragraphs.items.length; 
             let emptyParagraph = 0;
 
-            for(let i = 0; i < selection.paragraphs.items.length; i++) { // se nella selezione includo anche i paragrafi, non funziona perfettamente
+            for(let i = 0; i < selection.paragraphs.items.length; i++) { // se nella selezione includo anche i paragrafi vuoti, la selezione espanda non funziona correttamente 
                 if(selection.paragraphs.items[i].text == ""){
-                emptyParagraph ++;
+                    emptyParagraph ++;
                 }
             }
             
+            // stessa funzione di espansione del testo
             if(expandedText != selection.text && selection.text != ""){
                 const startIndex = expandedText.indexOf(selection.text);
                 const charBefore = expandedText[startIndex - 1];
@@ -41,7 +42,7 @@ export const FirstStyles = ({onFontStyle, onFirst, expandedText}) => {
                 await context.sync();
                 
                 if (nextCharRanges.items.length > 0) {
-                    if(paragraphCount>1){ // se più paragraphi sono compresi, andare a capo lo prende come una parola e quindi spaceCount va incrementato con il numero di paragrafi -1
+                    if(paragraphCount>1){ // se più paragraphi sono compresi, andare a capo lo prende come una parola e quindi spaceCount va incrementato con il numero di paragrafi -1. Inoltre bisogna togliere anche i paragrafi vuoti
                         spaceCount = spaceCount + paragraphCount - 1 - emptyParagraph;
                     }
                     for(let i = 0; i < spaceCount; i++){
@@ -71,18 +72,18 @@ export const FirstStyles = ({onFontStyle, onFirst, expandedText}) => {
                 selection.load("styleBuiltIn");
                 await context.sync();
             }
-
+            
+            // passiamo al componente padre lo stile del testo prima di essere modificato
             onFirst(selection.styleBuiltIn); 
             
             if (selection.styleBuiltIn === style || selection.styleBuiltIn == "Other") {
                 selection.styleBuiltIn = "Normal";
-                //selection.styleBuiltIn = "IntenseReference"
             } else {
                 selection.styleBuiltIn = style;
             }
 
-            onFontStyle(style);
-            onFontStyle("");
+            onFontStyle(style); // passiamo al componente padre lo stile che l'utente ha scelto
+            onFontStyle(""); // lo setto a "" così quando ci sarà una nuova selezione non rimane salvato l'ultimo stile
         });
     }
 

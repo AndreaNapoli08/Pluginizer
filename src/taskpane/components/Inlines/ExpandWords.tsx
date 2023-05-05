@@ -14,20 +14,21 @@ export const ExpandWords = ({bodyText, selectedText, onExpandedTextChange }) => 
       return /^[a-zA-Z0-9]+$/.test(char);
     }
 
+    // serve per calcolare il testo realmente da espandare
     let expandedText = selectedText;
+
+    // per prima cosa controlliamo se la checkbox è selezionata
     if(expandWords){
+      // calcolo gli indici in cui inizia e finisce la selezione rispetto all'interno testo
         const startIndex = bodyText.indexOf(selectedText)
         const endIndex = startIndex + selectedText.length - 1;
-        if(startIndex >= 0){
+
           const charBefore = bodyText[startIndex - 1]; 
           const charAfter = bodyText[endIndex + 1];
           
           //controllo se dopo la parte selezionata ci sono lettere
-          if(bodyText[endIndex] == " "){
-            //console.log("la parola è completa alla fine")
-          }else{
+          if(bodyText[endIndex] != " "){
             if(isLetterOrNumber(charAfter)){
-              //console.log("la parola non è completa, dopo ci sono lettere");
               let currentIndex = endIndex + 1;
               while (currentIndex < bodyText.length) {
                 const currentChar = bodyText[currentIndex];
@@ -42,8 +43,7 @@ export const ExpandWords = ({bodyText, selectedText, onExpandedTextChange }) => 
           }
 
           //controllo se prima della parte selezionata ci sono lettere
-          if(bodyText[startIndex] == " " || startIndex == 0){
-          }else{
+          if(bodyText[startIndex] != " " && startIndex != 0){
             if(isLetterOrNumber(charBefore)){
               let currentIndex = startIndex - 1;
               while (currentIndex >= 0) {
@@ -57,9 +57,10 @@ export const ExpandWords = ({bodyText, selectedText, onExpandedTextChange }) => 
               }
             }   
           }
-        }
     }
 
+    // passa il testo espando al componente padre. Se la checkbox non è selezionata
+    // il testo espanso equivale al testo selezionato
     onExpandedTextChange(expandedText);
     
     return (

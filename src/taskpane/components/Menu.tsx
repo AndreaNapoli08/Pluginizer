@@ -14,25 +14,26 @@ export const Menu = () => {
   const [expandedText, setExpandedText] = useState("");
   const [styleGSG, setStyleGSG] = useState("");
 
+  // funzione che gestisce l'apertura e la chiusura dei pannelli
   const handleChange = (panel) => (isExpanded) => {
     setExpanded(prevExpanded => {
       if (isExpanded) {
-        return [...prevExpanded, panel];
+        return [...prevExpanded, panel]; // Se il pannello è aperto, lo aggiunge all'array di pannelli aperti
       } else {
-        return prevExpanded.filter(p => p !== panel);
+        return prevExpanded.filter(p => p !== panel); // se il pannello è chiuso lo rimuove dall'array
       }
     });
   };
 
-  // Derive an array of active panels based on the current state of `expanded`
+  // Deriva un array di pannelli attivi in base allo stato corrente di `expanded`
   const activePanels = useMemo(() => {
     return expanded.reduce((result, panel) => {
-      result[panel] = !result[panel];
+      result[panel] = !result[panel]; // cambia lo stato del pannello da attivo a chuso e viceversa
       return result;
     }, {});
   }, [expanded]);
 
-  // Force the component to re-render every time `activePanels` changes
+  
   useEffect(() => {}, [activePanels]);
 
   const handleExpandedText = (text) => {

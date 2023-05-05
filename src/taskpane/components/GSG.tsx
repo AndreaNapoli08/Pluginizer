@@ -1,6 +1,5 @@
 import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
-import { useState, useEffect } from 'react';
 
 export const GSG = ({expandedText, onUpdateStyleGSG}) => {
 
@@ -11,7 +10,6 @@ export const GSG = ({expandedText, onUpdateStyleGSG}) => {
             return /^[a-zA-Z0-9]+$/.test(char);
         }
     }  
-    const [color, setColor] = useState("");
 
     const updateStyleGSG = async (styleGSG) => { 
         await Word.run(async (context) => {
@@ -25,6 +23,8 @@ export const GSG = ({expandedText, onUpdateStyleGSG}) => {
                 emptyParagraph ++;
                 }
             }
+
+            // solita funzione per espansione del testo
             if(expandedText != selection.text && selection.text != ""){
                 const startIndex = expandedText.indexOf(selection.text);
                 const charBefore = expandedText[startIndex - 1];
@@ -68,6 +68,7 @@ export const GSG = ({expandedText, onUpdateStyleGSG}) => {
                 await context.sync();
             }
             
+            // impostare lo stile selezionato
             switch(styleGSG){
                 case 1:
                     selection.style = "GSG"
@@ -124,9 +125,8 @@ export const GSG = ({expandedText, onUpdateStyleGSG}) => {
                     break;
             }
             
-
-            onUpdateStyleGSG(styleGSG)
-            onUpdateStyleGSG("")
+            onUpdateStyleGSG(styleGSG) // passo al componente padre lo stile scelto
+            onUpdateStyleGSG("") // setto "" così non rimane salvato l'ultimo stile usato
         });
     }
 

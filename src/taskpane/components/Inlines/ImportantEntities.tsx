@@ -24,11 +24,13 @@ export const ImportantEntities = ({expandedText, onEntitiesStyle}) => {
             await context.sync();
             let paragraphCount = selection.paragraphs.items.length; 
             let emptyParagraph = 0;
-            for(let i = 0; i < selection.paragraphs.items.length; i++) { // se nella selezione includo anche i paragrafi, non funziona perfettamente
+            for(let i = 0; i < selection.paragraphs.items.length; i++) { // se nella selezione includo anche i paragrafi vuoti, non funziona perfettamente
                 if(selection.paragraphs.items[i].text == ""){
                     emptyParagraph ++;
                 }
             }
+
+            // stessa funzione di espansione
             if(expandedText != selection.text && selection.text != ""){
                 const startIndex = expandedText.indexOf(selection.text);
                 const charBefore = expandedText[startIndex - 1];
@@ -93,6 +95,7 @@ export const ImportantEntities = ({expandedText, onEntitiesStyle}) => {
             }
 
             await context.sync();
+            // passiamo al componente padre l'entità che l'utente ha scelto
             onEntitiesStyle(entities)
             onEntitiesStyle("")
         });

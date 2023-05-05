@@ -1,25 +1,29 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import {TipografiaButton} from './Inlines/TipografiaButton'
-import {FirstStyles} from './Inlines/FirstStyles'
-import {ImportantEntities} from './Inlines/ImportantEntities'
-import {OtherEntities} from './Inlines/OtherEntities'
-import {Informative} from './Inlines/Informative'
+import { TipografiaButton } from './Inlines/TipografiaButton'
+import { FirstStyles } from './Inlines/FirstStyles'
+import { ImportantEntities } from './Inlines/ImportantEntities'
+import { OtherEntities } from './Inlines/OtherEntities'
+import { Informative } from './Inlines/Informative'
 import { ExpandWords } from './Inlines/ExpandWords';
 import { AllInstances } from './Inlines/AllInstances';
 
 export const Inlines = ({onHandleExpandedText, styleGSG}) => {
+
+  // definizione dei vari stati utilizzati all'interno del componente
   const [expandedText, setExpandedText] = useState("");
   const [buttonStyle, setButtonStyle] = useState("");
   const [firstOccurence, setFirstOccurence] = useState("");
   const [selectedText, setSelectedText] = useState(""); 
   const [dis, setDis] = useState(true);
-  const [bodyText, setBodyText] = useState('')
+  const [bodyText, setBodyText] = useState("")
   const [fontStyle, setFontStyle] = useState("")
   const [first, setFirst] = useState("none");
   const [entitiesStyle, setEntitiesStyle] = useState("");
   const [styleOtherEntities, setStyleOtherEntities] = useState("");
   const [styleInformative, setStyleInformative] = useState("")
+
+  // funzioni per aggiornare gli stati del componente
   const handleExpandedTextChange = (text) => {
     setExpandedText(text);
   }
@@ -52,8 +56,9 @@ export const Inlines = ({onHandleExpandedText, styleGSG}) => {
     setStyleInformative(text);
   }
 
+  // il blocco all'interno di useEffect viene eseguito in automatico appena viene richiamato il componente
   useEffect(() => {
-    const handleSelectionChange = async () => {
+    const handleSelectionChange = async () => {  // funzione che viene richiamata ogni volta che il documento o la selezione del testo cambia
       try {
         await Word.run(async (context) => {
           const newSelection = context.document.getSelection();
@@ -66,7 +71,7 @@ export const Inlines = ({onHandleExpandedText, styleGSG}) => {
           setBodyText(newBodyText); 
           if(newSelectedText.length === 0){
             setSelectedText("Nessun testo selezionato")
-            setDis(true)
+            setDis(true)  // stato che abilita o disabilita i bottoni della tipografia
           }else{
             setSelectedText(newSelectedText)
             setDis(false)
@@ -78,7 +83,7 @@ export const Inlines = ({onHandleExpandedText, styleGSG}) => {
     };
 
     Office.context.document.addHandlerAsync(
-      Office.EventType.DocumentSelectionChanged,
+      Office.EventType.DocumentSelectionChanged,  // gestore che viene richiamato ogni qual volta viene cambiato il documento o la selezione del testo
       handleSelectionChange
     );
 

@@ -30,6 +30,8 @@ export const OtherEntities = ({expandedText, onOtherEntitiesStyle}) => {
                 emptyParagraph ++;
                 }
             }
+
+            // stessa funzione di espansione
             if(expandedText != selection.text  && selection.text != ""){
                 const startIndex = expandedText.indexOf(selection.text);
                 const charBefore = expandedText[startIndex - 1];
@@ -97,6 +99,7 @@ export const OtherEntities = ({expandedText, onOtherEntitiesStyle}) => {
                     break;
             }
 
+            // passo al componente padre l'entità che l'utente ha scelto
             onOtherEntitiesStyle(event.target.value)
         });
     }
