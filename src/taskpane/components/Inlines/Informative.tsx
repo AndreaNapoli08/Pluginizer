@@ -74,127 +74,51 @@ export const Informative = ({expandedText, onInformativeStyle}) => {
                 await context.sync();
             }
             
-            selection.font.highlightColor = null;
             switch(event.target.value) {
                 case "docTitle":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "red";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "DashLineLong"
-                    }
+                    selection.style = "docTitle"
                     break;
                 case "docNumber":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "green";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "DotDashLine"
-                    }
+                    selection.style = "docNumber"
                     break;
                 case "docProponent":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "blue";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "Double"
-                    }
+                    selection.style = "docProponent"
                     break;
                 case "docDate":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "purple";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "Thick"
-                    }
+                    selection.style = "docDate"
                     break;
                 case "session":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "yellow";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "TwoDotDashLine"
-                    }
+                    selection.style = "session"
                     break;
                 case "shortTitle":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "orange";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "Wave"
-                    }
+                    selection.style = "shortTitle"
                     break;
                 case "docAuthority":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "brown";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "Word"
-                    }
+                    selection.style = "docAuthority"
                     break;
                 case "docPurpose":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "pink";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "TwoDotDashLineHeavy"
-                    }
+                    selection.style = "docPurpose"
                     break;
                 case "docCommittee":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "lightblue";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "DottedHeavy"
-                    }
+                    selection.style = "docCommittee"
                     break;
                 case "docIntroducer":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "cyan";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "WaveDouble"
-                    }
+                    selection.style = "docIntroducer"
                     break;
                 case "docStage":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "#c2bd34";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "DashLineLongHeavy"
-                    }
+                    selection.style = "docStage"
                     break;
                 case "docStatus":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "#b0f5c5";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "WaveHeavy"
-                    }
+                    selection.style = "docStatus"
                     break;
                 case "docJurisdiction":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "#26ad89";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "Dotted"
-                    }
+                    selection.style = "docJurisdiction"
                     break;
                 case "docketNumber":
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "#d6fa89";
-                        selection.font.bold = true;
-                    }else{
-                        selection.font.underline = "Hidden"
-                    }
+                    selection.style = "docketNumber"
                     break;
                 default:
-                    if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                        selection.font.color = "black";
-                        selection.font.bold = false;
-                    }else{
-                        selection.font.underline = "None"
-                    }
+                    selection.styleBuiltIn = "Normal"
                     break;
             }
 

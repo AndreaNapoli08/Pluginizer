@@ -72,33 +72,32 @@ export const OtherEntities = ({expandedText, onOtherEntitiesStyle}) => {
                 selection.font.load("name")
                 await context.sync();
             }
-            selection.font.highlightColor = null;
-            selection.font.color = "black";
+            
             switch(event.target.value) {
                 case "object":
-                        selection.font.name = "Consolas";
+                    selection.style = "Object"
                     break;
                 case "event":
-                        selection.font.name = "DilleniaUPC";
+                    selection.style = "Event";
                     break;
                 case "process":
-                        selection.font.name = "Franklin Gothic";
+                    selection.style = "Process";
                     break;
                 case "role":
-                        selection.font.name = "Garamond";
+                    selection.style = "Role";
                     break;
                 case "term":
-                        selection.font.name = "Gulim";
+                    selection.style = "Term";
                     break;
                 case "quantity":
-                        selection.font.name = "KaiTi";
+                    selection.style = "Quantity";
                     break;
                 default:
-                        selection.font.name = "Calibri";
+                    selection.styleBuiltIn = "Normal";
                     break;
             }
 
-            onOtherEntitiesStyle(selection.font.name)
+            onOtherEntitiesStyle(event.target.value)
         });
     }
 

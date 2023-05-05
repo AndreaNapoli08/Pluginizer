@@ -2,7 +2,7 @@ import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
 import { useState, useEffect } from 'react';
 
-export const GSG = ({expandedText, onFirstStyleGSG, onUpdateStyleGSG}) => {
+export const GSG = ({expandedText, onUpdateStyleGSG}) => {
 
     const isLetterOrNumber = (char) => {
         if (typeof char === "undefined") {
@@ -68,355 +68,60 @@ export const GSG = ({expandedText, onFirstStyleGSG, onUpdateStyleGSG}) => {
                 await context.sync();
             }
             
-            onFirstStyleGSG(selection.font.highlightColor);
-            if (Office.context.platform === Office.PlatformType.OfficeOnline){
-                switch(styleGSG){
-                    case 1:
-                        if(selection.font.highlightColor == "#FF0000"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "red"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    case 2:
-                        if(selection.font.highlightColor == "#E5BE01"){
-                            selection.font.highlightColor = null;
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#E5BE01"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 3:
-                        if(selection.font.highlightColor == "#40E049"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black";
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#40E049";
-                            selection.font.color = "white";
-                        }
-                        break;
-                    case 4:
-                        if(selection.font.highlightColor == "#E61919"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black";
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#E61919";
-                            selection.font.color = "white";
-                        }
-                        break;
-                    case 5:
-                        if(selection.font.highlightColor == "#FE4C10"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#FE4C10"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    case 6:
-                        if(selection.font.highlightColor == "#00FFFF"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#00FFFF"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 7:
-                        if(selection.font.highlightColor == "#FFFF00"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#FFFF00"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 8:
-                        if(selection.font.highlightColor == "#800000"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black";
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#800000";
-                            selection.font.color = "white";
-                        }
-                        break;
-                    case 9:
-                        if(selection.font.highlightColor == "#FF8000"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#FF8000"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 10:
-                        if(selection.font.highlightColor == "#FF5AAC"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#FF5AAC"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 11:
-                        if(selection.font.highlightColor == "#FFAE19"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#FFAE19"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 12:
-                        if(selection.font.highlightColor == "#D5BCA2"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#D5BCA2"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 13:
-                        if(selection.font.highlightColor == "#008800"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "008800"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    case 14:
-                        if(selection.font.highlightColor == "#0ABAB5"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#0ABAB5"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    case 15:
-                        if(selection.font.highlightColor == "#50C878"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#50C878"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    case 16:
-                        if(selection.font.highlightColor == "#2271B3"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#2271B3"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    case 17:
-                        if(selection.font.highlightColor == "#003399"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#003399"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }else{
-                switch(styleGSG){
-                    case 1:
-                        if(selection.font.highlightColor == "#FF0000"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "red"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    case 2:
-                        if(selection.font.highlightColor == "#FFFF00"){
-                            selection.font.highlightColor = null;
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#E5BE01"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 3:
-                        if(selection.font.highlightColor == "#00FF00"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black";
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#40E049";
-                            selection.font.color = "white";
-                        }
-                        break;
-                    case 4:
-                        if(selection.font.highlightColor == "#FF0000"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black";
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#E61919";
-                            selection.font.color = "white";
-                        }
-                        break;
-                    case 5:                    
-                        if(selection.font.highlightColor == "#FF0000"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#FE4C10"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    case 6:                 
-                        if(selection.font.highlightColor == "#00FFFF"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#00FFFF"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 7:              
-                    if(selection.font.highlightColor == "#FFFF00"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#FFFF00"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 8:                  
-                        if(selection.font.highlightColor == "#800000"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black";
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#800000";
-                            selection.font.color = "white";
-                        }
-                        break;
-                    case 9:                   
-                        if(selection.font.highlightColor == "#FFFF00"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#FF8000"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 10:
-                        if(selection.font.highlightColor == "#FF00FF"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#FF5AAC"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 11:
-                        if(selection.font.highlightColor == "#FFFF00"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#FFAE19"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 12:
-                        if(selection.font.highlightColor == "#FFFF00"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#D5BCA2"
-                            selection.font.color = "black"
-                        }
-                        break;
-                    case 13:
-                        if(selection.font.highlightColor == "#008000"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#008800"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    case 14:
-                        if(selection.font.highlightColor == "#00FFFF"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#0ABAB5"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    case 15:
-                        if(selection.font.highlightColor == "#00FF00"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#50C878"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    case 16:
-                        if(selection.font.highlightColor == "#00FFFF"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#2271B3"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    case 17:
-                        if(selection.font.highlightColor == "#000080"){
-                            selection.font.highlightColor = null;
-                            selection.font.color = "black"
-                        }else{
-                            selection.styleBuiltIn = "Normal";
-                            selection.font.highlightColor = "#003399"
-                            selection.font.color = "white"
-                        }
-                        break;
-                    default:
-                        break;
-                }
+            switch(styleGSG){
+                case 1:
+                    selection.style = "GSG"
+                    break;
+                case 2:
+                    selection.style = "GSG2";
+                    break;
+                case 3:
+                    selection.style = "GSG3"
+                    break;
+                case 4:
+                    selection.style = "GSG4"
+                    break;
+                case 5:
+                    selection.style = "GSG5"
+                    break;
+                case 6:
+                    selection.style = "GSG6"
+                    break;
+                case 7:
+                    selection.style = "GSG7"
+                    break;
+                case 8:
+                    selection.style = "GSG8"
+                    break;
+                case 9:
+                    selection.style = "GSG9"
+                    break;
+                case 10:
+                    selection.style = "GSG10"
+                    break;
+                case 11:
+                    selection.style = "GSG11"
+                    break;
+                case 12:
+                    selection.style = "GSG12"
+                    break;
+                case 13:
+                    selection.style = "GSG13"
+                    break;
+                case 14:
+                    selection.style = "GSG14"
+                    break;
+                case 15:
+                    selection.style = "GSG15"
+                    break;
+                case 16:
+                    selection.style = "GSG15"
+                    break;
+                case 17:
+                    selection.style = "GSG16"
+                    break;
+                default:
+                    break;
             }
             
 
@@ -427,7 +132,6 @@ export const GSG = ({expandedText, onFirstStyleGSG, onUpdateStyleGSG}) => {
 
     return (
         <div>
-            Color: {color}
             <div>
             <IconButton color="inherit" style={{borderRadius: '10px', textAlign: "left"}} onClick={() => updateStyleGSG(1)}>
                 <img src="assets/GSG1.png" width={40}/>

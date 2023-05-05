@@ -8,7 +8,7 @@ import {Informative} from './Inlines/Informative'
 import { ExpandWords } from './Inlines/ExpandWords';
 import { AllInstances } from './Inlines/AllInstances';
 
-export const Inlines = ({onHandleExpandedText, firstGSG, styleGSG}) => {
+export const Inlines = ({onHandleExpandedText, styleGSG}) => {
   const [expandedText, setExpandedText] = useState("");
   const [buttonStyle, setButtonStyle] = useState("");
   const [firstOccurence, setFirstOccurence] = useState("");
@@ -17,7 +17,6 @@ export const Inlines = ({onHandleExpandedText, firstGSG, styleGSG}) => {
   const [bodyText, setBodyText] = useState('')
   const [fontStyle, setFontStyle] = useState("")
   const [first, setFirst] = useState("none");
-  const [styleEntities, setFirstStyleEntities] = useState("none");
   const [entitiesStyle, setEntitiesStyle] = useState("");
   const [styleOtherEntities, setStyleOtherEntities] = useState("");
   const [styleInformative, setStyleInformative] = useState("")
@@ -39,10 +38,6 @@ export const Inlines = ({onHandleExpandedText, firstGSG, styleGSG}) => {
 
   const handleFirst = (text) => {
     setFirst(text);
-  }
-
-  const handleFirstStyleEntities = (text) => {
-    setFirstStyleEntities(text);
   }
 
   const handleEntitiesStyle = (text) => {
@@ -102,7 +97,7 @@ export const Inlines = ({onHandleExpandedText, firstGSG, styleGSG}) => {
       <FirstStyles onFontStyle={handleFontStyle} onFirst={handleFirst} expandedText={expandedText}/>
 
       <hr />
-      <ImportantEntities onEntitiesStyle={handleEntitiesStyle} onFirstStyleEntities={handleFirstStyleEntities} expandedText={expandedText}/>
+      <ImportantEntities onEntitiesStyle={handleEntitiesStyle} expandedText={expandedText}/>
       <OtherEntities expandedText={expandedText} onOtherEntitiesStyle={handleOtherEntitiesStyle}/>
       <Informative onInformativeStyle={handleInformativeEntities} expandedText={expandedText}/>
 
@@ -114,7 +109,7 @@ export const Inlines = ({onHandleExpandedText, firstGSG, styleGSG}) => {
 
       <ExpandWords bodyText={bodyText} selectedText={selectedText} onExpandedTextChange={handleExpandedTextChange}/>
       
-      <AllInstances firstGSG={firstGSG} styleGSG={styleGSG} fontStyle={fontStyle} buttonStyle={buttonStyle} firstOccurence={firstOccurence} first={first} expandedText={expandedText} firststyleEntities={styleEntities} entitiesStyle={entitiesStyle} styleOtherEntities={styleOtherEntities} styleInformative={styleInformative}/>
+      <AllInstances styleGSG={styleGSG} fontStyle={fontStyle} buttonStyle={buttonStyle} firstOccurence={firstOccurence} first={first} expandedText={expandedText} entitiesStyle={entitiesStyle} styleOtherEntities={styleOtherEntities} styleInformative={styleInformative}/>
       
     </div>
   )
