@@ -5,7 +5,6 @@ import { ThemeProvider } from "@fluentui/react";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { templateDocument } from './template'
-import pako from 'pako';
 
 initializeIcons();
 
