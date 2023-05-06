@@ -1,7 +1,6 @@
 import * as React from "react";
 import Header from "./Header";
 import {Menu} from './Menu'
-
 export interface AppProps {
   title: string;
   isOfficeInitialized: boolean;

@@ -44,7 +44,6 @@ Office.onReady(() => {
         // Sincronizzio il documento e ritonro una problema che indica il completamento della task
         return context.sync().then(async function () {
             myNewDoc.body.insertOoxml(bodyXML.value, 'End'); // inserisco l'XML del documento attuale all'interno del nuovo documento contente il template
-            console.log(bodyXML.value)
             await context.sync()
             await myNewDoc.save();  // aspetto il salvataggio del documento
             myNewDoc.open(); // apro il documento
