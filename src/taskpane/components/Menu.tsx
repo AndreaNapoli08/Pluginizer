@@ -5,6 +5,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {Documents} from './Documents';
+import {Structures} from './Structures';
 import {Blocks} from './Blocks';
 import {Inlines} from './Inlines';
 import {GSG} from './GSG';
@@ -59,7 +61,7 @@ export const Menu = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Da implementare nella tesi
+            <Documents />
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -77,7 +79,7 @@ export const Menu = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Da implementare nella tesi
+            <Structures />
           </Typography>
         </AccordionDetails>
       </Accordion>
