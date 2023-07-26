@@ -1,0 +1,111 @@
+/* CSS Base */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  /* Menu a tendina */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropbtn {
+    background-color: #4CAF50;
+    border: 2px solid black;
+    border-radius: 12px;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Bottone "Aggiungi organizzazione" */
+  .add-btn {
+    background-color: #03a9f4;
+    border: 2px solid black;
+    border-radius: 12px;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  /* Input di testo */
+  .input-container {
+    margin-top: 10px;
+  }
+  
+  .input-container input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  .bottom-right-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+  
+  /* Stile per il bottone */
+.bottom-right-button button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #03a9f4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+  
+.bottom-right-button button:hover {
+    background-color:#2196f3;
+}
+
+.bottom-right-button button:focus {
+  border: 2px solid black;
+  border-radius: 12px;
+}

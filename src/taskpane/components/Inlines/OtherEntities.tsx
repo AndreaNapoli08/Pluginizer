@@ -75,30 +75,45 @@ export const OtherEntities = ({expandedText, onOtherEntitiesStyle}) => {
                 await context.sync();
             }
             
+            let dialogUrl = 'https://localhost:3000/assets/';
+
             switch(event.target.value) {
                 case "object":
                     selection.style = "Object"
+                    dialogUrl += "object.html"
                     break;
                 case "event":
                     selection.style = "Event";
+                    dialogUrl += "event.html"
                     break;
                 case "process":
                     selection.style = "Process";
+                    dialogUrl += "process.html"
                     break;
                 case "role":
                     selection.style = "Role";
+                    dialogUrl += "role.html"
                     break;
                 case "term":
                     selection.style = "Term";
+                    dialogUrl += "term.html"
                     break;
                 case "quantity":
                     selection.style = "Quantity";
+                    dialogUrl += "quantity.html"
                     break;
                 default:
                     selection.styleBuiltIn = "Normal";
+                    dialogUrl += ""
                     break;
             }
-
+            if(dialogUrl != "https://localhost:3000/assets/"){
+                Office.context.ui.displayDialogAsync(dialogUrl, {
+                    height: 50,
+                    width: 20,
+                    displayInIframe: true,
+                });
+            }
             // passo al componente padre l'entità che l'utente ha scelto
             onOtherEntitiesStyle(event.target.value)
         });

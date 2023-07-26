@@ -126,9 +126,6 @@ export const AllInstances  = ({styleGSG, fontStyle, buttonStyle, firstOccurence,
                     case "Location":
                         occurrence.style = "Location";
                         break;
-                    case "Time":
-                        occurrence.style = "Time";
-                        break;
                     default:
                         break;
                 }

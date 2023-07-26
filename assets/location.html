@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" charset="utf-8">
+    <link rel="stylesheet" href="entities_style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Locations</h1>
+        <div class="button-container">
+            <div class="dropdown">
+                <select id="orgDropdown" class="dropbtn" title="select">
+                    <option selected value="">Select a location</option>
+                    <option value="negozio">Colosseo</option>
+                    <option value="stadio">Arena di Verona</option>
+                    <option value="centro-commerciale">Torre di Pisa</option>
+                </select>
+            </div>
+            <button style="background-color: yellow; color: black;" id="addBtn" class="add-btn" onclick="toggleInput()">Add a location</button>
+        </div>
+        <div class="input-container" style="display:none">
+            <input type="text" id="personInput" placeholder="Insert new person" value="">
+        </div>
+        <div class="bottom-right-button">
+            <button>Save</button>
+        </div>
+    </div>
+    <script>
+        function toggleInput() {
+            const inputContainer = document.querySelector('.input-container');
+            const orgDropdown = document.getElementById('orgDropdown');
+            const addBtn = document.getElementById('addBtn');
+            const personInput = document.getElementById('personInput');
+
+            if (inputContainer.style.display === 'none') {
+                // Mostra l'input di testo e disabilita il menu a tendina
+                inputContainer.style.display = 'block';
+                orgDropdown.disabled = true;
+                addBtn.textContent = 'Remove location';
+                addBtn.style.backgroundColor = "red";
+                addBtn.style.color = "white";
+                orgDropdown.value = "";
+            } else {
+                // Nascondi l'input di testo e abilita il menu a tendina
+                inputContainer.style.display = 'none';
+                personInput.value = "";
+                orgDropdown.disabled = false;
+                addBtn.textContent = 'Add location';
+                addBtn.style.backgroundColor = "yellow";
+                addBtn.style.color = "black";
+            }
+        }
+    </script>
+</body>
+
+</html>
