@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export const OtherEntities = ({expandedText, onOtherEntitiesStyle}) => {
+export const OtherEntities = ({ setDis, expandedText, onOtherEntitiesStyle }) => {
     const [concept, setConcept] = useState('');
     
     const isLetterOrNumber = (char) => {
@@ -134,6 +134,7 @@ export const OtherEntities = ({expandedText, onOtherEntitiesStyle}) => {
                 </Grid>
                 <Grid item xs={6}>
                     <FormControl 
+                        disabled = {setDis}
                         sx={{ m: 1, minWidth: 120 }} 
                         size="small"
                         style={{position: 'relative', right: '18px'}}

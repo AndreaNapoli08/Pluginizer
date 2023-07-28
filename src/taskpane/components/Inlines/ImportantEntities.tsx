@@ -7,7 +7,8 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-export const ImportantEntities = ({ expandedText, onEntitiesStyle }) => {
+export const ImportantEntities = ({ info, setDis, expandedText, onEntitiesStyle }) => {
+    let message, entity, dialog;
     const isLetterOrNumber = (char) => {
         if (typeof char === "undefined") {
             return false;
@@ -16,8 +17,32 @@ export const ImportantEntities = ({ expandedText, onEntitiesStyle }) => {
         }
     }
 
+    const processMessage = (arg) => {
+        const messageFromDialog = JSON.parse(arg.message);
+        let val;
+        switch (entity) {
+            case "Date":
+                val = messageFromDialog.day + ' ' + messageFromDialog.month + ' ' + messageFromDialog.year + ', ' + messageFromDialog.time;
+                break;
+            case "Organization":
+                val = messageFromDialog.organization;
+                break
+            case "Person":
+                val = messageFromDialog.person;
+                break;
+            case "Location":
+                val = messageFromDialog.location;
+                break;
+            default:
+                break;
+        }
+        info(message + " " + val);
+        dialog.close();
+    }
+
     const updateStyle = async (entities) => {
         await Word.run(async (context) => {
+            entity = entities;
             let selection = context.document.getSelection();
             selection.load("paragraphs, text, styleBuiltIn, font");
             await context.sync();
@@ -72,24 +97,28 @@ export const ImportantEntities = ({ expandedText, onEntitiesStyle }) => {
                 selection.font.load("color")
                 await context.sync();
             }
-
+            
             let dialogUrl = 'https://localhost:3000/assets/';
             switch (entities) {
                 case "Date":
                     selection.style = "Data1"
                     dialogUrl += 'date.html';
+                    message = "value of type Date with this characteristics: ";
                     break;
                 case "Organization":
+                    selection.style = "Organization";
                     dialogUrl += 'organization.html';
-                    selection.style = "Organization"
+                    message = "value of type Organization with this characteristics: ";
                     break
                 case "Person":
                     selection.style = "Person"
                     dialogUrl += 'person.html';
+                    message = "value of type Person with this characteristics: ";
                     break;
                 case "Location":
                     selection.style = "Location"
                     dialogUrl += 'location.html';
+                    message = "value of type Location with this characteristics: ";
                     break;
                 default:
                     break;
@@ -99,12 +128,20 @@ export const ImportantEntities = ({ expandedText, onEntitiesStyle }) => {
                     height: 70,
                     width: 45,
                     displayInIframe: true,
+                }, 
+                function (asyncResult) {
+                    dialog = asyncResult.value;
+                    dialog.addEventHandler(Office.EventType.DialogMessageReceived, processMessage);
                 });
             }else{
                 Office.context.ui.displayDialogAsync(dialogUrl, {
                     height: 50,
                     width: 20,
                     displayInIframe: true,
+                },
+                function (asyncResult) {
+                    dialog = asyncResult.value;
+                    dialog.addEventHandler(Office.EventType.DialogMessageReceived, processMessage);
                 });
             }
             await context.sync();
@@ -127,28 +164,28 @@ export const ImportantEntities = ({ expandedText, onEntitiesStyle }) => {
                 spacing={2}
             >
                 <Grid item xs={3}>
-                    <IconButton color="error" onClick={() => updateStyle('Date')}>
+                    <IconButton disabled={setDis} color="error" onClick={() => updateStyle('Date')}>
                         <CalendarMonthIcon fontSize="large" />
                     </IconButton>
-                    <div style={{ fontSize: '10px', position: 'relative', left: '12px', color: 'red' }}>Date</div>
+                    <div style={{ fontSize: '10px', position: 'relative', left: '12px', color: setDis ? 'grey' : 'red'}}>Date</div>
                 </Grid>
                 <Grid item xs={3}>
-                    <IconButton color="success" onClick={() => updateStyle('Organization')}>
+                    <IconButton disabled={setDis} color="success" onClick={() => updateStyle('Organization')}>
                         <FolderOpenIcon fontSize="large" />
                     </IconButton>
-                    <div style={{ fontSize: '10px', position: 'relative', right: '6px', color: 'green' }}>Organization</div>
+                    <div style={{ fontSize: '10px', position: 'relative', right: '6px', color: setDis ? 'grey' : 'green'}}>Organization</div>
                 </Grid>
                 <Grid item xs={3}>
-                    <IconButton color="info" onClick={() => updateStyle('Person')}>
+                    <IconButton disabled={setDis} color="info" onClick={() => updateStyle('Person')}>
                         <PersonIcon fontSize="large" />
                     </IconButton>
-                    <div style={{ fontSize: '10px', position: 'relative', left: '10px', color: 'blue' }}>Person</div>
+                    <div style={{ fontSize: '10px', position: 'relative', left: '10px', color: setDis ? 'grey' : 'blue'}}>Person</div>
                 </Grid>
                 <Grid item xs={3}>
-                    <IconButton onClick={() => updateStyle('Location')} style={{ color: 'orange' }}>
+                    <IconButton disabled={setDis} color="warning" onClick={() => updateStyle('Location')}>
                         <LocationOnIcon fontSize="large" />
                     </IconButton>
-                    <div style={{ fontSize: '10px', position: 'relative', left: '7px', color: 'orange' }}>Location</div>
+                    <div style={{ fontSize: '10px', position: 'relative', left: '7px', color: setDis ? 'grey' : 'orange'}}>Location</div>
                 </Grid>
             </Grid>
         </div>

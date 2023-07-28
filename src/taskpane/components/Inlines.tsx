@@ -7,6 +7,7 @@ import { OtherEntities } from './Inlines/OtherEntities'
 import { Informative } from './Inlines/Informative'
 import { ExpandWords } from './Inlines/ExpandWords';
 import { AllInstances } from './Inlines/AllInstances';
+import { ShowInfo } from './Inlines/ShowInfo';
 
 export const Inlines = ({onHandleExpandedText, styleGSG}) => {
 
@@ -22,10 +23,15 @@ export const Inlines = ({onHandleExpandedText, styleGSG}) => {
   const [entitiesStyle, setEntitiesStyle] = useState("");
   const [styleOtherEntities, setStyleOtherEntities] = useState("");
   const [styleInformative, setStyleInformative] = useState("")
+  const [info, setInfo] = useState("");
 
   // funzioni per aggiornare gli stati del componente
   const handleExpandedTextChange = (text) => {
     setExpandedText(text);
+  }
+
+  const handleInfo = (text) => {
+    setInfo(text);
   }
   
   const handleButtonStyle = (text) => {
@@ -99,12 +105,13 @@ export const Inlines = ({onHandleExpandedText, styleGSG}) => {
 
   return (
     <div>
+      {dis ? null : <ShowInfo info={info} selectedText={selectedText}/>}
       <FirstStyles onFontStyle={handleFontStyle} onFirst={handleFirst} expandedText={expandedText}/>
 
       <hr />
-      <ImportantEntities onEntitiesStyle={handleEntitiesStyle} expandedText={expandedText}/>
-      <OtherEntities expandedText={expandedText} onOtherEntitiesStyle={handleOtherEntitiesStyle}/>
-      <Informative onInformativeStyle={handleInformativeEntities} expandedText={expandedText}/>
+      <ImportantEntities info={handleInfo} setDis={dis} onEntitiesStyle={handleEntitiesStyle} expandedText={expandedText}/>
+      <OtherEntities setDis={dis} expandedText={expandedText} onOtherEntitiesStyle={handleOtherEntitiesStyle}/>
+      <Informative setDis={dis} onInformativeStyle={handleInformativeEntities} expandedText={expandedText}/>
 
       <hr />
       <div style={{display: 'flex', justifyContent: 'center', marginBottom: '5px', fontSize: '20px'}}>

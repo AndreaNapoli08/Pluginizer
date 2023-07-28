@@ -4,6 +4,7 @@
 
 function CalendarControl() {
     const calendar = new Date();
+
     const calendarControl = {
         localDate: new Date(),
         prevMonthLastDate: null,
@@ -22,6 +23,32 @@ function CalendarControl() {
             "Nov",
             "Dec"
         ],
+        
+        saveData: function () {
+            const selectedDay = calendarControl.selectedDate.getDate();
+            const selectedMonth = calendarControl.calMonthName[calendarControl.selectedDate.getMonth()];
+            const selectedYear = calendarControl.selectedDate.getFullYear();
+    
+            // Recupera l'ora selezionata
+            const selectedTime = document.getElementById("timePicker").value;
+    
+            // Crea un oggetto contenente i dati da inviare all'add-in
+            const dataToSend = {
+                day: selectedDay,
+                month: selectedMonth,
+                year: selectedYear,
+                time: selectedTime,
+            };
+            Office.onReady(function (info) {
+                if (info.host === Office.HostType.Word || info.host === Office.HostType.Excel || info.host === Office.HostType.PowerPoint) {
+                    // Invia i dati all'add-in utilizzando Office.context.ui.messageParent
+                    Office.context.ui.messageParent(JSON.stringify(dataToSend));
+                } else {
+                  // Se l'add-in non è eseguito in un ambiente Office corretto, gestisci il caso di errore
+                  console.log("Errore: ambiente Office non riconosciuto");
+                }
+            });
+        },
 
         daysInMonth: function (month, year) {
             return new Date(year, month, 0).getDate();
@@ -118,7 +145,13 @@ function CalendarControl() {
           <div class="calendar-next"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><path fill="#666" d="M38.8 124.2l52.4-52.42L99 64l-7.77-7.78-52.4-52.4-9.8 7.77L81.44 64 29 116.42z"/></svg></a></div>
           </div>
           <div class="calendar-today-date"></div>
-          <div class="calendar-body"></div></div>`;
+          <div class="calendar-body"></div>
+          <div class="bottom-right-button"> <!-- Move the button element here -->
+              <button>Save</button>
+          </div>
+          </div>`;
+            const saveButton = document.querySelector(".calendar .bottom-right-button button");
+            saveButton.addEventListener("click", calendarControl.saveData); // Attach the event listener after creating the button
         },
         plotDayNames: function () {
             for (let i = 0; i < calendarControl.calWeekDays.length; i++) {

@@ -13,9 +13,9 @@
             <div class="dropdown">
                 <select id="orgDropdown" class="dropbtn" title="select">
                     <option selected value="">Select a person</option>
-                    <option value="negozio">Impiegato</option>
-                    <option value="stadio">Direttore</option>
-                    <option value="centro-commerciale">Maestro</option>
+                    <option value="impiegato">Impiegato</option>
+                    <option value="direttore">Direttore</option>
+                    <option value="maestro">Maestro</option>
                 </select>
             </div>
             <button style="background-color: blue;" id="addBtn" class="add-btn" onclick="toggleInput()">Add a person</button>
@@ -24,9 +24,10 @@
             <input type="text" id="personInput" placeholder="Insert new person" value="">
         </div>
         <div class="bottom-right-button">
-            <button>Save</button>
+            <button id="saveBtn">Save</button>
         </div>
     </div>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
     <script>
         function toggleInput() {
             const inputContainer = document.querySelector('.input-container');
@@ -50,6 +51,28 @@
                 addBtn.style.backgroundColor = "blue";
             }
         }
+
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            const orgDropdown = document.getElementById('orgDropdown');
+            const personInput = document.getElementById('personInput');
+            let selectedPerson = orgDropdown.value != "" ? orgDropdown.value : personInput.value.trim(); 
+
+            if (selectedPerson) {
+                // Crea un oggetto contenente l'organizzazione selezionata da inviare all'add-in
+                const dataToSend = {
+                    person: selectedPerson,
+                };
+                Office.onReady(function (info) {
+                    if (info.host === Office.HostType.Word || info.host === Office.HostType.Excel || info.host === Office.HostType.PowerPoint) {
+                        // Invia i dati all'add-in utilizzando Office.context.ui.messageParent
+                        Office.context.ui.messageParent(JSON.stringify(dataToSend));
+                    } else {
+                        // Se l'add-in non è eseguito in un ambiente Office corretto, gestisci il caso di errore
+                        console.log("Errore: ambiente Office non riconosciuto");
+                    }
+                });
+            }
+        });
     </script>
 </body>
 

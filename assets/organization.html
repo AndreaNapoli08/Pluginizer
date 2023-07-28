@@ -25,9 +25,10 @@
             <input type="text" id="organizationInput" placeholder="Insert the organization" value="">
         </div>
         <div class="bottom-right-button">
-            <button>Save</button>
+            <button id="saveBtn">Save</button>
         </div>
     </div>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
     <script>
         function toggleInput() {
             const inputContainer = document.querySelector('.input-container');
@@ -51,6 +52,28 @@
                 addBtn.style.backgroundColor = "#03a9f4";
             }
         }
+
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            const orgDropdown = document.getElementById('orgDropdown');
+            const organizationInput = document.getElementById('organizationInput');
+            let selectedOrganization = orgDropdown.value != "" ? orgDropdown.value : organizationInput.value.trim(); 
+
+            if (selectedOrganization) {
+                // Crea un oggetto contenente l'organizzazione selezionata da inviare all'add-in
+                const dataToSend = {
+                    organization: selectedOrganization,
+                };
+                Office.onReady(function (info) {
+                    if (info.host === Office.HostType.Word || info.host === Office.HostType.Excel || info.host === Office.HostType.PowerPoint) {
+                        // Invia i dati all'add-in utilizzando Office.context.ui.messageParent
+                        Office.context.ui.messageParent(JSON.stringify(dataToSend));
+                    } else {
+                        // Se l'add-in non è eseguito in un ambiente Office corretto, gestisci il caso di errore
+                        console.log("Errore: ambiente Office non riconosciuto");
+                    }
+                });
+            }
+        });
     </script>
 </body>
 
