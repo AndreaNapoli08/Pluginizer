@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finestra Popup</title>
+  <link rel="stylesheet" href="reference_style.css">
+</head>
+<body>
+  <div>
+    <h1>Scegliere il tipo di riferimento:</h1>
+    <div class="contenuto">
+      <label>
+        <input type="radio" name="riferimento" value="ref" onclick="showRefFields()"> Ref
+      </label>
+      <br><br>
+      <label>
+        <input type="radio" name="riferimento" value="mref" onclick="showMRefFields()"> Mref
+      </label>
+      <br><br>
+      <label>
+        <input type="radio" name="riferimento" value="rref" onclick="showRRefFields()"> Rref
+      </label>
+      <br><br>
+      <!-- Campi per "ref" -->
+      <div id="refFields" class="hidden-fields">
+        <br>
+        <label>Numero dell'articolo:</label>
+        <input type="text" name="numeroArticoloRef" title="number">
+        <br><br>
+        <label>Documento (Legge) di riferimento:</label>
+        <input type="text" name="documentoRef" title="document">
+      </div>
+
+      <!-- Campi per "mref" -->
+      <div id="mrefFields" class="hidden-fields">
+        <br>
+        <label>Numero degli articoli (separati da virgola):</label>
+        <input type="text" name="numeriArticoliMRef" title="number">
+        <br><br>
+        <label>Documento (Legge) di riferimento:</label>
+        <input type="text" name="documentoMRef" title="document">
+      </div>
+
+      <!-- Campi per "rref" -->
+      <div id="rrefFields" class="hidden-fields">
+        <br>
+        <label>Articolo dal:</label>
+        <input type="text" name="dalRRef" title="from">
+        <label>al:</label>
+        <input type="text" name="alRRef" title="to">
+        <br><br>
+        <label>Documento (Legge) di riferimento:</label>
+        <input type="text" name="documentoRRef" title="document">
+      </div>
+    </div>
+
+    <div class="bottom-right-button">
+      <button id="saveBtn" onclick="submitForm()">Save</button>
+    </div>
+
+  </div>
+
+  <script src="reference_script.js"></script>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</body>
+</html>

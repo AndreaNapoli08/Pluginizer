@@ -66,10 +66,8 @@
                 };
                 Office.onReady(function (info) {
                     if (info.host === Office.HostType.Word || info.host === Office.HostType.Excel || info.host === Office.HostType.PowerPoint) {
-                        // Invia i dati all'add-in utilizzando Office.context.ui.messageParent
                         Office.context.ui.messageParent(JSON.stringify(dataToSend));
                     } else {
-                        // Se l'add-in non è eseguito in un ambiente Office corretto, gestisci il caso di errore
                         console.log("Errore: ambiente Office non riconosciuto");
                     }
                 });

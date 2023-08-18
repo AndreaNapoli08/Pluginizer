@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .contenuto{
+    font-size: 20px;
+  }
+
+  .hidden-fields {
+    display: none;
+  }
+    
+  .bottom-right-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+  
+  /* Stile per il bottone */
+.bottom-right-button button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #03a9f4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+  
+.bottom-right-button button:hover {
+    background-color:#2196f3;
+}
+
+.bottom-right-button button:focus {
+  border: 2px solid black;
+  border-radius: 12px;
+}

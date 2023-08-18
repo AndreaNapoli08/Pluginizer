@@ -106,11 +106,11 @@ export const Inlines = ({onHandleExpandedText, styleGSG}) => {
   return (
     <div>
       {dis ? null : <ShowInfo info={info} selectedText={selectedText}/>}
-      <FirstStyles onFontStyle={handleFontStyle} onFirst={handleFirst} expandedText={expandedText}/>
+      <FirstStyles info={handleInfo} setDis={dis} onFontStyle={handleFontStyle} onFirst={handleFirst} expandedText={expandedText}/>
 
       <hr />
       <ImportantEntities info={handleInfo} setDis={dis} onEntitiesStyle={handleEntitiesStyle} expandedText={expandedText}/>
-      <OtherEntities setDis={dis} expandedText={expandedText} onOtherEntitiesStyle={handleOtherEntitiesStyle}/>
+      <OtherEntities info={handleInfo} setDis={dis} expandedText={expandedText} onOtherEntitiesStyle={handleOtherEntitiesStyle}/>
       <Informative setDis={dis} onInformativeStyle={handleInformativeEntities} expandedText={expandedText}/>
 
       <hr />

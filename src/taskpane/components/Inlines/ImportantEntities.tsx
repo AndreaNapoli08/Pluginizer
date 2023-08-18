@@ -8,7 +8,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 export const ImportantEntities = ({ info, setDis, expandedText, onEntitiesStyle }) => {
-    let message, entity, dialog;
+    let entity, dialog;
     const isLetterOrNumber = (char) => {
         if (typeof char === "undefined") {
             return false;
@@ -17,27 +17,46 @@ export const ImportantEntities = ({ info, setDis, expandedText, onEntitiesStyle 
         }
     }
 
-    const processMessage = (arg) => {
-        const messageFromDialog = JSON.parse(arg.message);
-        let val;
+    const updateStyleBuiltIn = async (context, messageFromDialog) => {
+        const selection = context.document.getSelection();
+        selection.load("style");
+        await context.sync();
+        let val, message;
         switch (entity) {
             case "Date":
+                message = "value of type Date with this characteristics: ";
                 val = messageFromDialog.day + ' ' + messageFromDialog.month + ' ' + messageFromDialog.year + ', ' + messageFromDialog.time;
+                selection.style = "Data1";
                 break;
             case "Organization":
+                message = "value of type Organization with this characteristics: ";
                 val = messageFromDialog.organization;
+                selection.style = "Organization";
                 break
             case "Person":
+                message = "value of type Person with this characteristics: ";
                 val = messageFromDialog.person;
+                selection.style = "Person";
                 break;
             case "Location":
+                message = "value of type Location with this characteristics: ";
                 val = messageFromDialog.location;
+                selection.style = "Location";
                 break;
             default:
                 break;
         }
         info(message + " " + val);
+        await context.sync();
+    };
+
+    const processMessage = async(arg) => {
+        const messageFromDialog = JSON.parse(arg.message);
         dialog.close();
+
+        await Word.run(async (context) => {
+            await updateStyleBuiltIn(context, messageFromDialog);
+        });
     }
 
     const updateStyle = async (entities) => {
@@ -97,43 +116,34 @@ export const ImportantEntities = ({ info, setDis, expandedText, onEntitiesStyle 
                 selection.font.load("color")
                 await context.sync();
             }
-            
             let dialogUrl = 'https://localhost:3000/assets/';
             switch (entities) {
                 case "Date":
-                    selection.style = "Data1"
                     dialogUrl += 'date.html';
-                    message = "value of type Date with this characteristics: ";
                     break;
                 case "Organization":
-                    selection.style = "Organization";
                     dialogUrl += 'organization.html';
-                    message = "value of type Organization with this characteristics: ";
                     break
                 case "Person":
-                    selection.style = "Person"
                     dialogUrl += 'person.html';
-                    message = "value of type Person with this characteristics: ";
                     break;
                 case "Location":
-                    selection.style = "Location"
                     dialogUrl += 'location.html';
-                    message = "value of type Location with this characteristics: ";
                     break;
                 default:
                     break;
             }
-            if(entities === "Date"){
+            if (entities === "Date") {
                 Office.context.ui.displayDialogAsync(dialogUrl, {
                     height: 70,
                     width: 45,
                     displayInIframe: true,
-                }, 
+                },
                 function (asyncResult) {
                     dialog = asyncResult.value;
                     dialog.addEventHandler(Office.EventType.DialogMessageReceived, processMessage);
                 });
-            }else{
+            } else {
                 Office.context.ui.displayDialogAsync(dialogUrl, {
                     height: 50,
                     width: 20,
@@ -167,25 +177,25 @@ export const ImportantEntities = ({ info, setDis, expandedText, onEntitiesStyle 
                     <IconButton disabled={setDis} color="error" onClick={() => updateStyle('Date')}>
                         <CalendarMonthIcon fontSize="large" />
                     </IconButton>
-                    <div style={{ fontSize: '10px', position: 'relative', left: '12px', color: setDis ? 'grey' : 'red'}}>Date</div>
+                    <div style={{ fontSize: '10px', position: 'relative', left: '12px', color: setDis ? 'grey' : 'red' }}>Date</div>
                 </Grid>
                 <Grid item xs={3}>
                     <IconButton disabled={setDis} color="success" onClick={() => updateStyle('Organization')}>
                         <FolderOpenIcon fontSize="large" />
                     </IconButton>
-                    <div style={{ fontSize: '10px', position: 'relative', right: '6px', color: setDis ? 'grey' : 'green'}}>Organization</div>
+                    <div style={{ fontSize: '10px', position: 'relative', right: '6px', color: setDis ? 'grey' : 'green' }}>Organization</div>
                 </Grid>
                 <Grid item xs={3}>
                     <IconButton disabled={setDis} color="info" onClick={() => updateStyle('Person')}>
                         <PersonIcon fontSize="large" />
                     </IconButton>
-                    <div style={{ fontSize: '10px', position: 'relative', left: '10px', color: setDis ? 'grey' : 'blue'}}>Person</div>
+                    <div style={{ fontSize: '10px', position: 'relative', left: '10px', color: setDis ? 'grey' : 'blue' }}>Person</div>
                 </Grid>
                 <Grid item xs={3}>
                     <IconButton disabled={setDis} color="warning" onClick={() => updateStyle('Location')}>
                         <LocationOnIcon fontSize="large" />
                     </IconButton>
-                    <div style={{ fontSize: '10px', position: 'relative', left: '7px', color: setDis ? 'grey' : 'orange'}}>Location</div>
+                    <div style={{ fontSize: '10px', position: 'relative', left: '7px', color: setDis ? 'grey' : 'orange' }}>Location</div>
                 </Grid>
             </Grid>
         </div>
