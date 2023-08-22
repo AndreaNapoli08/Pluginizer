@@ -7,7 +7,7 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-export const ImportantEntities = ({ info, setDis, expandedText, onEntitiesStyle }) => {
+export const ImportantEntities = ({ setDis, expandedText, onEntitiesStyle }) => {
     let entity, dialog;
     const isLetterOrNumber = (char) => {
         if (typeof char === "undefined") {
@@ -19,38 +19,90 @@ export const ImportantEntities = ({ info, setDis, expandedText, onEntitiesStyle 
 
     const updateStyleBuiltIn = async (context, messageFromDialog) => {
         const selection = context.document.getSelection();
-        selection.load("style");
+        var jsonData;
+        selection.load("style, text");
         await context.sync();
-        let val, message;
+        const selectedText = selection.text;
+        const NAMESPACE_URI = "prova";
+        const uniqueId = Date.now();
+        const xmlData = `<root xmlns="${NAMESPACE_URI}"><data id="${uniqueId}" style="${entity}" text="${selectedText}">${JSON.stringify(messageFromDialog)}</data></root>`;
+
         switch (entity) {
             case "Date":
-                message = "value of type Date with this characteristics: ";
-                val = messageFromDialog.day + ' ' + messageFromDialog.month + ' ' + messageFromDialog.year + ', ' + messageFromDialog.time;
                 selection.style = "Data1";
                 break;
             case "Organization":
-                message = "value of type Organization with this characteristics: ";
-                val = messageFromDialog.organization;
                 selection.style = "Organization";
                 break
             case "Person":
-                message = "value of type Person with this characteristics: ";
-                val = messageFromDialog.person;
                 selection.style = "Person";
                 break;
             case "Location":
-                message = "value of type Location with this characteristics: ";
-                val = messageFromDialog.location;
                 selection.style = "Location";
                 break;
             default:
                 break;
         }
-        info(message + " " + val);
+        const range = context.document.body.getRange();
+        await context.sync();
+        const searchResults = range.search(selection.text, { matchCase: false, matchWholeWord: false });
+        searchResults.load("items");
+        await context.sync();
+        const occurrences = searchResults.items;
+        occurrences.forEach(async(occurrence) => {
+            switch (entity) {
+                case "Date":
+                    occurrence.style = "Data1";
+                    break;
+                case "Organization":
+                    occurrence.style = "Organization";
+                    break;
+                case "Person":
+                    occurrence.style = "Person";
+                    break;
+                case "Location":
+                    occurrence.style = "Location";
+                    break;
+                default:
+                    break;
+            }
+        });
+        // Elimina informazione attuale
+        Office.context.document.customXmlParts.getByNamespaceAsync(NAMESPACE_URI, (result) => {
+            if (result.status === Office.AsyncResultStatus.Succeeded) {
+                const xmlParts = result.value;
+                for (const xmlPart of xmlParts) {
+                    xmlPart.getXmlAsync(asyncResult => {
+                        if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+                            const xmlData = asyncResult.value;
+                            if (xmlData.includes(`text="${selectedText}"`)) {
+                                xmlPart.deleteAsync();
+                            }
+                        } else {
+                            console.error("Errore nel recupero dei contenuti personalizzati");
+                        }
+
+                    });
+                }
+            } else {
+                console.error("Errore nel recupero dei contenuti personalizzati");
+            }
+        });
+
+        await context.sync();
+
+        // Inserisci la nuova informazione aggiunta 
+        Office.context.document.customXmlParts.addAsync(xmlData, (result) => {
+            if (result.status === Office.AsyncResultStatus.Succeeded) {
+                console.log("Dati personalizzati aggiunti con successo");
+            } else {
+                console.error("Errore durante l'aggiunta dei dati personalizzati");
+            }
+        });
         await context.sync();
     };
 
-    const processMessage = async(arg) => {
+    const processMessage = async (arg) => {
         const messageFromDialog = JSON.parse(arg.message);
         dialog.close();
 
@@ -80,6 +132,7 @@ export const ImportantEntities = ({ info, setDis, expandedText, onEntitiesStyle 
 
                 let text = selection.text;
                 let spaceCount = text.split(" ").length;
+
                 //selezione in avanti fino ad uno di quei caratteri
                 const nextCharRanges = selection.getTextRanges([" ", ".", ",", ";", "!", "?", ":", "\n", "\r"], true);
                 nextCharRanges.load("items");
@@ -111,6 +164,7 @@ export const ImportantEntities = ({ info, setDis, expandedText, onEntitiesStyle 
                     selection = selection.expandToOrNullObject(rangeToExpand);
                     await context.sync();
                 }
+
                 selection.select();
                 selection.load("styleBuiltIn, style");
                 selection.font.load("color")
@@ -139,20 +193,20 @@ export const ImportantEntities = ({ info, setDis, expandedText, onEntitiesStyle 
                     width: 45,
                     displayInIframe: true,
                 },
-                function (asyncResult) {
-                    dialog = asyncResult.value;
-                    dialog.addEventHandler(Office.EventType.DialogMessageReceived, processMessage);
-                });
+                    function (asyncResult) {
+                        dialog = asyncResult.value;
+                        dialog.addEventHandler(Office.EventType.DialogMessageReceived, processMessage);
+                    });
             } else {
                 Office.context.ui.displayDialogAsync(dialogUrl, {
                     height: 50,
                     width: 20,
                     displayInIframe: true,
                 },
-                function (asyncResult) {
-                    dialog = asyncResult.value;
-                    dialog.addEventHandler(Office.EventType.DialogMessageReceived, processMessage);
-                });
+                    function (asyncResult) {
+                        dialog = asyncResult.value;
+                        dialog.addEventHandler(Office.EventType.DialogMessageReceived, processMessage);
+                    });
             }
             await context.sync();
             // passiamo al componente padre l'entità che l'utente ha scelto
