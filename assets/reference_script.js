@@ -23,6 +23,7 @@ function submitForm() {
   switch (selectedRiferimento) {
     case "ref":
       formData = {
+        entity: "reference",
         type: "ref",
         numeroArticolo: document.getElementsByName("numeroArticoloRef")[0].value,
         documento: document.getElementsByName("documentoRef")[0].value
@@ -30,6 +31,7 @@ function submitForm() {
       break;
     case "mref":
       formData = {
+        entity: "reference",
         type: "mref",
         numeriArticoli: document.getElementsByName("numeriArticoliMRef")[0].value,
         documento: document.getElementsByName("documentoMRef")[0].value
@@ -37,6 +39,7 @@ function submitForm() {
       break;
     case "rref":
       formData = {
+        entity: "reference",
         type: "rref",
         dal: document.getElementsByName("dalRRef")[0].value,
         al: document.getElementsByName("alRRef")[0].value,

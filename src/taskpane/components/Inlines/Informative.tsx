@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export const Informative = ({ setDis, expandedText, onInformativeStyle}) => {
+export const Informative = ({ setDis, expandedText }) => {
     const [docType, setDocType] = useState("");
 
     const isLetterOrNumber = (char) => {
@@ -15,6 +15,32 @@ export const Informative = ({ setDis, expandedText, onInformativeStyle}) => {
         }else{
             return /^[a-zA-Z0-9]+$/.test(char);
         }
+    }
+
+    const deleteInformation = async (context, NAMESPACE_URI, selectedText) => {
+        // Elimina informazione attuale
+        Office.context.document.customXmlParts.getByNamespaceAsync(NAMESPACE_URI, (result) => {
+            if (result.status === Office.AsyncResultStatus.Succeeded) {
+                const xmlParts = result.value;
+                for (const xmlPart of xmlParts) {
+                    xmlPart.getXmlAsync(asyncResult => {
+                        if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+                            const xmlData = asyncResult.value;
+                            if (xmlData.includes(`text="${selectedText.toLowerCase()}"`)) {
+                                xmlPart.deleteAsync();
+                            }
+                        } else {
+                            console.error("Errore nel recupero dei contenuti personalizzati");
+                        }
+
+                    });
+                }
+            } else {
+                console.error("Errore nel recupero dei contenuti personalizzati");
+            }
+        });
+
+        await context.sync();
     }
 
     const handleChangeDocType = async (event: SelectChangeEvent) => {
@@ -71,7 +97,7 @@ export const Informative = ({ setDis, expandedText, onInformativeStyle}) => {
                   await context.sync();
                 }
                 selection.select();
-                selection.load("styleBuiltIn");
+                selection.load("styleBuiltIn, text");
                 await context.sync();
             }
             
@@ -122,8 +148,66 @@ export const Informative = ({ setDis, expandedText, onInformativeStyle}) => {
                     selection.styleBuiltIn = "Normal"
                     break;
             }
-            // passiamo al componente padre l'Informative che l'utente ha scelto
-            onInformativeStyle(event.target.value)
+            selection.select(Word.SelectionMode.end);
+            const range = context.document.body.getRange();
+            await context.sync();
+            const searchResults = range.search(selection.text, { matchCase: false, matchWholeWord: false });
+            searchResults.load("items");
+            await context.sync();
+            const occurrences = searchResults.items;
+    
+            occurrences.forEach(async (occurrence) => {
+                switch(event.target.value) {
+                    case "docTitle":
+                        occurrence.style = "docTitle"
+                        break;
+                    case "docNumber":
+                        occurrence.style = "docNumber"
+                        break;
+                    case "docProponent":
+                        occurrence.style = "docProponent"
+                        break;
+                    case "docDate":
+                        occurrence.style = "docDate"
+                        break;
+                    case "session":
+                        occurrence.style = "session"
+                        break;
+                    case "shortTitle":
+                        occurrence.style = "shortTitle"
+                        break;
+                    case "docAuthority":
+                        occurrence.style = "docAuthority"
+                        break;
+                    case "docPurpose":
+                        occurrence.style = "docPurpose"
+                        break;
+                    case "docCommittee":
+                        occurrence.style = "docCommittee"
+                        break;
+                    case "docIntroducer":
+                        occurrence.style = "docIntroducer"
+                        break;
+                    case "docStage":
+                        occurrence.style = "docStage"
+                        break;
+                    case "docStatus":
+                        occurrence.style = "docStatus"
+                        break;
+                    case "docJurisdiction":
+                        occurrence.style = "docJurisdiction"
+                        break;
+                    case "docketNumber":
+                        occurrence.style = "docketNumber"
+                        break;
+                    default:
+                        occurrence.styleBuiltIn = "Normal"
+                        break;
+                }
+            });
+
+            const NAMESPACE_URI = "prova";
+            deleteInformation(context, NAMESPACE_URI, selection.text);
         });
     }
     

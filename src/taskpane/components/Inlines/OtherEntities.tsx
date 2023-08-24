@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export const OtherEntities = ({ info, setDis, expandedText, onOtherEntitiesStyle }) => {
+export const OtherEntities = ({ setDis, expandedText }) => {
     let dialog, concept;
 
     const isLetterOrNumber = (char) => {
@@ -27,12 +27,50 @@ export const OtherEntities = ({ info, setDis, expandedText, onOtherEntitiesStyle
         }
     }
 
-    const updateStyle = async (context, messageFromDialog) => {
-        let message;
-        let selection = context.document.getSelection();
+    const deleteInformation = async (context, NAMESPACE_URI, selectedText) => {
+        // Elimina informazione attuale
+        Office.context.document.customXmlParts.getByNamespaceAsync(NAMESPACE_URI, (result) => {
+            if (result.status === Office.AsyncResultStatus.Succeeded) {
+                const xmlParts = result.value;
+                for (const xmlPart of xmlParts) {
+                    xmlPart.getXmlAsync(asyncResult => {
+                        if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+                            const xmlData = asyncResult.value;
+                            if (xmlData.includes(`text="${selectedText.toLowerCase()}"`)) {
+                                xmlPart.deleteAsync();
+                            }
+                        } else {
+                            console.error("Errore nel recupero dei contenuti personalizzati");
+                        }
+
+                    });
+                }
+            } else {
+                console.error("Errore nel recupero dei contenuti personalizzati");
+            }
+        });
+
         await context.sync();
-        selection.clear();
-        selection.insertText(messageFromDialog.showAs);
+    }
+
+    const insertInformation = async (context, xmlData) => {
+        // inserimento nuova informazione
+        Office.context.document.customXmlParts.addAsync(xmlData, (result) => {
+            if (result.status === Office.AsyncResultStatus.Succeeded) {
+                console.log("Dati personalizzati aggiunti con successo");
+            } else {
+                console.error("Errore durante l'aggiunta dei dati personalizzati");
+            }
+        });
+        await context.sync();
+    }
+
+    const updateStyle = async (context, messageFromDialog) => {
+        let selection = context.document.getSelection();
+        selection.load("text");
+        await context.sync();
+        let previousText = selection.text;
+        selection.insertText(messageFromDialog.showAs, "Replace");
         selection.load("style, paragraphs, text, styleBuiltIn, font");
         await context.sync();
         let text = selection.text;
@@ -49,11 +87,14 @@ export const OtherEntities = ({ info, setDis, expandedText, onOtherEntitiesStyle
         let rangeToExpand = lastItem.getRange("Start");
         selection = selection.expandToOrNullObject(rangeToExpand);
         selection.select();     
+        selection.load("text");
         await context.sync();
+        let selectedText = selection.text;
+        selection.hyperlink = messageFromDialog.URL;
 
         switch (concept) {
             case "object":
-                selection.style = "Object"
+                selection.style = "Object";
                 break;
             case "event":
                 selection.style = "Event";
@@ -74,9 +115,50 @@ export const OtherEntities = ({ info, setDis, expandedText, onOtherEntitiesStyle
                 selection.styleBuiltIn = "Normal";
                 break;
         }
-        selection.hyperlink = messageFromDialog.URL;
-        message = "value of type Reference " + concept + " with URL: " + messageFromDialog.URL;
-        info(message);
+
+        const range = context.document.body.getRange();
+        await context.sync();
+        const searchResults = range.search(previousText, { matchCase: false, matchWholeWord: false });
+        searchResults.load("items");
+        await context.sync();
+        const occurrences = searchResults.items;
+
+        occurrences.forEach(async (occurrence) => {
+            occurrence.hyperlink = messageFromDialog.URL;
+            occurrence.load("text");
+            await context.sync();
+            occurrence.insertText(messageFromDialog.showAs, "Replace");
+            switch (concept) {
+                case "object":
+                    occurrence.style = "Object"
+                    break;
+                case "event":
+                    occurrence.style = "Event";
+                    break;
+                case "process":
+                    occurrence.style = "Process";
+                    break;
+                case "role":
+                    occurrence.style = "Role";
+                    break;
+                case "term":
+                    occurrence.style = "Term";
+                    break;
+                case "quantity":
+                    occurrence.style = "Quantity";
+                    break;
+                default:
+                    occurrence.styleBuiltIn = "Normal";
+                    break;
+            }
+        });
+
+        const NAMESPACE_URI = "prova";
+        const uniqueId = Date.now();
+        const xmlData = `<root xmlns="${NAMESPACE_URI}"><data id="${uniqueId}" text="${selectedText.toLowerCase()}">${JSON.stringify(messageFromDialog)}</data></root>`;
+
+        deleteInformation(context, NAMESPACE_URI, selectedText);
+        insertInformation(context, xmlData);
         await context.sync();
     }
 
@@ -176,8 +258,6 @@ export const OtherEntities = ({ info, setDis, expandedText, onOtherEntitiesStyle
                         dialog.addEventHandler(Office.EventType.DialogMessageReceived, processEntities);
                     });
             }
-            // passo al componente padre l'entità che l'utente ha scelto
-            onOtherEntitiesStyle(event.target.value)
         });
     }
 

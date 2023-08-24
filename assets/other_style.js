@@ -11,12 +11,15 @@ if (showAsInput) {
     showAsInput.value = selectedText;
 }
 
-function submitForm() {
+function submitForm(typeEntity) {
     const formData = {
+        entity: "Other_Entities",
+        type: typeEntity,
         showAs: showAsInput.value,
         URL: urlInput.value
     };
 
+    console.log(typeEntity);
     Office.onReady(function (info) {
       if (info.host === Office.HostType.Word || info.host === Office.HostType.Excel || info.host === Office.HostType.PowerPoint) {
         Office.context.ui.messageParent(JSON.stringify(formData));

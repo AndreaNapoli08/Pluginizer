@@ -7,7 +7,7 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-export const ImportantEntities = ({ setDis, expandedText, onEntitiesStyle }) => {
+export const ImportantEntities = ({ setDis, expandedText }) => {
     let entity, dialog;
     const isLetterOrNumber = (char) => {
         if (typeof char === "undefined") {
@@ -19,13 +19,12 @@ export const ImportantEntities = ({ setDis, expandedText, onEntitiesStyle }) => 
 
     const updateStyleBuiltIn = async (context, messageFromDialog) => {
         const selection = context.document.getSelection();
-        var jsonData;
         selection.load("style, text");
         await context.sync();
         const selectedText = selection.text;
         const NAMESPACE_URI = "prova";
         const uniqueId = Date.now();
-        const xmlData = `<root xmlns="${NAMESPACE_URI}"><data id="${uniqueId}" style="${entity}" text="${selectedText}">${JSON.stringify(messageFromDialog)}</data></root>`;
+        const xmlData = `<root xmlns="${NAMESPACE_URI}"><data id="${uniqueId}" style="${entity}" text="${selectedText.toLowerCase()}">${JSON.stringify(messageFromDialog)}</data></root>`;
 
         switch (entity) {
             case "Date":
@@ -43,6 +42,7 @@ export const ImportantEntities = ({ setDis, expandedText, onEntitiesStyle }) => 
             default:
                 break;
         }
+        selection.select("end");
         const range = context.document.body.getRange();
         await context.sync();
         const searchResults = range.search(selection.text, { matchCase: false, matchWholeWord: false });
@@ -75,7 +75,7 @@ export const ImportantEntities = ({ setDis, expandedText, onEntitiesStyle }) => 
                     xmlPart.getXmlAsync(asyncResult => {
                         if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
                             const xmlData = asyncResult.value;
-                            if (xmlData.includes(`text="${selectedText}"`)) {
+                            if (xmlData.includes(`text="${selectedText.toLowerCase()}"`)) {
                                 xmlPart.deleteAsync();
                             }
                         } else {
@@ -209,9 +209,6 @@ export const ImportantEntities = ({ setDis, expandedText, onEntitiesStyle }) => 
                     });
             }
             await context.sync();
-            // passiamo al componente padre l'entità che l'utente ha scelto
-            onEntitiesStyle(entities)
-            onEntitiesStyle("")
         });
     }
 

@@ -31,9 +31,10 @@ function CalendarControl() {
     
             // Recupera l'ora selezionata
             const selectedTime = document.getElementById("timePicker").value;
-    
+
             // Crea un oggetto contenente i dati da inviare all'add-in
             const dataToSend = {
+                entity: "date",
                 day: selectedDay,
                 month: selectedMonth,
                 year: selectedYear,

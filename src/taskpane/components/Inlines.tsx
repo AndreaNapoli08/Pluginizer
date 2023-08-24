@@ -18,20 +18,10 @@ export const Inlines = ({onHandleExpandedText, styleGSG}) => {
   const [selectedText, setSelectedText] = useState(""); 
   const [dis, setDis] = useState(true);
   const [bodyText, setBodyText] = useState("")
-  const [fontStyle, setFontStyle] = useState("")
-  const [first, setFirst] = useState("none");
-  const [entitiesStyle, setEntitiesStyle] = useState("");
-  const [styleOtherEntities, setStyleOtherEntities] = useState("");
-  const [styleInformative, setStyleInformative] = useState("")
-  const [info, setInfo] = useState("");
 
   // funzioni per aggiornare gli stati del componente
   const handleExpandedTextChange = (text) => {
     setExpandedText(text);
-  }
-
-  const handleInfo = (text) => {
-    setInfo(text);
   }
   
   const handleButtonStyle = (text) => {
@@ -40,26 +30,6 @@ export const Inlines = ({onHandleExpandedText, styleGSG}) => {
 
   const handleFirstOccurence = (text) => {
     setFirstOccurence(text);
-  }
-
-  const handleFontStyle = (text) => {
-    setFontStyle(text);
-  }
-
-  const handleFirst = (text) => {
-    setFirst(text);
-  }
-
-  const handleEntitiesStyle = (text) => {
-    setEntitiesStyle(text);
-  }
-
-  const handleOtherEntitiesStyle = (text) => {
-    setStyleOtherEntities(text);
-  }
-
-  const handleInformativeEntities = (text) => {
-    setStyleInformative(text);
   }
 
   // il blocco all'interno di useEffect viene eseguito in automatico appena viene richiamato il componente
@@ -75,6 +45,8 @@ export const Inlines = ({onHandleExpandedText, styleGSG}) => {
           const newSelectedText = newSelection.text;
           const newBodyText = newBody.text;
           setBodyText(newBodyText); 
+          //const wordsArray = newBodyText.split(" ");
+          
           if(newSelectedText.length === 0){
             setSelectedText("Nessun testo selezionato")
             setDis(true)  // stato che abilita o disabilita i bottoni della tipografia
@@ -105,13 +77,13 @@ export const Inlines = ({onHandleExpandedText, styleGSG}) => {
 
   return (
     <div>
-      {dis ? null : <ShowInfo info={info} selectedText={selectedText}/>}
-      <FirstStyles info={handleInfo} setDis={dis} onFontStyle={handleFontStyle} onFirst={handleFirst} expandedText={expandedText}/>
+      {dis ? null : <ShowInfo expandedText={expandedText}/>}
+      <FirstStyles setDis={dis} expandedText={expandedText}/>
 
       <hr />
-      <ImportantEntities info={handleInfo} setDis={dis} onEntitiesStyle={handleEntitiesStyle} expandedText={expandedText}/>
-      <OtherEntities info={handleInfo} setDis={dis} expandedText={expandedText} onOtherEntitiesStyle={handleOtherEntitiesStyle}/>
-      <Informative setDis={dis} onInformativeStyle={handleInformativeEntities} expandedText={expandedText}/>
+      <ImportantEntities setDis={dis} expandedText={expandedText}/>
+      <OtherEntities setDis={dis} expandedText={expandedText}/>
+      <Informative setDis={dis} expandedText={expandedText}/>
 
       <hr />
       <div style={{display: 'flex', justifyContent: 'center', marginBottom: '5px', fontSize: '20px'}}>
@@ -121,7 +93,7 @@ export const Inlines = ({onHandleExpandedText, styleGSG}) => {
 
       <ExpandWords bodyText={bodyText} selectedText={selectedText} onExpandedTextChange={handleExpandedTextChange}/>
       
-      <AllInstances styleGSG={styleGSG} fontStyle={fontStyle} buttonStyle={buttonStyle} firstOccurence={firstOccurence} first={first} expandedText={expandedText} entitiesStyle={entitiesStyle} styleOtherEntities={styleOtherEntities} styleInformative={styleInformative}/>
+      <AllInstances styleGSG={styleGSG} buttonStyle={buttonStyle} firstOccurence={firstOccurence} expandedText={expandedText} />
       
     </div>
   )

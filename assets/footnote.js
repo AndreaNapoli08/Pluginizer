@@ -1,5 +1,6 @@
 function submitForm() {
     const formData = {
+        entity: "footnote",
         definition: document.getElementById('definition').value
     };
 

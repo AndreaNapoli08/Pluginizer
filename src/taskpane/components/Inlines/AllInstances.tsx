@@ -3,9 +3,8 @@ import { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-export const AllInstances  = ({styleGSG, fontStyle, buttonStyle, firstOccurence, first, expandedText, entitiesStyle, styleOtherEntities, styleInformative}) => {
+export const AllInstances  = ({styleGSG, buttonStyle, firstOccurence, expandedText}) => {
     const [allInstances, setAllInstances] = useState(false);
-
     const handleChangeCheckboxIstances = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAllInstances(event.target.checked);
     };
@@ -93,115 +92,6 @@ export const AllInstances  = ({styleGSG, fontStyle, buttonStyle, firstOccurence,
                     default:
                         break;
                 }
-
-                // stili di testo predenfiniti per tutte le occorrenze
-                switch (fontStyle) {
-                    case "IntenseReference":
-                        occurrence.styleBuiltIn = first == "IntenseReference" ? "Normal" : "IntenseReference";
-                        break;
-                    case "Heading6":
-                        occurrence.styleBuiltIn = first == "Heading6" ? "Normal" : "Heading6";
-                        break;
-                    case "IntenseEmphasis":
-                        occurrence.styleBuiltIn = first == "IntenseEmphasis" ? "Normal" : "IntenseEmphasis";
-                        break;
-                    case "Normal":
-                        occurrence.styleBuiltIn = "Normal"
-                        break;
-                    default:
-                        break;
-                }
-
-                // stili entità principali per tutte le occorrenze
-                switch (entitiesStyle) {
-                    case "Date":
-                        occurrence.style = "Data1";
-                        break;
-                    case "Organization":
-                        occurrence.style = "Organization";
-                        break;
-                    case "Person":
-                        occurrence.style = "Person";
-                        break;
-                    case "Location":
-                        occurrence.style = "Location";
-                        break;
-                    default:
-                        break;
-                }
-
-                // stili altre entità per tutte le occorrenze
-                switch(styleOtherEntities) {
-                    case "object":
-                        occurrence.style = "Object"
-                        break;
-                    case "event":
-                        occurrence.style = "Event";
-                        break;
-                    case "process":
-                        occurrence.style = "Process";
-                        break;
-                    case "role":
-                        occurrence.style = "Role";
-                        break;
-                    case "term":
-                        occurrence.style = "Term";
-                        break;
-                    case "quantity":
-                        occurrence.style = "Quantity";
-                        break;
-                    default:
-                        break;
-                }
-                    
-                // stili informative entities per tutte le occorrenze
-                switch(styleInformative) {
-                    case "docTitle":
-                        occurrence.style = "docTitle"
-                        break;
-                    case "docNumber":
-                        occurrence.style = "docNumber"
-                        break;
-                    case "docProponent":
-                        occurrence.style = "docProponent"
-                        break;
-                    case "docDate":
-                        occurrence.style = "docDate"
-                        break;
-                    case "session":
-                        occurrence.style = "session"
-                        break;
-                    case "shortTitle":
-                        occurrence.style = "shortTitle"
-                        break;
-                    case "docAuthority":
-                        occurrence.style = "docAuthority"
-                        break;
-                    case "docPurpose":
-                        occurrence.style = "docPurpose"
-                        break;
-                    case "docCommittee":
-                        occurrence.style = "docCommittee"
-                        break;
-                    case "docIntroducer":
-                        occurrence.style = "docIntroducer"
-                        break;
-                    case "docStage":
-                        occurrence.style = "docStage"
-                        break;
-                    case "docStatus":
-                        occurrence.style = "docStatus"
-                        break;
-                    case "docJurisdiction":
-                        occurrence.style = "docJurisdiction"
-                        break;
-                    case "docketNumber":
-                        occurrence.style = "docketNumber"
-                        break;
-                    default:
-                        break;
-                } 
-                    
 
                 // stili GSG per tutte le occorrenze
                 switch(styleGSG){

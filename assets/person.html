@@ -60,6 +60,7 @@
             if (selectedPerson) {
                 // Crea un oggetto contenente l'organizzazione selezionata da inviare all'add-in
                 const dataToSend = {
+                    entity: "person",
                     person: selectedPerson,
                 };
                 Office.onReady(function (info) {

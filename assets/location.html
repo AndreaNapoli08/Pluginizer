@@ -62,6 +62,7 @@
             if (selectedLocation) {
                 // Crea un oggetto contenente l'organizzazione selezionata da inviare all'add-in
                 const dataToSend = {
+                    entity: "location",
                     location: selectedLocation,
                 };
                 Office.onReady(function (info) {

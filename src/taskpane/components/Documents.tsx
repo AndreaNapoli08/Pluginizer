@@ -3,6 +3,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import * as React from 'react';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import { makeStyles } from '@mui/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -13,6 +14,25 @@ export const Documents = () => {
     const [resolution, setResolution] = useState('');
     const [identifier, setIdentifier] = useState('');
     const [valDate, setValDate] = useState('');
+    const [inputFields, setInputFields] = useState([{ value: '' }]);
+
+    const handleInputChange2 = (index, event) => {
+        const values = [...inputFields];
+        values[index].value = event.target.value;
+        setInputFields(values);
+    };
+
+    const handleAddFields = () => {
+        const values = [...inputFields];
+        values.push({ value: '' });
+        setInputFields(values);
+    };
+
+    const handleRemoveFields = (index) => {
+        const values = [...inputFields];
+        values.splice(index, 1);
+        setInputFields(values);
+    };
 
     const useStyles = makeStyles({
         datePicker: {
@@ -126,27 +146,34 @@ export const Documents = () => {
                 }}
             />
             <br />
-            <label htmlFor="alias" style={{ fontSize: '17px' }}>Alias</label>
-            <br />
-            <input
-                type="text"
-                id="alias"
-                name="alias"
-                value={identifier}
-                onChange={handleInputChange}
-                style={{
-                    marginTop: '5px',
-                    width: '82%',
-                    height: '30px',
-                    border: '1px solid black',
-                    borderRadius: '5px',
-                    paddingLeft: '5px',
-                    fontSize: '16px',
-                }}
-            />
-            <IconButton>
-                <AddIcon />
-            </IconButton>
+            {inputFields.map((inputField, index) => (
+                <div key={index}>
+                    <label htmlFor={`alias-${index}`} style={{ fontSize: '17px' }}>Alias</label>
+                    <br />
+                    <input
+                        type="text"
+                        id={`alias-${index}`}
+                        name={`alias-${index}`}
+                        value={inputField.value}
+                        onChange={(event) => handleInputChange2(index, event)}
+                        style={{
+                            marginTop: '5px',
+                            width: '82%',
+                            height: '30px',
+                            border: '1px solid black',
+                            borderRadius: '5px',
+                            paddingLeft: '5px',
+                            fontSize: '16px',
+                        }}
+                    />
+                    <IconButton onClick={() => handleRemoveFields(index)}>
+                        <RemoveIcon />
+                    </IconButton>
+                </div>
+            ))}
+            <Button onClick={handleAddFields}>
+                Add alias
+            </Button>
             <hr />
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px', fontSize: '20px' }}>
                 Current draft
@@ -209,9 +236,9 @@ export const Documents = () => {
             </Grid>
             {valDate != "" ?
                 <Grid container justifyContent="flex-end">
-                    <Button 
-                        variant="text" 
-                        size="small" 
+                    <Button
+                        variant="text"
+                        size="small"
                         startIcon={<DeleteIcon />}
                         onClick={() => setValDate("")}
                         color="inherit"
@@ -219,7 +246,7 @@ export const Documents = () => {
                         Clear
                     </Button>
                 </Grid>
-            : null}
+                : null}
             <Grid
                 container
                 direction="row"
