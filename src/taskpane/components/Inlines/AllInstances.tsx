@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-export const AllInstances  = ({styleGSG, buttonStyle, firstOccurence, expandedText}) => {
+export const AllInstances  = ({buttonStyle, firstOccurence, expandedText}) => {
     const [allInstances, setAllInstances] = useState(false);
     const handleChangeCheckboxIstances = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAllInstances(event.target.checked);
@@ -88,63 +88,6 @@ export const AllInstances  = ({styleGSG, buttonStyle, firstOccurence, expandedTe
                         break;
                     case "underline":
                         occurrence.font.underline = firstOccurence === "Single" ? "None" : "Single";
-                        break;
-                    default:
-                        break;
-                }
-
-                // stili GSG per tutte le occorrenze
-                switch(styleGSG){
-                    case 1:
-                        occurrence.style = "GSG"
-                        break;
-                    case 2:
-                        occurrence.style = "GSG2";
-                        break;
-                    case 3:
-                        occurrence.style = "GSG3"
-                        break;
-                    case 4:
-                        occurrence.style = "GSG4"
-                        break;
-                    case 5:
-                        occurrence.style = "GSG5"
-                        break;
-                    case 6:
-                        occurrence.style = "GSG6"
-                        break;
-                    case 7:
-                        occurrence.style = "GSG7"
-                        break;
-                    case 8:
-                        occurrence.style = "GSG8"
-                        break;
-                    case 9:
-                        occurrence.style = "GSG9"
-                        break;
-                    case 10:
-                        occurrence.style = "GSG10"
-                        break;
-                    case 11:
-                        occurrence.style = "GSG11"
-                        break;
-                    case 12:
-                        occurrence.style = "GSG12"
-                        break;
-                    case 13:
-                        occurrence.style = "GSG13"
-                        break;
-                    case 14:
-                        occurrence.style = "GSG14"
-                        break;
-                    case 15:
-                        occurrence.style = "GSG15"
-                        break;
-                    case 16:
-                        occurrence.style = "GSG15"
-                        break;
-                    case 17:
-                        occurrence.style = "GSG16"
                         break;
                     default:
                         break;

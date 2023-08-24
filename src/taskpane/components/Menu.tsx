@@ -14,7 +14,6 @@ import {GSG} from './GSG';
 export const Menu = () => {
   const [expanded, setExpanded] = useState([]);
   const [expandedText, setExpandedText] = useState("");
-  const [styleGSG, setStyleGSG] = useState("");
 
   // funzione che gestisce l'apertura e la chiusura dei pannelli
   const handleChange = (panel) => (isExpanded) => {
@@ -42,9 +41,6 @@ export const Menu = () => {
     setExpandedText(text);
   }
 
-  const handleStyleGSG = (text) => {
-    setStyleGSG(text);
-  }
   return (
     <div>
      <Accordion 
@@ -114,7 +110,7 @@ export const Menu = () => {
           <Typography variant="h6"><b>Inlines</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Inlines onHandleExpandedText={handleExpandedText} styleGSG={styleGSG}/>
+          <Inlines onHandleExpandedText={handleExpandedText}/>
         </AccordionDetails>
       </Accordion>
       <Accordion 
@@ -131,7 +127,7 @@ export const Menu = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            <GSG onUpdateStyleGSG={handleStyleGSG} expandedText={expandedText}/>
+            <GSG expandedText={expandedText}/>
           </Typography>
         </AccordionDetails>
       </Accordion>

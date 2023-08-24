@@ -9,7 +9,7 @@ import { ExpandWords } from './Inlines/ExpandWords';
 import { AllInstances } from './Inlines/AllInstances';
 import { ShowInfo } from './Inlines/ShowInfo';
 
-export const Inlines = ({onHandleExpandedText, styleGSG}) => {
+export const Inlines = ({onHandleExpandedText}) => {
 
   // definizione dei vari stati utilizzati all'interno del componente
   const [expandedText, setExpandedText] = useState("");
@@ -93,7 +93,7 @@ export const Inlines = ({onHandleExpandedText, styleGSG}) => {
 
       <ExpandWords bodyText={bodyText} selectedText={selectedText} onExpandedTextChange={handleExpandedTextChange}/>
       
-      <AllInstances styleGSG={styleGSG} buttonStyle={buttonStyle} firstOccurence={firstOccurence} expandedText={expandedText} />
+      <AllInstances buttonStyle={buttonStyle} firstOccurence={firstOccurence} expandedText={expandedText} />
       
     </div>
   )
