@@ -11,7 +11,11 @@ function CalendarControl() {
     // Leggi il valore di 'selectedText' dalla query string
     const information = queryParams.get('information');
     const parsedInformation = JSON.parse(information);
-    document.getElementById("timePicker").value = parsedInformation.time;
+    console.log(parsedInformation);
+    if(parsedInformation != null){
+        document.getElementById("timePicker").value = parsedInformation.time;
+    }
+    
 
     const calendarControl = {
         localDate: new Date(),

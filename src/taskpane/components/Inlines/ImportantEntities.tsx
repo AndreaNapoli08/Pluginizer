@@ -127,16 +127,16 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
 
         switch (entity) {
             case "Date":
-                //selection.style = "Data1";
+                selection.style = "Data1";
                 break;
             case "Organization":
-                //selection.style = "Organization";
+                selection.style = "Organization";
                 break
             case "Person":
-                //selection.style = "Person";
+                selection.style = "Person";
                 break;
             case "Location":
-                //selection.style = "Location";
+                selection.style = "Location";
                 break;
             default:
                 break;
@@ -152,16 +152,16 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
             console.log(occurrence)
             switch (entity) {
                 case "Date":
-                    //occurrence.style = "Data1";
+                    occurrence.style = "Data1";
                     break;
                 case "Organization":
-                    //occurrence.style = "Organization";
+                    occurrence.style = "Organization";
                     break;
                 case "Person":
-                    //occurrence.style = "Person";
+                    occurrence.style = "Person";
                     break;
                 case "Location":
-                    //occurrence.style = "Location";
+                    occurrence.style = "Location";
                     break;
                 default:
                     break;
@@ -248,7 +248,6 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                     if (selection.style === "Data1") {
                         const information = await getInformation(context, "prova", selection.text);
                         const informationString = JSON.stringify(information);
-                        console.log(informationString);
                         dialogUrl += `?information=${encodeURIComponent(informationString)}`;
                     }
                     break;
@@ -270,11 +269,11 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                     break;
                 case "Location":
                     dialogUrl += 'location.html';
-                    //if(selection.style === "Location"){
+                    if(selection.style === "Location"){
                         const information = await getInformation(context, "prova", selection.text);
                         const informationString = JSON.stringify(information);
                         dialogUrl += `?information=${encodeURIComponent(informationString)}`;
-                    //}
+                    }
                     break;
                 default:
                     break;
