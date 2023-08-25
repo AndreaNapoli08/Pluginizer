@@ -91,7 +91,7 @@ export const Nesting = () => {
               </Grid>
               <Grid item xs={4}>
                 <IconButton color="inherit" onClick={lineSpacing}>
-                  <img width={30} src="assets/interstitial.png" style={{marginLeft: "20px", position: 'relative', right: '10px'}} />
+                  <img title="interstial" width={30} src="assets/interstitial.png" style={{marginLeft: "20px", position: 'relative', right: '10px'}} />
                 </IconButton>
                 <div style={{marginLeft: '10px', fontSize: '10px'}}>line spacing</div>
               </Grid>
