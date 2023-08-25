@@ -23,6 +23,11 @@
     border-radius: "10px"
 }
 
+.calendar-selected-default {
+    background-color: red; /* Imposta il colore di sfondo su rosso */
+    color: white; /* Imposta il colore del testo su bianco per una migliore leggibilità */
+}
+
 .calendar {
     font-family: 'IBM Plex Sans', sans-serif;
     position: relative;

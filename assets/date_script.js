@@ -5,6 +5,14 @@
 function CalendarControl() {
     const calendar = new Date();
 
+    // Ottieni i parametri dalla query string dell'URL
+    const queryParams = new URLSearchParams(window.location.search);
+
+    // Leggi il valore di 'selectedText' dalla query string
+    const information = queryParams.get('information');
+    const parsedInformation = JSON.parse(information);
+    document.getElementById("timePicker").value = parsedInformation.time;
+
     const calendarControl = {
         localDate: new Date(),
         prevMonthLastDate: null,
@@ -23,12 +31,12 @@ function CalendarControl() {
             "Nov",
             "Dec"
         ],
-        
+
         saveData: function () {
             const selectedDay = calendarControl.selectedDate.getDate();
             const selectedMonth = calendarControl.calMonthName[calendarControl.selectedDate.getMonth()];
             const selectedYear = calendarControl.selectedDate.getFullYear();
-    
+
             // Recupera l'ora selezionata
             const selectedTime = document.getElementById("timePicker").value;
 
@@ -45,8 +53,8 @@ function CalendarControl() {
                     // Invia i dati all'add-in utilizzando Office.context.ui.messageParent
                     Office.context.ui.messageParent(JSON.stringify(dataToSend));
                 } else {
-                  // Se l'add-in non è eseguito in un ambiente Office corretto, gestisci il caso di errore
-                  console.log("Errore: ambiente Office non riconosciuto");
+                    // Se l'add-in non è eseguito in un ambiente Office corretto, gestisci il caso di errore
+                    console.log("Errore: ambiente Office non riconosciuto");
                 }
             });
         },
@@ -255,9 +263,64 @@ function CalendarControl() {
             calendarControl.attachEvents();
         },
         init: function () {
+            let month;
+            if (parsedInformation != null) {
+                switch (parsedInformation.month) {
+                    case "Jan":
+                        month = 0;
+                        break;
+                    case "Feb":
+                        month = 1;
+                        break;
+                    case "Mar":
+                        month = 2;
+                        break;
+                    case "Apr":
+                        month = 3;
+                        break;
+                    case "May":
+                        month = 4;
+                        break;
+                    case "Jun":
+                        month = 5;
+                        break;
+                    case "Jul":
+                        month = 6;
+                        break;
+                    case "Aug":
+                        month = 7;
+                        break;
+                    case "Sep":
+                        month = 8;
+                        break;
+                    case "Oct":
+                        month = 9;
+                        break;
+                    case "Nov":
+                        month = 10;
+                        break;
+                    case "Dec":
+                        month = 11;
+                        break;
+                }
+                calendar.setFullYear(parsedInformation.year, month, parsedInformation.day);
+            }
             calendarControl.plotSelectors();
             calendarControl.plotDates();
             calendarControl.attachEvents();
+            if(parsedInformation != null){
+                const dateNumberItems = document.querySelectorAll(".calendar .dateNumber");
+                dateNumberItems.forEach((item) => {
+                    const day = parseInt(item.textContent);
+                    if (
+                        day === parsedInformation.day &&
+                        calendar.getMonth() === month &&
+                        calendar.getFullYear() === parsedInformation.year
+                    ) {
+                        item.parentElement.classList.add("calendar-selected");
+                    }
+                });
+            }
         }
     };
     calendarControl.init();

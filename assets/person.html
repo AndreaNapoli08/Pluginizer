@@ -29,12 +29,35 @@
     </div>
     <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
     <script>
-        function toggleInput() {
-            const inputContainer = document.querySelector('.input-container');
-            const orgDropdown = document.getElementById('orgDropdown');
-            const addBtn = document.getElementById('addBtn');
-            const personInput = document.getElementById('personInput');
+        const inputContainer = document.querySelector('.input-container');
+        const orgDropdown = document.getElementById('orgDropdown');
+        const addBtn = document.getElementById('addBtn');
+        const personInput = document.getElementById('personInput');
 
+        const queryParams = new URLSearchParams(window.location.search);
+        const information = queryParams.get('information');
+        const parsedInformation = JSON.parse(information);
+
+        if(parsedInformation != null){
+            if(parsedInformation.person == "impiegato" || parsedInformation.person == "direttore" || parsedInformation.person == "maestro"){
+                orgDropdown.value = parsedInformation.person;
+                // Nascondi l'input di testo e abilita il menu a tendina
+                inputContainer.style.display = 'none';
+                personInput.value = "";
+                orgDropdown.disabled = false;
+                addBtn.textContent = 'Add person';
+                addBtn.style.backgroundColor = "blue";
+            }else{
+                personInput.value = parsedInformation.person;
+                // Mostra l'input di testo e disabilita il menu a tendina
+                inputContainer.style.display = 'block';
+                orgDropdown.disabled = true;
+                addBtn.textContent = 'Remove person';
+                addBtn.style.backgroundColor = "red";
+                orgDropdown.value = "";
+            }
+        }
+        function toggleInput() {
             if (inputContainer.style.display === 'none') {
                 // Mostra l'input di testo e disabilita il menu a tendina
                 inputContainer.style.display = 'block';

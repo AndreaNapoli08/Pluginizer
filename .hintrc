@@ -12,6 +12,14 @@
           "display: grid"
         ]
       }
+    ],
+    "compat-api/html": [
+      "default",
+      {
+        "ignore": [
+          "input[type=date]"
+        ]
+      }
     ]
   }
 }

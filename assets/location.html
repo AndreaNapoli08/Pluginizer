@@ -18,7 +18,8 @@
                     <option value="Torre di Pisa">Torre di Pisa</option>
                 </select>
             </div>
-            <button style="background-color: yellow; color: black;" id="addBtn" class="add-btn" onclick="toggleInput()">Add a location</button>
+            <button style="background-color: yellow; color: black;" id="addBtn" class="add-btn"
+                onclick="toggleInput()">Add a location</button>
         </div>
         <div class="input-container" style="display:none">
             <input type="text" id="locationInput" placeholder="Insert new location" value="">
@@ -29,12 +30,37 @@
     </div>
     <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
     <script>
-        function toggleInput() {
-            const inputContainer = document.querySelector('.input-container');
-            const orgDropdown = document.getElementById('orgDropdown');
-            const addBtn = document.getElementById('addBtn');
-            const locationInput = document.getElementById('locationInput');
+        const inputContainer = document.querySelector('.input-container');
+        const orgDropdown = document.getElementById('orgDropdown');
+        const addBtn = document.getElementById('addBtn');
+        const locationInput = document.getElementById('locationInput');
 
+        const queryParams = new URLSearchParams(window.location.search);
+        const information = queryParams.get('information');
+        const parsedInformation = JSON.parse(information);
+
+        if(parsedInformation != null){
+            if(parsedInformation.location == "Colosseo" || parsedInformation.location == "Arena di Verona" || parsedInformation.location == "Torre di Pisa"){
+                orgDropdown.value = parsedInformation.location;
+                // Nascondi l'input di testo e abilita il menu a tendina
+                inputContainer.style.display = 'none';
+                locationInput.value = "";
+                orgDropdown.disabled = false;
+                addBtn.textContent = 'Add location';
+                addBtn.style.backgroundColor = "yellow";
+                addBtn.style.color = "black";
+            }else{
+                locationInput.value = parsedInformation.location;
+                // Mostra l'input di testo e disabilita il menu a tendina
+                inputContainer.style.display = 'block';
+                orgDropdown.disabled = true;
+                addBtn.textContent = 'Remove location';
+                addBtn.style.backgroundColor = "red";
+                addBtn.style.color = "white";
+                orgDropdown.value = "";
+            }
+        }
+        function toggleInput() {
             if (inputContainer.style.display === 'none') {
                 // Mostra l'input di testo e disabilita il menu a tendina
                 inputContainer.style.display = 'block';
@@ -53,11 +79,11 @@
                 addBtn.style.color = "black";
             }
         }
-        
+
         document.getElementById('saveBtn').addEventListener('click', () => {
             const orgDropdown = document.getElementById('orgDropdown');
             const locationInput = document.getElementById('locationInput');
-            let selectedLocation = orgDropdown.value != "" ? orgDropdown.value : locationInput.value.trim(); 
+            let selectedLocation = orgDropdown.value != "" ? orgDropdown.value : locationInput.value.trim();
 
             if (selectedLocation) {
                 // Crea un oggetto contenente l'organizzazione selezionata da inviare all'add-in

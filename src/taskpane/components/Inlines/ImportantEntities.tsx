@@ -17,56 +17,7 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
         }
     }
 
-    const updateStyleBuiltIn = async (context, messageFromDialog) => {
-        const selection = context.document.getSelection();
-        selection.load("style, text");
-        await context.sync();
-        const selectedText = selection.text;
-        const NAMESPACE_URI = "prova";
-        const uniqueId = Date.now();
-        const xmlData = `<root xmlns="${NAMESPACE_URI}"><data id="${uniqueId}" style="${entity}" text="${selectedText.toLowerCase()}">${JSON.stringify(messageFromDialog)}</data></root>`;
-
-        switch (entity) {
-            case "Date":
-                selection.style = "Data1";
-                break;
-            case "Organization":
-                selection.style = "Organization";
-                break
-            case "Person":
-                selection.style = "Person";
-                break;
-            case "Location":
-                selection.style = "Location";
-                break;
-            default:
-                break;
-        }
-        selection.select("end");
-        const range = context.document.body.getRange();
-        await context.sync();
-        const searchResults = range.search(selection.text, { matchCase: false, matchWholeWord: false });
-        searchResults.load("items");
-        await context.sync();
-        const occurrences = searchResults.items;
-        occurrences.forEach(async(occurrence) => {
-            switch (entity) {
-                case "Date":
-                    occurrence.style = "Data1";
-                    break;
-                case "Organization":
-                    occurrence.style = "Organization";
-                    break;
-                case "Person":
-                    occurrence.style = "Person";
-                    break;
-                case "Location":
-                    occurrence.style = "Location";
-                    break;
-                default:
-                    break;
-            }
-        });
+    const deleteInformation = async (context, NAMESPACE_URI, selectedText) => {
         // Elimina informazione attuale
         Office.context.document.customXmlParts.getByNamespaceAsync(NAMESPACE_URI, (result) => {
             if (result.status === Office.AsyncResultStatus.Succeeded) {
@@ -90,8 +41,71 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
         });
 
         await context.sync();
+    }
 
-        // Inserisci la nuova informazione aggiunta 
+    const getInformation = async (context, NAMESPACE_URI, selectedText) => {
+        return new Promise(async (resolve) => {
+            Office.context.document.customXmlParts.getByNamespaceAsync(NAMESPACE_URI, async (result) => {
+                if (result.status === Office.AsyncResultStatus.Succeeded) {
+                    const xmlParts = result.value;
+                    for (const xmlPart of xmlParts) {
+                        await xmlPart.getXmlAsync(asyncResult => {    // questa istruzione non aspetta il completamento di ciascuna chiamata
+                            if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+                                const xmlData = asyncResult.value;
+                                if (xmlData.includes(`text="${selectedText.toLowerCase()}"`)) {
+                                    const parser = new DOMParser();
+                                    const xmlDoc = parser.parseFromString(xmlData, "text/xml");
+                                    const dataElement = xmlDoc.querySelector(`data[text="${selectedText.toLowerCase()}"]`);
+                                    if (dataElement) {
+                                        let jsonData = JSON.parse(dataElement.textContent);
+                                        switch (jsonData.entity) {
+                                            case "date":
+                                                resolve({
+                                                    day: jsonData.day,
+                                                    month: jsonData.month,
+                                                    year: jsonData.year,
+                                                    time: jsonData.time
+                                                });
+                                                break;
+                                            case "organization":
+                                                resolve({
+                                                    organization: jsonData.organization
+                                                });
+                                                break;
+                                            case "person":
+                                                resolve({
+                                                    person: jsonData.person
+                                                });
+                                                break;
+                                            case "location":
+                                                resolve({
+                                                    location: jsonData.location
+                                                });
+                                                break;
+                                            default:
+                                                resolve({});
+                                                break;
+                                        }
+                                    } else {
+                                        resolve({});
+                                    }
+                                }
+                            } else {
+                                console.error("Errore nel recupero dei contenuti personalizzati");
+                            }
+                        });
+                    }
+                } else {
+                    console.error("Errore nel recupero dei contenuti personalizzati");
+                }
+            });
+        });
+
+        await context.sync();
+    }
+
+    const insertInformation = async (context, xmlData) => {
+        // inserimento nuova informazione
         Office.context.document.customXmlParts.addAsync(xmlData, (result) => {
             if (result.status === Office.AsyncResultStatus.Succeeded) {
                 console.log("Dati personalizzati aggiunti con successo");
@@ -100,6 +114,64 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
             }
         });
         await context.sync();
+    }
+
+    const updateStyleBuiltIn = async (context, messageFromDialog) => {
+        const selection = context.document.getSelection();
+        selection.load("style, text");
+        await context.sync();
+        const selectedText = selection.text;
+        const NAMESPACE_URI = "prova";
+        const uniqueId = Date.now();
+        const xmlData = `<root xmlns="${NAMESPACE_URI}"><data id="${uniqueId}" style="${entity}" text="${selectedText.toLowerCase()}">${JSON.stringify(messageFromDialog)}</data></root>`;
+
+        switch (entity) {
+            case "Date":
+                //selection.style = "Data1";
+                break;
+            case "Organization":
+                //selection.style = "Organization";
+                break
+            case "Person":
+                //selection.style = "Person";
+                break;
+            case "Location":
+                //selection.style = "Location";
+                break;
+            default:
+                break;
+        }
+        selection.select("end");
+        const range = context.document.body.getRange();
+        await context.sync();
+        const searchResults = range.search(selection.text, { matchCase: false, matchWholeWord: false });
+        searchResults.load("items");
+        await context.sync();
+        const occurrences = searchResults.items;
+        occurrences.forEach(async (occurrence) => {
+            console.log(occurrence)
+            switch (entity) {
+                case "Date":
+                    //occurrence.style = "Data1";
+                    break;
+                case "Organization":
+                    //occurrence.style = "Organization";
+                    break;
+                case "Person":
+                    //occurrence.style = "Person";
+                    break;
+                case "Location":
+                    //occurrence.style = "Location";
+                    break;
+                default:
+                    break;
+            }
+        });
+        // Elimina informazione attuale
+        deleteInformation(context, NAMESPACE_URI, selectedText);
+
+        // Inserisci la nuova informazione aggiunta 
+        insertInformation(context, xmlData);
     };
 
     const processMessage = async (arg) => {
@@ -164,25 +236,45 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                     selection = selection.expandToOrNullObject(rangeToExpand);
                     await context.sync();
                 }
-
                 selection.select();
-                selection.load("styleBuiltIn, style");
-                selection.font.load("color")
-                await context.sync();
             }
+
+            selection.load("styleBuiltIn, style, text");
+            await context.sync();
             let dialogUrl = 'https://localhost:3000/assets/';
             switch (entities) {
                 case "Date":
                     dialogUrl += 'date.html';
+                    if (selection.style === "Data1") {
+                        const information = await getInformation(context, "prova", selection.text);
+                        const informationString = JSON.stringify(information);
+                        console.log(informationString);
+                        dialogUrl += `?information=${encodeURIComponent(informationString)}`;
+                    }
                     break;
                 case "Organization":
                     dialogUrl += 'organization.html';
+                    if(selection.style === "Organization"){
+                        const information = await getInformation(context, "prova", selection.text);
+                        const informationString = JSON.stringify(information);
+                        dialogUrl += `?information=${encodeURIComponent(informationString)}`;
+                    }
                     break
                 case "Person":
                     dialogUrl += 'person.html';
+                    if(selection.style === "Person"){
+                        const information = await getInformation(context, "prova", selection.text);
+                        const informationString = JSON.stringify(information);
+                        dialogUrl += `?information=${encodeURIComponent(informationString)}`;
+                    }
                     break;
                 case "Location":
                     dialogUrl += 'location.html';
+                    //if(selection.style === "Location"){
+                        const information = await getInformation(context, "prova", selection.text);
+                        const informationString = JSON.stringify(information);
+                        dialogUrl += `?information=${encodeURIComponent(informationString)}`;
+                    //}
                     break;
                 default:
                     break;

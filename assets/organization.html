@@ -30,12 +30,37 @@
     </div>
     <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
     <script>
-        function toggleInput() {
-            const inputContainer = document.querySelector('.input-container');
-            const orgDropdown = document.getElementById('orgDropdown');
-            const addBtn = document.getElementById('addBtn');
-            const organizationInput = document.getElementById('organizationInput');
+        const inputContainer = document.querySelector('.input-container');
+        const orgDropdown = document.getElementById('orgDropdown');
+        const addBtn = document.getElementById('addBtn');
+        const organizationInput = document.getElementById('organizationInput');
 
+        const queryParams = new URLSearchParams(window.location.search);
+        const information = queryParams.get('information');
+        const parsedInformation = JSON.parse(information);
+        
+        if (parsedInformation != null) {
+            console.log("merda")
+            if (parsedInformation.organization == "negozio" || parsedInformation.organization == "stadio" || parsedInformation.organization == "centro-commerciale") {
+                orgDropdown.value = parsedInformation.organization;
+                // Nascondi l'input di testo e abilita il menu a tendina
+                inputContainer.style.display = 'none';
+                organizationInput.value = "";
+                orgDropdown.disabled = false;
+                addBtn.textContent = 'Aggiungi organizzazione';
+                addBtn.style.backgroundColor = "#03a9f4";
+            } else {
+                organizationInput.value = parsedInformation.organization;
+                // Mostra l'input di testo e disabilita il menu a tendina
+                inputContainer.style.display = 'block';
+                orgDropdown.disabled = true;
+                addBtn.textContent = 'Rimuovi organizzazione';
+                addBtn.style.backgroundColor = "red";
+                orgDropdown.value = "";
+            }
+        }
+
+        function toggleInput() {
             if (inputContainer.style.display === 'none') {
                 // Mostra l'input di testo e disabilita il menu a tendina
                 inputContainer.style.display = 'block';
@@ -56,7 +81,7 @@
         document.getElementById('saveBtn').addEventListener('click', () => {
             const orgDropdown = document.getElementById('orgDropdown');
             const organizationInput = document.getElementById('organizationInput');
-            let selectedOrganization = orgDropdown.value != "" ? orgDropdown.value : organizationInput.value.trim(); 
+            let selectedOrganization = orgDropdown.value != "" ? orgDropdown.value : organizationInput.value.trim();
 
             if (selectedOrganization) {
                 // Crea un oggetto contenente l'organizzazione selezionata da inviare all'add-in
