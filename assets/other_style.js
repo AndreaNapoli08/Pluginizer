@@ -3,10 +3,17 @@ const queryParams = new URLSearchParams(window.location.search);
 
 // Leggi il valore di 'selectedText' dalla query string
 const selectedText = queryParams.get('selectedText');
+const information = queryParams.get('information');
+const parsedInformation = JSON.parse(information);
 
 // Utilizza il valore di 'selectedText' nella tua finestra di dialogo come desideri
 const showAsInput = document.getElementById('showAsInput');
 const urlInput = document.getElementById('urlInput');
+
+if(parsedInformation != null){
+  urlInput.value = parsedInformation.URL;
+}
+
 if (showAsInput) {
     showAsInput.value = selectedText;
 }

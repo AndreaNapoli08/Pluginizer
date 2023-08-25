@@ -11,47 +11,47 @@
     <h1>Scegliere il tipo di riferimento:</h1>
     <div class="contenuto">
       <label>
-        <input type="radio" name="riferimento" value="ref" onclick="showRefFields()"> Ref
+        <input type="radio" id="reference_ref" name="riferimento" value="ref" onclick="showRefFields()"> Ref
       </label>
       <br><br>
       <label>
-        <input type="radio" name="riferimento" value="mref" onclick="showMRefFields()"> Mref
+        <input type="radio" id="reference_mref" name="riferimento" value="mref" onclick="showMRefFields()"> Mref
       </label>
       <br><br>
       <label>
-        <input type="radio" name="riferimento" value="rref" onclick="showRRefFields()"> Rref
+        <input type="radio" id="reference_rref" name="riferimento" value="rref" onclick="showRRefFields()"> Rref
       </label>
       <br><br>
       <!-- Campi per "ref" -->
       <div id="refFields" class="hidden-fields">
         <br>
         <label>Numero dell'articolo:</label>
-        <input type="text" name="numeroArticoloRef" title="number">
+        <input type="text" id="numeroArticoloRef" name="numeroArticoloRef" title="number">
         <br><br>
         <label>Documento (Legge) di riferimento:</label>
-        <input type="text" name="documentoRef" title="document">
+        <input type="text" id="documentoRef" name="documentoRef" title="document">
       </div>
 
       <!-- Campi per "mref" -->
       <div id="mrefFields" class="hidden-fields">
         <br>
         <label>Numero degli articoli (separati da virgola):</label>
-        <input type="text" name="numeriArticoliMRef" title="number">
+        <input type="text" id="numeriArticoliMRef" name="numeriArticoliMRef" title="number">
         <br><br>
         <label>Documento (Legge) di riferimento:</label>
-        <input type="text" name="documentoMRef" title="document">
+        <input type="text" id="documentoMRef" name="documentoMRef" title="document">
       </div>
 
       <!-- Campi per "rref" -->
       <div id="rrefFields" class="hidden-fields">
         <br>
         <label>Articolo dal:</label>
-        <input type="text" name="dalRRef" title="from">
+        <input type="text" id="dalRRef" name="dalRRef" title="from">
         <label>al:</label>
-        <input type="text" name="alRRef" title="to">
+        <input type="text" id="alRRef" name="alRRef" title="to">
         <br><br>
         <label>Documento (Legge) di riferimento:</label>
-        <input type="text" name="documentoRRef" title="document">
+        <input type="text" id="documentoRRef" name="documentoRRef" title="document">
       </div>
     </div>
 

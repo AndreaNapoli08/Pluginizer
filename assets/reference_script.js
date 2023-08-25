@@ -1,19 +1,51 @@
+const queryParams = new URLSearchParams(window.location.search);
+const information = queryParams.get('information');
+const parsedInformation = JSON.parse(information);
+
+if(parsedInformation != null){
+  if(parsedInformation.type == "ref"){
+    document.getElementById("reference_ref").checked = true;
+    showRefFields();
+  }else if(parsedInformation.type == "mref"){
+    document.getElementById("reference_mref").checked = true;
+    showMRefFields();
+  }else{
+    document.getElementById("reference_rref").checked = true;
+    showRRefFields();
+  }
+}
+
 function showRefFields() {
   document.getElementById("refFields").style.display = "block";
   document.getElementById("mrefFields").style.display = "none";
   document.getElementById("rrefFields").style.display = "none";
+  if(parsedInformation != null){
+    document.getElementById("numeroArticoloRef").value = parsedInformation.number;
+    document.getElementById("documentoRef").value = parsedInformation.documento;
+  }
 }
 
 function showMRefFields() {
   document.getElementById("refFields").style.display = "none";
   document.getElementById("mrefFields").style.display = "block";
   document.getElementById("rrefFields").style.display = "none";
+  if(parsedInformation != null){
+    console.log(parsedInformation.number)
+    document.getElementById("numeriArticoliMRef").value = parsedInformation.number;
+    document.getElementById("documentoMRef").value = parsedInformation.documento;
+  }
 }
 
 function showRRefFields() {
   document.getElementById("refFields").style.display = "none";
   document.getElementById("mrefFields").style.display = "none";
   document.getElementById("rrefFields").style.display = "block";
+  console.log(parsedInformation)
+  if(parsedInformation != null){
+    document.getElementById("dalRRef").value = parsedInformation.dal;
+    document.getElementById("alRRef").value = parsedInformation.al;
+    document.getElementById("documentoRRef").value = parsedInformation.documento;
+  }
 }
 
 function submitForm() {

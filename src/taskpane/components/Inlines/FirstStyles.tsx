@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 import LinkIcon from '@mui/icons-material/Link';
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
+import { json } from 'express';
 
 export const FirstStyles = ({ setDis, expandedText }) => {
     let dialog;
@@ -48,11 +49,11 @@ export const FirstStyles = ({ setDis, expandedText }) => {
                 occurrences.forEach(async (occurrence) => {
                     occurrence.styleBuiltIn = "IntenseEmphasis";
                 });
-                
+
                 const NAMESPACE_URI = "prova";
                 const uniqueId = Date.now();
                 const xmlData = `<root xmlns="${NAMESPACE_URI}"><data id="${uniqueId}" text="${selectedText.toLowerCase()}">${JSON.stringify(messageFromDialog)}</data></root>`;
-                
+
                 // eliminiamo l'informazione attuale
                 deleteInformation(context, NAMESPACE_URI, selectedText);
                 // Inserisci la nuova informazione aggiunta 
@@ -60,6 +61,76 @@ export const FirstStyles = ({ setDis, expandedText }) => {
             });
         }
 
+    }
+
+    const getInformation = async (NAMESPACE_URI, selectedText) => {
+        return new Promise(async (resolve) => {
+            Office.context.document.customXmlParts.getByNamespaceAsync(NAMESPACE_URI, async (result) => {
+                if (result.status === Office.AsyncResultStatus.Succeeded) {
+                    const xmlParts = result.value;
+                    for (const xmlPart of xmlParts) {
+                        await xmlPart.getXmlAsync(asyncResult => {    // questa istruzione non aspetta il completamento di ciascuna chiamata
+                            if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+                                const xmlData = asyncResult.value;
+                                if (xmlData.includes(`text="${selectedText.toLowerCase()}"`)) {
+                                    const parser = new DOMParser();
+                                    const xmlDoc = parser.parseFromString(xmlData, "text/xml");
+                                    const dataElement = xmlDoc.querySelector(`data[text="${selectedText.toLowerCase()}"]`);
+                                    if (dataElement) {
+                                        let jsonData = JSON.parse(dataElement.textContent);
+                                        switch (jsonData.entity) {
+                                            case "reference":
+                                                switch (jsonData.type) {
+                                                    case "ref":
+                                                        resolve({
+                                                            type: "ref",
+                                                            number: jsonData.numeroArticolo,
+                                                            documento: jsonData.documento
+                                                        });
+                                                        break;
+                                                    case "mref":
+                                                        resolve({
+                                                            type: "mref",
+                                                            number: jsonData.numeriArticoli,
+                                                            documento: jsonData.documento
+                                                        });
+                                                        break;
+                                                    case "rref":
+                                                        resolve({
+                                                            type: "rref",
+                                                            dal: jsonData.dal,
+                                                            al: jsonData.al,
+                                                            documento: jsonData.documento
+                                                        });
+                                                        break;
+                                                    default:
+                                                        resolve({});
+                                                        break;
+                                                }
+                                                break;
+                                            case "footnote":
+                                                resolve({
+                                                    definition: jsonData.definition,
+                                                })
+                                                break;
+                                            default:
+                                                resolve({});
+                                                break;
+                                        }
+                                    } else {
+                                        resolve({});
+                                    }
+                                }
+                            } else {
+                                console.error("Errore nel recupero dei contenuti personalizzati");
+                            }
+                        });
+                    }
+                } else {
+                    console.error("Errore nel recupero dei contenuti personalizzati");
+                }
+            });
+        });
     }
 
     const deleteInformation = async (context, NAMESPACE_URI, selectedText) => {
@@ -141,6 +212,7 @@ export const FirstStyles = ({ setDis, expandedText }) => {
         const occurrences = searchResults.items;
 
         occurrences.forEach(async (occurrence) => {
+            console.log(occurrence)
             switch (messageFromDialog.type) {
                 case "ref":
                     occurrence.styleBuiltIn = "IntenseReference";
@@ -217,9 +289,9 @@ export const FirstStyles = ({ setDis, expandedText }) => {
                 }
 
                 selection.select();
-                selection.load("styleBuiltIn, text");
-                await context.sync();
             }
+            selection.load("styleBuiltIn, text, style");
+            await context.sync();
 
             const NAMESPACE_URI = "prova";
             let dialogUrl = 'https://localhost:3000/assets/';
@@ -227,6 +299,11 @@ export const FirstStyles = ({ setDis, expandedText }) => {
             switch (style) {
                 case "IntenseReference":
                     dialogUrl += 'reference.html';
+                    if (selection.styleBuiltIn == "IntenseReference") {
+                        const information = await getInformation("prova", selection.text);
+                        const informationString = JSON.stringify(information);
+                        dialogUrl += `?information=${encodeURIComponent(informationString)}`;
+                    }
                     Office.context.ui.displayDialogAsync(dialogUrl, {
                         height: 70,
                         width: 45,
@@ -242,6 +319,11 @@ export const FirstStyles = ({ setDis, expandedText }) => {
                     break;
                 case "IntenseEmphasis":
                     dialogUrl += 'footnote.html';
+                    if (selection.styleBuiltIn == "IntenseEmphasis") {
+                        const information = await getInformation("prova", selection.text);
+                        const informationString = JSON.stringify(information);
+                        dialogUrl += `?information=${encodeURIComponent(informationString)}`;
+                    }
                     Office.context.ui.displayDialogAsync(dialogUrl, {
                         height: 70,
                         width: 45,

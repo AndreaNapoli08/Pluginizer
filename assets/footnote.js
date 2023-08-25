@@ -1,3 +1,10 @@
+const queryParams = new URLSearchParams(window.location.search);
+const information = queryParams.get('information');
+const parsedInformation = JSON.parse(information);
+
+if(parsedInformation != null){
+  document.getElementById('definition').value = parsedInformation.definition
+}
 function submitForm() {
     const formData = {
         entity: "footnote",

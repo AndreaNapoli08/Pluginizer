@@ -43,7 +43,7 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
         await context.sync();
     }
 
-    const getInformation = async (context, NAMESPACE_URI, selectedText) => {
+    const getInformation = async (NAMESPACE_URI, selectedText) => {
         return new Promise(async (resolve) => {
             Office.context.document.customXmlParts.getByNamespaceAsync(NAMESPACE_URI, async (result) => {
                 if (result.status === Office.AsyncResultStatus.Succeeded) {
@@ -100,8 +100,6 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                 }
             });
         });
-
-        await context.sync();
     }
 
     const insertInformation = async (context, xmlData) => {
@@ -149,7 +147,6 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
         await context.sync();
         const occurrences = searchResults.items;
         occurrences.forEach(async (occurrence) => {
-            console.log(occurrence)
             switch (entity) {
                 case "Date":
                     occurrence.style = "Data1";
@@ -246,7 +243,7 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                 case "Date":
                     dialogUrl += 'date.html';
                     if (selection.style === "Data1") {
-                        const information = await getInformation(context, "prova", selection.text);
+                        const information = await getInformation("prova", selection.text);
                         const informationString = JSON.stringify(information);
                         dialogUrl += `?information=${encodeURIComponent(informationString)}`;
                     }
@@ -254,7 +251,7 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                 case "Organization":
                     dialogUrl += 'organization.html';
                     if(selection.style === "Organization"){
-                        const information = await getInformation(context, "prova", selection.text);
+                        const information = await getInformation("prova", selection.text);
                         const informationString = JSON.stringify(information);
                         dialogUrl += `?information=${encodeURIComponent(informationString)}`;
                     }
@@ -262,7 +259,7 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                 case "Person":
                     dialogUrl += 'person.html';
                     if(selection.style === "Person"){
-                        const information = await getInformation(context, "prova", selection.text);
+                        const information = await getInformation("prova", selection.text);
                         const informationString = JSON.stringify(information);
                         dialogUrl += `?information=${encodeURIComponent(informationString)}`;
                     }
@@ -270,7 +267,7 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                 case "Location":
                     dialogUrl += 'location.html';
                     if(selection.style === "Location"){
-                        const information = await getInformation(context, "prova", selection.text);
+                        const information = await getInformation("prova", selection.text);
                         const informationString = JSON.stringify(information);
                         dialogUrl += `?information=${encodeURIComponent(informationString)}`;
                     }

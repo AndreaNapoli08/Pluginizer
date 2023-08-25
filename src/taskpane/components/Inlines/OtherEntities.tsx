@@ -27,6 +27,40 @@ export const OtherEntities = ({ setDis, expandedText }) => {
         }
     }
 
+    const getInformation = async (NAMESPACE_URI, selectedText) => {
+        return new Promise(async (resolve) => {
+            Office.context.document.customXmlParts.getByNamespaceAsync(NAMESPACE_URI, async (result) => {
+                if (result.status === Office.AsyncResultStatus.Succeeded) {
+                    const xmlParts = result.value;
+                    for (const xmlPart of xmlParts) {
+                        await xmlPart.getXmlAsync(asyncResult => {    // questa istruzione non aspetta il completamento di ciascuna chiamata
+                            if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+                                const xmlData = asyncResult.value;
+                                if (xmlData.includes(`text="${selectedText.toLowerCase()}"`)) {
+                                    const parser = new DOMParser();
+                                    const xmlDoc = parser.parseFromString(xmlData, "text/xml");
+                                    const dataElement = xmlDoc.querySelector(`data[text="${selectedText.toLowerCase()}"]`);
+                                    if (dataElement) {
+                                        let jsonData = JSON.parse(dataElement.textContent);
+                                        resolve({
+                                            URL: jsonData.URL,
+                                        });
+                                    } else {
+                                        resolve({});
+                                    }
+                                }
+                            } else {
+                                console.error("Errore nel recupero dei contenuti personalizzati");
+                            }
+                        });
+                    }
+                } else {
+                    console.error("Errore nel recupero dei contenuti personalizzati");
+                }
+            });
+        });
+    }
+
     const deleteInformation = async (context, NAMESPACE_URI, selectedText) => {
         // Elimina informazione attuale
         Office.context.document.customXmlParts.getByNamespaceAsync(NAMESPACE_URI, (result) => {
@@ -86,11 +120,10 @@ export const OtherEntities = ({ setDis, expandedText }) => {
         let lastItem = textBeforeSelection.items[textBeforeSelection.items.length - spaceCount];
         let rangeToExpand = lastItem.getRange("Start");
         selection = selection.expandToOrNullObject(rangeToExpand);
-        selection.select();     
+        selection.select();
         selection.load("text");
         await context.sync();
         let selectedText = selection.text;
-        selection.hyperlink = messageFromDialog.URL;
 
         switch (concept) {
             case "object":
@@ -112,10 +145,10 @@ export const OtherEntities = ({ setDis, expandedText }) => {
                 selection.style = "Quantity";
                 break;
             default:
-                selection.styleBuiltIn = "Normal";
                 break;
         }
-
+        selection.hyperlink = messageFromDialog.URL;
+        selection.select(Word.SelectionMode.end)
         const range = context.document.body.getRange();
         await context.sync();
         const searchResults = range.search(previousText, { matchCase: false, matchWholeWord: false });
@@ -148,7 +181,6 @@ export const OtherEntities = ({ setDis, expandedText }) => {
                     occurrence.style = "Quantity";
                     break;
                 default:
-                    occurrence.styleBuiltIn = "Normal";
                     break;
             }
         });
@@ -162,8 +194,8 @@ export const OtherEntities = ({ setDis, expandedText }) => {
         await context.sync();
     }
 
-        const handleChangeConcept = async (event: SelectChangeEvent) => {
-        concept = event.target.value;
+    const handleChangeConcept = async (event: SelectChangeEvent) => {
+        concept=event.target.value;
         await Word.run(async (context) => {
             let selection = context.document.getSelection();
             selection.load("paragraphs, text, styleBuiltIn, font");
@@ -215,9 +247,9 @@ export const OtherEntities = ({ setDis, expandedText }) => {
                     await context.sync();
                 }
                 selection.select();
-                selection.load("styleBuiltIn, text");
-                await context.sync();
             }
+            selection.load("styleBuiltIn, text, style, hyperlink");
+            await context.sync();
 
             // se la parola è selezionata a metà non si apre la finestra 
             let dialogUrl = 'https://localhost:3000/assets/';
@@ -241,22 +273,30 @@ export const OtherEntities = ({ setDis, expandedText }) => {
                     dialogUrl += "quantity.html"
                     break;
                 default:
-                    dialogUrl += ""
+                    dialogUrl += "";
                     break;
             }
-
-            if (dialogUrl != "https://localhost:3000/assets/") {    
-                
-                dialogUrl += `?selectedText=${encodeURIComponent(selection.text)}`;
+            if(selection.hyperlink){
+                const information = await getInformation("prova", selection.text);
+                const informationString = JSON.stringify(information);
+                dialogUrl += `?information=${encodeURIComponent(informationString)}&`;
+            }
+            
+            if (dialogUrl != "https://localhost:3000/assets/") {
+                if (dialogUrl.includes("&")) {
+                    dialogUrl += `selectedText=${encodeURIComponent(selection.text)}`;
+                } else {
+                    dialogUrl += `?selectedText=${encodeURIComponent(selection.text)}`;
+                }
                 Office.context.ui.displayDialogAsync(dialogUrl, {
                     height: 50,
                     width: 20,
                     displayInIframe: true,
                 },
-                    function (asyncResult) {
-                        dialog = asyncResult.value;
-                        dialog.addEventHandler(Office.EventType.DialogMessageReceived, processEntities);
-                    });
+                function (asyncResult) {
+                    dialog = asyncResult.value;
+                    dialog.addEventHandler(Office.EventType.DialogMessageReceived, processEntities);
+                });
             }
         });
     }
