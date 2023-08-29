@@ -1,7 +1,6 @@
 // licenza d'uso riservata ad Andrea Napoli e all'università si Bologna
 import * as React from "react";
 import { ModalInfo } from './ModalInfo';
-import { Update } from "./Update";
 export interface HeaderProps {
   title: string;
   logo: string;
@@ -17,7 +16,6 @@ export default class Header extends React.Component<HeaderProps> {
         <img width="90" height="90" src={logo} alt={title} title={title} />
         <h1 className="ms-fontSize-su ms-fontWeight-light ms-fontColor-neutralPrimary">{message}</h1>
         <ModalInfo />
-        <Update />
       </section>
     );
   }
