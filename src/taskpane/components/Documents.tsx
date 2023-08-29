@@ -61,8 +61,6 @@ export const Documents = () => {
                     xmlPart.getXmlAsync(asyncResult => {
                         if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
                             const xmlData = asyncResult.value;
-                            console.log(xmlData)
-                            console.log(index);
                             if (xmlData.includes(`index="${index}"`) || xmlData.includes(`index=""`)) {
                                 console.log("Eliminazioneeee :", xmlData)
                                 xmlPart.deleteAsync();

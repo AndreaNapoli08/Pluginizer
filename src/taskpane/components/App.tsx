@@ -14,7 +14,7 @@ export default class App extends React.Component<AppProps> {
   render() {
     return (
       <div>
-        <Header logo="assets/logo.png" title={this.props.title} message="Benvenuto" />
+        <Header logo="assets/logo.png" title={this.props.title} message="Welcome" />
         <Menu />
       </div>
     );
