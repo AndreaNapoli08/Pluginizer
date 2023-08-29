@@ -1,6 +1,4 @@
-//check the console for date click event
-//Fixed day highlight
-//Added previous month and next month view
+// licenza d'uso riservata ad Andrea Napoli e all'università si Bologna
 
 function CalendarControl() {
     const calendar = new Date();

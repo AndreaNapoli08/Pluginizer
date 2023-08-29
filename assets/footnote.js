@@ -1,3 +1,5 @@
+// licenza d'uso riservata ad Andrea Napoli e all'università si Bologna
+
 const queryParams = new URLSearchParams(window.location.search);
 const information = queryParams.get('information');
 const parsedInformation = JSON.parse(information);

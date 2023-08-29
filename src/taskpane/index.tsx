@@ -1,3 +1,4 @@
+// licenza d'uso riservata ad Andrea Napoli e all'università si Bologna
 import App from "./components/App";
 import { AppContainer } from "react-hot-loader";
 import { initializeIcons } from "@fluentui/font-icons-mdl2";

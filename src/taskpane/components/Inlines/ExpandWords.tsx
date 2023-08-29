@@ -1,3 +1,4 @@
+// licenza d'uso riservata ad Andrea Napoli e all'università si Bologna
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';

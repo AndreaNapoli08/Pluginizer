@@ -1,3 +1,4 @@
+// licenza d'uso riservata ad Andrea Napoli e all'università si Bologna
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import GridOnIcon from '@mui/icons-material/GridOn';

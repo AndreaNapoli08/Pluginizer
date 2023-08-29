@@ -1,3 +1,4 @@
+// licenza d'uso riservata ad Andrea Napoli e all'università si Bologna
 import * as React from 'react';
 import { useState, useMemo, useEffect } from "react";
 import Accordion from '@mui/material/Accordion';

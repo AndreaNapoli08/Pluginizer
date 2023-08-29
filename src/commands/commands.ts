@@ -1,16 +1,10 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
- * See LICENSE in the project root for license information.
- */
-
-/* global global, Office, self, window */
+// licenza d'uso riservata ad Andrea Napoli e all'università si Bologna
 
 Office.onReady(() => {
   // If needed, Office.js is ready to be called
 });
 
 /**
- * Shows a notification when the add-in command is executed.
  * @param event
  */
 function action(event: Office.AddinCommands.Event) {

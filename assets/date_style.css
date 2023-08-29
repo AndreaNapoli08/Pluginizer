@@ -211,7 +211,7 @@ input[type="time"] {
 .bottom-right-button button:hover {
     background-color:#2196f3;
 }
-
+// licenza d'uso riservata ad Andrea Napoli e all'università si Bologna
 .bottom-right-button button:focus {
     border: 2px solid black;
     border-radius: 12px;

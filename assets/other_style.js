@@ -1,3 +1,5 @@
+// licenza d'uso riservata ad Andrea Napoli e all'università si Bologna
+
 // Ottieni i parametri dalla query string dell'URL
 const queryParams = new URLSearchParams(window.location.search);
 

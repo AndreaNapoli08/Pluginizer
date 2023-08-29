@@ -1,3 +1,4 @@
+// licenza d'uso riservata ad Andrea Napoli e all'università si Bologna
 import * as React from 'react';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
