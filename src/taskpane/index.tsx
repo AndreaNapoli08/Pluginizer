@@ -32,24 +32,26 @@ Office.onReady(() => {
       await context.sync(); 
 
       if(customDocProps.items.length == 0 || !customDocProps.items[0].value || customDocProps.items[0].key != "AKN Template"){ // vuol dire che non ha proprietà o che non possiede la proprietà AKN Template
-        const myNewDoc = context.application.createDocument(templateDocument); // creazione del nuovo documento contente il template con gli stili
-        context.load(myNewDoc);
-        await context.sync();
+        if (Office.context.platform !== Office.PlatformType.OfficeOnline) {
+          const myNewDoc = context.application.createDocument(templateDocument); // creazione del nuovo documento contente il template con gli stili
+          context.load(myNewDoc);
+          await context.sync();
 
-        // prelevo il body del documento attuale
-        const body = context.document.body;
+          // prelevo il body del documento attuale
+          const body = context.document.body;
 
-        // prelevo l'XML del documento attuale
-        const bodyXML = body.getOoxml();
+          // prelevo l'XML del documento attuale
+          const bodyXML = body.getOoxml();
 
-        // Sincronizzio il documento e ritonro una problema che indica il completamento della task
-        return context.sync().then(async function () {
-            myNewDoc.body.insertOoxml(bodyXML.value, 'End'); // inserisco l'XML del documento attuale all'interno del nuovo documento contente il template
-            await context.sync()
-            await myNewDoc.save();  // aspetto il salvataggio del documento
-            myNewDoc.open(); // apro il documento
-            await context.sync()
-        });
+          // Sincronizzio il documento e ritonro una problema che indica il completamento della task
+          return context.sync().then(async function () {
+              myNewDoc.body.insertOoxml(bodyXML.value, 'End'); // inserisco l'XML del documento attuale all'interno del nuovo documento contente il template
+              await context.sync()
+              await myNewDoc.save();  // aspetto il salvataggio del documento
+              myNewDoc.open(); // apro il documento
+              await context.sync()
+          });
+        }
       }
     });
 

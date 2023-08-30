@@ -73,7 +73,8 @@ export const ShowInfo = ({ expandedText }) => {
         await context.sync();
         text = selection.text;
         // se l'ultimo carattere è uno spazio bianco lo tolgo perché causa problemi
-        if (text[text.length - 1] == " ") {
+        const punctuationMarks = [" ", ".", ",", ";", "!", "?", ":", "\n", "\r"];
+        if (punctuationMarks.includes(text[text.length - 1])) {
           text = text.slice(0, -1);
           await context.sync();
         }

@@ -46,6 +46,8 @@ export const Informative = ({ setDis, expandedText }) => {
 
     const handleChangeDocType = async (event: SelectChangeEvent) => {
         setDocType(event.target.value)
+        let removed = false;
+        let char_remove;
         await Word.run(async (context) => {
             let selection = context.document.getSelection();
             selection.load("paragraphs, text, styleBuiltIn, font");
@@ -80,6 +82,15 @@ export const Informative = ({ setDis, expandedText }) => {
                         selection = selection.expandTo(nextCharRanges.items[i]);
                     }
                 }
+                selection.load("text");
+                await context.sync();
+                const punctuationMarks = [" ", ".", ",", ";", "!", "?", ":", "\n", "\r"];
+                if(punctuationMarks.includes(selection.text[selection.text.length - 1])){
+                    removed = true;
+                    char_remove = selection.text[selection.text.length - 1];
+                    let newText = selection.text.substring(0, selection.text.length-1);
+                    selection.insertText(newText, "Replace");
+                }
                 await context.sync();
                 
                 // selezione all'indietro   
@@ -98,56 +109,63 @@ export const Informative = ({ setDis, expandedText }) => {
                   await context.sync();
                 }
                 selection.select();
-                selection.load("styleBuiltIn, text");
-                await context.sync();
             }
+
+            selection.load("styleBuiltIn, text, style, font");
+            await context.sync();
+
+            const platform = Office.context.platform !== Office.PlatformType.OfficeOnline;
             
             switch(event.target.value) {
                 case "docTitle":
-                    selection.style = "docTitle"
+                    platform ? selection.style = "docTitle" : selection.font.color = "#9ACD32";
                     break;
                 case "docNumber":
-                    selection.style = "docNumber"
+                    platform ? selection.style = "docNumber" : selection.font.color = "#008B8B";
                     break;
                 case "docProponent":
-                    selection.style = "docProponent"
+                    platform ? selection.style = "docProponent" : selection.font.color = "#00FFFF", selection.font.bold = true;
                     break;
                 case "docDate":
-                    selection.style = "docDate"
+                    platform ? selection.style = "docDate" : selection.font.color = "#AFEEEE", selection.font.bold = true;
                     break;
                 case "session":
-                    selection.style = "session"
+                    platform ? selection.style = "session" : selection.font.color = "#4682B4";
                     break;
                 case "shortTitle":
-                    selection.style = "shortTitle"
+                    platform ? selection.style = "shortTitle" : selection.font.color = "#00BFFF";
                     break;
                 case "docAuthority":
-                    selection.style = "docAuthority"
+                    platform ? selection.style = "docAuthority" : selection.font.color = "#0000FF";
                     break;
                 case "docPurpose":
-                    selection.style = "docPurpose"
+                    platform ? selection.style = "docPurpose" : selection.font.color = "#FFDEAD";
                     break;
                 case "docCommittee":
-                    selection.style = "docCommittee"
+                    platform ? selection.style = "docCommittee" : selection.font.color = "#F4A460";
                     break;
                 case "docIntroducer":
-                    selection.style = "docIntroducer"
+                    platform ? selection.style = "docIntroducer" : selection.font.color = "#DAA520";
                     break;
                 case "docStage":
-                    selection.style = "docStage"
+                    platform ? selection.style = "docStage" : selection.font.color = "#696969";
                     break;
                 case "docStatus":
-                    selection.style = "docStatus"
+                    platform ? selection.style = "docStatus" : selection.font.color = "#2F4F4F";
                     break;
                 case "docJurisdiction":
-                    selection.style = "docJurisdiction"
+                    platform ? selection.style = "docJurisdiction" : selection.font.color = "#00FA9A", selection.font.bold = true;
                     break;
                 case "docketNumber":
-                    selection.style = "docketNumber"
+                    platform ? selection.style = "docketNumber" : selection.font.color = "#7B68EE";
                     break;
                 default:
                     selection.styleBuiltIn = "Normal"
                     break;
+            }
+            if(removed == true){
+                selection.insertText(char_remove, "End");
+                removed = false;
             }
             selection.select(Word.SelectionMode.end);
             const range = context.document.body.getRange();
@@ -160,53 +178,53 @@ export const Informative = ({ setDis, expandedText }) => {
             occurrences.forEach(async (occurrence) => {
                 switch(event.target.value) {
                     case "docTitle":
-                        occurrence.style = "docTitle"
+                        platform ? occurrence.style = "docTitle" : occurrence.font.color = "#9ACD32";
                         break;
                     case "docNumber":
-                        occurrence.style = "docNumber"
+                        platform ? occurrence.style = "docNumber" : occurrence.font.color = "#008B8B";
                         break;
                     case "docProponent":
-                        occurrence.style = "docProponent"
+                        platform ? occurrence.style = "docProponent" : occurrence.font.color = "#00FFFF", occurrence.font.bold = true;
                         break;
                     case "docDate":
-                        occurrence.style = "docDate"
+                        platform ? occurrence.style = "docDate" : occurrence.font.color = "#AFEEEE", occurrence.font.bold = true;
                         break;
                     case "session":
-                        occurrence.style = "session"
+                        platform ? occurrence.style = "session" : occurrence.font.color = "#4682B4";
                         break;
                     case "shortTitle":
-                        occurrence.style = "shortTitle"
+                        platform ? occurrence.style = "shortTitle" : occurrence.font.color = "#00BFFF";
                         break;
                     case "docAuthority":
-                        occurrence.style = "docAuthority"
+                        platform ? occurrence.style = "docAuthority" : occurrence.font.color = "#0000FF";
                         break;
                     case "docPurpose":
-                        occurrence.style = "docPurpose"
+                        platform ? occurrence.style = "docPurpose" : occurrence.font.color = "#FFDEAD";
                         break;
                     case "docCommittee":
-                        occurrence.style = "docCommittee"
+                        platform ? occurrence.style = "docCommittee" : occurrence.font.color = "#F4A460";
                         break;
                     case "docIntroducer":
-                        occurrence.style = "docIntroducer"
+                        platform ? occurrence.style = "docIntroducer" : occurrence.font.color = "#DAA520";
                         break;
                     case "docStage":
-                        occurrence.style = "docStage"
+                        platform ? occurrence.style = "docStage" : occurrence.font.color = "#696969";
                         break;
                     case "docStatus":
-                        occurrence.style = "docStatus"
+                        platform ? occurrence.style = "docStatus" : occurrence.font.color = "#2F4F4F";
                         break;
                     case "docJurisdiction":
-                        occurrence.style = "docJurisdiction"
+                        platform ? occurrence.style = "docJurisdiction" : occurrence.font.color = "#00FA9A", occurrence.font.bold = true;
                         break;
                     case "docketNumber":
-                        occurrence.style = "docketNumber"
+                        platform ? occurrence.style = "docketNumber" : occurrence.font.color = "#7B68EE";
                         break;
                     default:
                         occurrence.styleBuiltIn = "Normal"
                         break;
                 }
             });
-
+        
             const NAMESPACE_URI = "prova";
             deleteInformation(context, NAMESPACE_URI, selection.text);
         });

@@ -101,10 +101,11 @@ export const OtherEntities = ({ setDis, expandedText }) => {
     }
 
     const updateStyle = async (context, messageFromDialog) => {
+        let previousText;
         let selection = context.document.getSelection();
         selection.load("text");
         await context.sync();
-        let previousText = selection.text;
+        previousText = selection.text;
         selection.insertText(messageFromDialog.showAs, "Replace");
         selection.load("style, paragraphs, text, styleBuiltIn, font");
         await context.sync();
@@ -125,25 +126,26 @@ export const OtherEntities = ({ setDis, expandedText }) => {
         selection.load("text");
         await context.sync();
         let selectedText = selection.text;
+        const platform = Office.context.platform !== Office.PlatformType.OfficeOnline;
 
         switch (concept) {
             case "object":
-                selection.style = "Object";
+                platform ? selection.style = "Object" : selection.font.color = "#FF1493", selection.font.bold = true;
                 break;
             case "event":
-                selection.style = "Event";
+                platform ? selection.style = "Event" : selection.font.color = "#9932CC";
                 break;
             case "process":
-                selection.style = "Process";
+                platform ? selection.style = "Process" : selection.font.color = "#4B0082";
                 break;
             case "role":
-                selection.style = "Role";
+                platform ? selection.style = "Role" : selection.font.color = "#FFA07A";
                 break;
             case "term":
-                selection.style = "Term";
+                platform ? selection.style = "Term" : selection.font.color = "#FF6347";
                 break;
             case "quantity":
-                selection.style = "Quantity";
+                platform ? selection.style = "Quantity" : selection.font.color = "#ADFF2F", selection.font.bold = true;
                 break;
             default:
                 break;
@@ -158,32 +160,30 @@ export const OtherEntities = ({ setDis, expandedText }) => {
         const occurrences = searchResults.items;
 
         occurrences.forEach(async (occurrence) => {
-            occurrence.hyperlink = messageFromDialog.URL;
-            occurrence.load("text");
-            await context.sync();
             occurrence.insertText(messageFromDialog.showAs, "Replace");
             switch (concept) {
                 case "object":
-                    occurrence.style = "Object"
+                    platform ? occurrence.style = "Object" : occurrence.font.color = "#FF1493", occurrence.font.bold = true;
                     break;
                 case "event":
-                    occurrence.style = "Event";
+                    platform ? occurrence.style = "Event" : occurrence.font.color = "#9932CC";
                     break;
                 case "process":
-                    occurrence.style = "Process";
+                    platform ? occurrence.style = "Process" : occurrence.font.color = "#4B0082";
                     break;
                 case "role":
-                    occurrence.style = "Role";
+                    platform ? occurrence.style = "Role" : occurrence.font.color = "#FFA07A";
                     break;
                 case "term":
-                    occurrence.style = "Term";
+                    platform ? occurrence.style = "Term" : occurrence.font.color = "#FF6347";
                     break;
                 case "quantity":
-                    occurrence.style = "Quantity";
+                    platform ? occurrence.style = "Quantity" : occurrence.font.color = "#ADFF2F", occurrence.font.bold = true;
                     break;
                 default:
                     break;
             }
+            occurrence.hyperlink = messageFromDialog.URL;
         });
 
         const NAMESPACE_URI = "prova";
@@ -196,7 +196,9 @@ export const OtherEntities = ({ setDis, expandedText }) => {
     }
 
     const handleChangeConcept = async (event: SelectChangeEvent) => {
-        concept=event.target.value;
+        let removed = false;
+        let char_remove;
+        concept = event.target.value;
         await Word.run(async (context) => {
             let selection = context.document.getSelection();
             selection.load("paragraphs, text, styleBuiltIn, font");
@@ -230,6 +232,16 @@ export const OtherEntities = ({ setDis, expandedText }) => {
                         selection = selection.expandTo(nextCharRanges.items[i]);
                     }
                 }
+                selection.load("text");
+                await context.sync();
+                const punctuationMarks = [" ", ".", ",", ";", "!", "?", ":", "\n", "\r"];
+                if(punctuationMarks.includes(selection.text[selection.text.length - 1])){
+                    removed = true;
+                    char_remove = selection.text[selection.text.length - 1];
+                    let newText = selection.text.substring(0, selection.text.length-1);
+                    selection.insertText(newText, "Replace");
+                }
+
                 await context.sync();
 
                 // selezione all'indietro   
@@ -277,12 +289,11 @@ export const OtherEntities = ({ setDis, expandedText }) => {
                     dialogUrl += "";
                     break;
             }
-            if(selection.hyperlink){
+            if (selection.hyperlink) {
                 const information = await getInformation("prova", selection.text);
                 const informationString = JSON.stringify(information);
                 dialogUrl += `?information=${encodeURIComponent(informationString)}&`;
             }
-            
             if (dialogUrl != "https://localhost:3000/assets/") {
                 if (dialogUrl.includes("&")) {
                     dialogUrl += `selectedText=${encodeURIComponent(selection.text)}`;
@@ -294,10 +305,14 @@ export const OtherEntities = ({ setDis, expandedText }) => {
                     width: 20,
                     displayInIframe: true,
                 },
-                function (asyncResult) {
-                    dialog = asyncResult.value;
-                    dialog.addEventHandler(Office.EventType.DialogMessageReceived, processEntities);
-                });
+                    function (asyncResult) {
+                        dialog = asyncResult.value;
+                        dialog.addEventHandler(Office.EventType.DialogMessageReceived, processEntities);
+                    });
+            }
+            if(removed == true){
+                selection.insertText(char_remove, "End");
+                removed = false;
             }
         });
     }

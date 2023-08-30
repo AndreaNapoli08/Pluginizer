@@ -238,6 +238,8 @@ export const FirstStyles = ({ setDis, expandedText }) => {
 
     // funzione che aggiorna lo stile del testo
     const updateStyle = async (style) => {
+        let removed=false;
+        let char_remove;
         await Word.run(async (context) => {
             let selection = context.document.getSelection();
             selection.load("paragraphs, text, styleBuiltIn");
@@ -271,6 +273,15 @@ export const FirstStyles = ({ setDis, expandedText }) => {
                     }
                 }
 
+                selection.load("text");
+                await context.sync();
+                const punctuationMarks = [" ", ".", ",", ";", "!", "?", ":", "\n", "\r"];
+                if(punctuationMarks.includes(selection.text[selection.text.length - 1])){
+                    removed = true;
+                    char_remove = selection.text[selection.text.length - 1];
+                    let newText = selection.text.substring(0, selection.text.length-1);
+                    selection.insertText(newText, "Replace");
+                }
                 await context.sync();
 
                 // selezione all'indietro   
@@ -290,6 +301,10 @@ export const FirstStyles = ({ setDis, expandedText }) => {
                 }
 
                 selection.select();
+                if(removed == true){
+                    selection.insertText(char_remove, "End");
+                    removed = false;
+                }
             }
             selection.load("styleBuiltIn, text, style");
             await context.sync();

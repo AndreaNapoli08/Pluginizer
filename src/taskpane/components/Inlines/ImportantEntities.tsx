@@ -117,30 +117,31 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
 
     const updateStyleBuiltIn = async (context, messageFromDialog) => {
         const selection = context.document.getSelection();
-        selection.load("style, text");
+        selection.load("style, text, styleBuiltIn, font");
         await context.sync();
         const selectedText = selection.text;
         const NAMESPACE_URI = "prova";
         const uniqueId = Date.now();
         const xmlData = `<root xmlns="${NAMESPACE_URI}"><data id="${uniqueId}" style="${entity}" text="${selectedText.toLowerCase()}">${JSON.stringify(messageFromDialog)}</data></root>`;
+        const platform = Office.context.platform !== Office.PlatformType.OfficeOnline;
 
         switch (entity) {
             case "Date":
-                selection.style = "Data1";
+                platform ? selection.style = "Data1" : selection.font.color = "red", selection.font.bold = true;   
                 break;
             case "Organization":
-                selection.style = "Organization";
+                platform ? selection.style = "Organization" : selection.font.color = "green", selection.font.bold = true;   
                 break
             case "Person":
-                selection.style = "Person";
+                platform ? selection.style = "Person" : selection.font.color = "blue", selection.font.bold = true; 
                 break;
             case "Location":
-                selection.style = "Location";
+                platform ? selection.style = "Location" : selection.font.color = "orange", selection.font.bold = true; 
                 break;
             default:
                 break;
         }
-        selection.select("end");
+        selection.select(Word.SelectionMode.end);
         const range = context.document.body.getRange();
         await context.sync();
         const searchResults = range.search(selection.text, { matchCase: false, matchWholeWord: false });
@@ -150,16 +151,16 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
         occurrences.forEach(async (occurrence) => {
             switch (entity) {
                 case "Date":
-                    occurrence.style = "Data1";
+                    platform ? occurrence.style = "Data1" : occurrence.font.color = "red", occurrence.font.bold = true; 
                     break;
                 case "Organization":
-                    occurrence.style = "Organization";
+                    platform ? occurrence.style = "Organization" : occurrence.font.color = "green", occurrence.font.bold = true;   
                     break;
                 case "Person":
-                    occurrence.style = "Person";
+                    platform ? occurrence.style = "Person" : occurrence.font.color = "blue", occurrence.font.bold = true;
                     break;
                 case "Location":
-                    occurrence.style = "Location";
+                    platform ? occurrence.style = "Location" : occurrence.font.color = "orange", occurrence.font.bold = true;
                     break;
                 default:
                     break;
@@ -182,6 +183,8 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
     }
 
     const updateStyle = async (entities) => {
+        let removed = false;
+        let char_remove;
         await Word.run(async (context) => {
             entity = entities;
             let selection = context.document.getSelection();
@@ -208,7 +211,7 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                 nextCharRanges.load("items");
 
                 await context.sync();
-
+                
                 if (nextCharRanges.items.length > 0) {
                     if (paragraphCount > 1) { // se più paragraphi sono compresi, andare a capo lo prende come una parola e quindi spaceCount va incrementato con il numero di paragrafi -1, però bisogna togliere i paragrafi vuoti
                         spaceCount = spaceCount + paragraphCount - 1 - emptyParagraph;
@@ -216,6 +219,15 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                     for (let i = 0; i < spaceCount; i++) {
                         selection = selection.expandTo(nextCharRanges.items[i]);
                     }
+                }
+                selection.load("text");
+                await context.sync();
+                const punctuationMarks = [" ", ".", ",", ";", "!", "?", ":", "\n", "\r"];
+                if(punctuationMarks.includes(selection.text[selection.text.length - 1])){
+                    removed = true;
+                    char_remove = selection.text[selection.text.length - 1];
+                    let newText = selection.text.substring(0, selection.text.length-1);
+                    selection.insertText(newText, "Replace");
                 }
                 await context.sync();
 
@@ -226,7 +238,7 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                     await context.sync();
 
                     let rangeToSelect = paragraph.getRange("Start").expandTo(selection);
-                    let textBeforeSelection = rangeToSelect.getTextRanges([" ", ".", ",", ";"], false);
+                    let textBeforeSelection = rangeToSelect.getTextRanges([" ", ".", ",", ";"], true);
                     textBeforeSelection.load("items");
                     await context.sync();
                     let lastItem = textBeforeSelection.items[textBeforeSelection.items.length - spaceCount];
@@ -235,15 +247,19 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                     await context.sync();
                 }
                 selection.select();
+                if(removed == true){
+                    selection.insertText(char_remove, "End");
+                    removed = false;
+                }
             }
 
-            selection.load("styleBuiltIn, style, text");
+            selection.load("styleBuiltIn, style, text, font");
             await context.sync();
             let dialogUrl = 'https://localhost:3000/assets/';
             switch (entities) {
                 case "Date":
                     dialogUrl += 'date.html';
-                    if (selection.style === "Data1") {
+                    if (selection.style === "Data1" || selection.font.color === "#FF0000") {
                         const information = await getInformation("prova", selection.text);
                         const informationString = JSON.stringify(information);
                         dialogUrl += `?information=${encodeURIComponent(informationString)}`;
@@ -251,7 +267,8 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                     break;
                 case "Organization":
                     dialogUrl += 'organization.html';
-                    if(selection.style === "Organization"){
+                    console.log(selection.font.color)
+                    if(selection.style === "Organization" || selection.font.color == "#008000"){
                         const information = await getInformation("prova", selection.text);
                         const informationString = JSON.stringify(information);
                         dialogUrl += `?information=${encodeURIComponent(informationString)}`;
@@ -259,7 +276,8 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                     break
                 case "Person":
                     dialogUrl += 'person.html';
-                    if(selection.style === "Person"){
+                    console.log(selection.font.color)
+                    if(selection.style === "Person" || selection.font.color == "#0000FF"){
                         const information = await getInformation("prova", selection.text);
                         const informationString = JSON.stringify(information);
                         dialogUrl += `?information=${encodeURIComponent(informationString)}`;
@@ -267,7 +285,8 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
                     break;
                 case "Location":
                     dialogUrl += 'location.html';
-                    if(selection.style === "Location"){
+                    console.log(selection.font.color)
+                    if(selection.style === "Location" || selection.font.color == "#FFA500"){
                         const information = await getInformation("prova", selection.text);
                         const informationString = JSON.stringify(information);
                         dialogUrl += `?information=${encodeURIComponent(informationString)}`;
