@@ -310,7 +310,7 @@ export const FirstStyles = ({ setDis, expandedText }) => {
             await context.sync();
 
             const NAMESPACE_URI = "prova";
-            let dialogUrl = 'https://localhost:3000/assets/';
+            let dialogUrl = 'https://andreanapoli08.github.io/dist/assets/';
             // solo nel caso in cui si tratti di un reference si deve aprire la finestra di dialogo
             switch (style) {
                 case "IntenseReference":

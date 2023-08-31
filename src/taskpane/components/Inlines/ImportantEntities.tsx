@@ -255,7 +255,7 @@ export const ImportantEntities = ({ setDis, expandedText }) => {
 
             selection.load("styleBuiltIn, style, text, font");
             await context.sync();
-            let dialogUrl = 'https://localhost:3000/assets/';
+            let dialogUrl = 'https://andreanapoli08.github.io/dist/assets/';
             switch (entities) {
                 case "Date":
                     dialogUrl += 'date.html';

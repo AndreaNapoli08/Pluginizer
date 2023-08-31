@@ -265,7 +265,7 @@ export const OtherEntities = ({ setDis, expandedText }) => {
             await context.sync();
 
             // se la parola è selezionata a metà non si apre la finestra 
-            let dialogUrl = 'https://localhost:3000/assets/';
+            let dialogUrl = 'https://andreanapoli08.github.io/dist/assets/';
             switch (event.target.value) {
                 case "object":
                     dialogUrl += "object.html"
@@ -294,7 +294,7 @@ export const OtherEntities = ({ setDis, expandedText }) => {
                 const informationString = JSON.stringify(information);
                 dialogUrl += `?information=${encodeURIComponent(informationString)}&`;
             }
-            if (dialogUrl != "https://localhost:3000/assets/") {
+            if (dialogUrl != "https://andreanapoli08.github.io/dist/assets/") {
                 if (dialogUrl.includes("&")) {
                     dialogUrl += `selectedText=${encodeURIComponent(selection.text)}`;
                 } else {
