@@ -55,7 +55,7 @@ export const ModalInfo = () => {
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               <b>Autohor: </b> Andrea Napoli <br />
               <b>Goal: </b> create a plug-in that helps the user to manage and organizate the document<br />
-              <b>Released: </b> 6 may 2023<br />
+              <b>Released: </b> 1 october 2023<br />
               <b>Version: </b> 0.1<br />
             </Typography>
           </Box>

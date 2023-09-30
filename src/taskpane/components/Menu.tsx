@@ -7,7 +7,6 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {Documents} from './Documents';
-import {Structures} from './Structures';
 import {Blocks} from './Blocks';
 import {Inlines} from './Inlines';
 import {GSG} from './GSG';
@@ -63,24 +62,6 @@ export const Menu = () => {
         </AccordionDetails>
       </Accordion>
       <Accordion 
-        expanded={activePanels["panel2a"]}
-        onChange={handleChange("panel2a")}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-          style={{backgroundColor: activePanels["panel2a"] ? "lightblue" : "transparent"}}
-        >
-          <Typography variant="h6"><b>Structures</b></Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            <Structures />
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion 
         expanded={activePanels["panel3a"]}
         onChange={handleChange("panel3a")}
       >
@@ -129,24 +110,6 @@ export const Menu = () => {
         <AccordionDetails>
           <Typography>
             <GSG expandedText={expandedText}/>
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion 
-        expanded={activePanels["panel6a"]}
-        onChange={handleChange("panel6a")}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel6a-content"
-          id="panel6a-header"
-          style={{backgroundColor: activePanels["panel6a"] ? "lightblue" : "transparent"}}
-        >
-          <Typography variant="h6"><b>Metadata</b></Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-           Da implementare nella tesi
           </Typography>
         </AccordionDetails>
       </Accordion>

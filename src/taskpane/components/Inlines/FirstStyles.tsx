@@ -396,6 +396,9 @@ export const FirstStyles = ({ setDis, expandedText }) => {
 
     return (
         <div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '5px', fontSize: '20px' }}>
+                Default Style
+            </div>
             <div style={{ marginBottom: "15px" }}>
                 <IconButton disabled={setDis} color="inherit" style={{ borderRadius: '10px' }} onClick={() => updateStyle('IntenseReference')}>
                     <span style={{ fontSize: "18px" }}>Reference</span>

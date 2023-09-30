@@ -16,7 +16,7 @@
  .ms-welcome__header {
     padding: 20px;
     padding-bottom: 30px;
-    padding-top: 100px;
+    padding-top: 50px;
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
@@ -74,4 +74,9 @@
 
 b {
     font-weight: bold;
+}
+
+.ms-fontSize-su {
+    font-size: 25px; 
+    text-align: center;
 }

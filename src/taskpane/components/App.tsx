@@ -15,7 +15,7 @@ export default class App extends React.Component<AppProps> {
   render() {
     return (
       <div>
-        <Header logo="assets/logo.png" title={this.props.title} message="Welcome" />
+        <Header logo="assets/logo.png" title={this.props.title} message="Welcome on" message2="Akoma Ntoso plug-in" />
         <Menu />
       </div>
     );
